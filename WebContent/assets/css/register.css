@@ -1,0 +1,219 @@
+/*Main Colors*/
+/*Gray Scale*/
+/*Radius*/
+.form-container {
+  width: 60vw;
+  height: 150vh;
+  margin: 10vh auto 10vh auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+  border: 0px;
+  border-radius: 0.625rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.register-side {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  width: 50%;
+  height: 100%;
+  padding: 5%;
+}
+
+.greeting-side {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  text-align: center;
+  border: 0px;
+  border-top-right-radius: 0.625rem;
+  border-bottom-right-radius: 0.625rem;
+  width: 30%;
+  padding-right: 5%;
+  padding-left: 5%;
+  height: 100%;
+  background: rgb(255, 242, 84);
+  background: linear-gradient(0deg, rgb(255, 242, 84) 21%, rgb(235, 192, 21) 64%);
+}
+
+.near-inputs-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+}
+
+.near-input {
+  width: 45%;
+}
+
+.register-img {
+  width: 80%;
+  height: auto;
+}
+
+.form-field {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-text-feedback {
+  font-weight: bold;
+  font-family: "Quicksand";
+  color: red;
+  font-size: 0.8rem;
+  margin: 0;
+  display: none;
+}
+
+.cap {
+  max-width: -webkit-fill-available;
+}
+
+.text-input {
+  width: auto;
+  outline: none;
+  padding: 0.5rem;
+  border-bottom: 2px solid #dcdcdc;
+  border-top: transparent;
+  border-left: transparent;
+  border-right: transparent;
+  transition: all 0.3s ease-in-out;
+}
+.text-input:focus {
+  transition: all 0.3s ease-in-out;
+  border-bottom: 2px solid #ffdb4d;
+}
+.text-input::-moz-placeholder {
+  color: #616161;
+}
+.text-input::placeholder {
+  color: #616161;
+}
+
+.invalid-field {
+  border: 2px solid red;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.note {
+  border: 1px solid #dcdcdc;
+  border-radius: 0.3125rem;
+  resize: none;
+  outline: none;
+  padding: 0.5rem;
+  transition: all 0.3s ease-in-out;
+}
+.note:focus {
+  transition: all 0.3s ease-in-out;
+  border: 1px solid #ffdb4d;
+}
+
+/*Button*/
+.btn-login {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border: 0px transparent;
+  width: 100%;
+  padding: 0.5rem;
+  background: #ebc015;
+  outline: none;
+  border-radius: 1.5625rem;
+  align-content: center;
+  transition: all 0.3s ease-in-out;
+}
+.btn-login:hover {
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  background-color: #ffdb4d;
+  border-radius: 0.3125rem;
+}
+
+/*Responsive*/
+@media only screen and (max-width: 768px) {
+  body {
+    background: rgb(255, 242, 84);
+    background: linear-gradient(0deg, rgb(255, 242, 84) 21%, rgb(235, 192, 21) 64%);
+    margin: 0%;
+    width: 100%;
+    padding: 0%;
+    margin: 0%;
+  }
+  .form-container {
+    border-radius: 0%;
+    width: 100%;
+    margin: 10% 0 10% 0;
+    padding: 0%;
+    height: auto;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    flex-direction: column;
+  }
+  .greeting-side {
+    width: 90%;
+    height: auto;
+    margin: 0%;
+    background: transparent;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    order: -1;
+  }
+  .text-input {
+    width: auto;
+  }
+  .register-side {
+    width: 80%;
+    height: auto;
+    border: 0px;
+    margin-top: 10%;
+    background-color: #ffffff;
+    border-radius: 0.625rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+  }
+  .logo {
+    width: 3.9rem;
+    height: 3.9rem;
+  }
+  .logo-title {
+    color: #282828;
+    font-size: 2rem;
+    font-family: "Montserrat", sans-serif;
+    margin-left: 2%;
+  }
+}
+@media only screen and (max-width: 280px) {
+  .register-side {
+    width: 96%;
+    padding-left: 2%;
+    padding-right: 2%;
+    height: auto;
+    border: 0px;
+    border-radius: 0px;
+    margin-top: 10%;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+  }
+  .text-input {
+    width: 93%;
+  }
+  .near-input {
+    width: 100%;
+  }
+  .near-inputs-container {
+    flex-direction: column;
+  }
+}

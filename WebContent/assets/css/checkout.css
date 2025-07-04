@@ -1,0 +1,103 @@
+/*Main Colors*/
+/*Gray Scale*/
+.checkout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.payment-card {
+  margin-top: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+  background-color: #dcdcdc;
+  padding: 20px;
+  width: 75%;
+}
+
+.payment-card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+  transition: box-shadow 0.3s ease-out;
+}
+
+.payment-card-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid #ebc015;
+  align-items: center;
+}
+
+.payment-card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-long-input {
+  width: -webkit-fill-available;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 10px 0;
+}
+
+.total-amount {
+  width: 75%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  background-color: whitesmoke;
+  margin-left: 0;
+  align-self: inherit;
+  justify-self: inherit;
+}
+
+.text-input {
+  font-family: "Montserrat";
+  outline: none;
+  padding: 0.5rem;
+  border-bottom: 2px solid #dcdcdc;
+  border-top: transparent;
+  border-left: transparent;
+  border-right: transparent;
+  transition: all 0.3s ease-in-out;
+}
+.text-input:focus {
+  transition: all 0.3s ease-in-out;
+  border-bottom: 2px solid #ffdb4d;
+}
+.text-input::-moz-placeholder {
+  color: #616161;
+}
+.text-input::placeholder {
+  color: #616161;
+}
+
+.row-2-input {
+  display: flex;
+  justify-content: space-between;
+}
+
+.row-2-input input {
+  width: 70%;
+}
+
+.row-2-input input:not(.row-2-input input:first-child) {
+  width: -webkit-fill-available;
+}
+
+.info-body {
+  display: flex;
+  justify-content: space-between;
+}
+
+.confirm-button {
+  align-self: flex-end;
+}
+
+@media only screen and (max-width: 555px) {
+  .row-2-input {
+    display: flex;
+    flex-direction: column;
+  }
+}

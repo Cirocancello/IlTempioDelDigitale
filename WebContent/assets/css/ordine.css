@@ -1,0 +1,76 @@
+/*Main Colors*/
+/*Gray Scale*/
+html,
+body {
+  height: 100%;
+}
+
+.parent-main {
+  margin-top: 55px;
+  display: flex;
+  justify-content: center;
+}
+
+.prodotti {
+  border: 2px solid #282828;
+}
+
+.sezione-destra {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pagamento {
+  border: 2px solid #282828;
+}
+
+.info {
+  border: 2px solid #282828;
+}
+
+.section-prodotti-header {
+  color: #282828;
+  background-color: #ebc015;
+}
+
+.prodotti-table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.prodotti-table thead tr {
+  background-color: #ebc015;
+  border-top: 2px solid #1d1d1d;
+}
+
+.prodotti-table thead tr td {
+  padding: 10px;
+}
+
+.prodotti-table tbody tr td {
+  padding: 10px;
+}
+
+.prodotti-table tbody tr:nth-child(even) {
+  background-color: #ffdb4d;
+}
+
+.prodotti-table tbody tr:hover {
+  transition: 0.3s;
+  background-color: #ececec;
+}
+
+.prodotti-table tbody tr a:link,
+.prodotti-table tbody tr a:visited {
+  font-family: "Quicksand";
+  color: #282828;
+}
+
+@media only screen and (max-width: 650px) {
+  .parent-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
