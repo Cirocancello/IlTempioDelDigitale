@@ -13,10 +13,10 @@ pageEncoding="ISO-8859-1"%>
   <div class="contenitore">
     <h3>Chi siamo</h3>
     <p class="paragraph">
-      Il nostro Team &egrave; da professionisti giovani e intraprendenti, costantemente
-      oientati all' innovazione e attenti ai cambiamenti del settore tecnologico.<br/>
-      Grazie a un mix di competenze tecniche e passione per il mondo digitale, abbiamo conosciutoi
-      una rapida crescita, diventando un punto di riferimento per clienti proivati e aziende, sia a Napoli
+      Il nostro Team &egrave; formato da professionisti giovani e intraprendenti, costantemente
+      orientati all' innovazione e attenti ai cambiamenti del settore tecnologico.<br/>
+      Grazie a un mix di competenze tecniche e passione per il mondo digitale, abbiamo conosciuto
+      una rapida crescita, diventando un punto di riferimento per clienti privati e aziende, sia a Napoli
       che su tutto il territorio nazionale.<br />
     </p>
     <h3>Perch&egrave; dovresti sceglierci?</h3>

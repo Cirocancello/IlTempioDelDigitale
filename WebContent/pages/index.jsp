@@ -13,12 +13,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
 </head>
   <body>
+  
   	<%@ include file="../components/navbar.jsp" %>
   	
-    <header class="carousel-container">
+  	 <!--    <header class="carousel-container">
     
       <div class="carousel">
         <div class="carousel-item carousel-item--visible">
+        
           <img src="<%= getServletContext().getContextPath() + "/assets/img/index/carousel/andras-vas-Bd7gNnWJBkU-unsplash.jpg" %>" alt="" class="carousel-image">
           <div class="carousel-text-container">
             <h1 class="title">Prodotti digitali, risultati reali.</h1>
@@ -50,6 +52,7 @@
     </header>
 
     <section class="section-container vertical-structure">
+   
         <p class="section-title title">"Tutto il digitale di cui hai bisogno, in un solo click."</p>
         <h4 class="subtitle">Benvenuto nel tuo nuovo negozio digitale online. Qui trovi ciò di cui hai bisogno</h4>
         <a class="shop-link" href="<%= getServletContext().getContextPath() + "/category?category=all&skip=0&limit=10"%>">SHOP</a>
@@ -247,9 +250,10 @@
       <div class="quote-container">
         <h1 style="font-size: 2rem"><i>Il meglio del digitale, scelto per te..</i></h1>
       </div>
-    </section>
-
+    </section>   
     
+    -->
+
     <%@ include file="../components/footer.jsp" %>
 
     <script
