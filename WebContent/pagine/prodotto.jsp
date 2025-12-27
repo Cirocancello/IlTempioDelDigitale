@@ -147,12 +147,22 @@
 
             <input type="hidden" name="prodottoId" value="<%= p.getId() %>">
 
+            <!-- ⭐ Menu a tendina per il Titolo -->
             <div class="mb-3">
                 <label class="form-label">Titolo</label>
-                <input type="text" name="titolo" class="form-control" required>
+
+                <select id="titoloSelect" class="form-select mb-2">
+                    <option value="">-- Scegli un titolo rapido --</option>
+                    <option value="Ottimo prodotto">Ottimo prodotto</option>
+                    <option value="Buona esperienza">Buona esperienza</option>
+                    <option value="Non soddisfatto">Non soddisfatto</option>
+                    <option value="Qualità migliorabile">Qualità migliorabile</option>
+                </select>
+
+                <input type="text" name="titolo" id="titolo" class="form-control" required>
             </div>
 
-            <!-- Stelle cliccabili -->
+            <!-- ⭐ Stelle cliccabili -->
             <div class="mb-3">
                 <label class="form-label">Valutazione</label>
                 <div id="starRating" class="d-flex gap-1" style="cursor: pointer;">
@@ -165,9 +175,18 @@
                 <input type="hidden" name="score" id="scoreInput" required>
             </div>
 
+            <!-- ⭐ Menu a tendina per la Descrizione -->
             <div class="mb-3">
                 <label class="form-label">Descrizione</label>
-                <textarea name="descrizione" class="form-control" rows="3" required></textarea>
+
+                <select id="descrizioneSelect" class="form-select mb-2">
+                    <option value="">-- Scegli un commento rapido --</option>
+                    <option value="Prodotto eccellente, molto soddisfatto!">Prodotto eccellente</option>
+                    <option value="Buono, ma ci sono margini di miglioramento.">Buono ma migliorabile</option>
+                    <option value="Non sono soddisfatto dell'acquisto.">Non soddisfatto</option>
+                </select>
+
+                <textarea name="descrizione" id="descrizione" class="form-control" rows="3" required></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">
@@ -180,8 +199,9 @@
 
 </div>
 
-<!-- JS Stelle cliccabili + validazione -->
+<!-- ⭐ JS: stelle + menu a tendina -->
 <script>
+/* Stelle cliccabili */
 const stars = document.querySelectorAll('#starRating i');
 const scoreInput = document.getElementById('scoreInput');
 
@@ -200,10 +220,19 @@ stars.forEach(star => {
     });
 });
 
-document.querySelector("form").addEventListener("submit", function(e) {
-    if (!scoreInput.value) {
-        alert("Seleziona una valutazione in stelle.");
-        e.preventDefault();
+/* Menu a tendina → riempie il campo Titolo */
+document.getElementById("titoloSelect").addEventListener("change", function() {
+    const valore = this.value;
+    if (valore) {
+        document.getElementById("titolo").value = valore;
+    }
+});
+
+/* Menu a tendina → riempie la Descrizione */
+document.getElementById("descrizioneSelect").addEventListener("change", function() {
+    const valore = this.value;
+    if (valore) {
+        document.getElementById("descrizione").value = valore;
     }
 });
 </script>
