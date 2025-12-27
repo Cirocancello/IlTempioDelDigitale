@@ -15,12 +15,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
 
-/**
- * OrdiniServlet
- * -------------
- * Mostra lo storico ordini dell'utente autenticato.
- * MVC: recupera i dati (DAO) e li passa alla view orders.jsp.
- */
+import db.DBConnection;
+
 @WebServlet("/ordini")
 public class OrdiniServlet extends HttpServlet {
 
@@ -36,9 +32,9 @@ public class OrdiniServlet extends HttpServlet {
 
         Utente utente = (Utente) session.getAttribute("utente");
 
-        try {
-            Connection con = (Connection) getServletContext().getAttribute("dbConnection");
-            OrdineDAO ordineDAO = new OrdineDAO();
+        try (Connection conn = DBConnection.getConnection()) {
+
+            OrdineDAO ordineDAO = new OrdineDAO(conn);
 
             // Recupera lo storico ordini dell'utente corrente
             List<Ordine> ordini = ordineDAO.findByUtente(utente.getId());

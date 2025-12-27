@@ -12,7 +12,9 @@ import java.sql.SQLException;
 public class DBConnection {
 
     // Parametri di connessione (adatta secondo la tua configurazione locale)
-    private static final String URL = "jdbc:mysql://localhost:3306/td?useSSL=false&serverTimezone=UTC";
+    private static final String URL =
+            "jdbc:mysql://localhost:3306/td?useSSL=false&serverTimezone=Europe/Rome";
+
     private static final String USER = "root";       // <-- metti il tuo utente MySQL
     private static final String PASSWORD = "root";   // <-- metti la tua password MySQL
 

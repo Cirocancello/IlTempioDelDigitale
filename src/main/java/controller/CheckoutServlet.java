@@ -1,6 +1,7 @@
 package controller;
 
 import dao.OrdineDAO;
+import db.DBConnection;
 import model.Ordine;
 import model.Prodotto;
 import model.Utente;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.*;
 
 @WebServlet("/checkout")
@@ -37,7 +39,7 @@ public class CheckoutServlet extends HttpServlet {
             return;
         }
 
-        // ✅ Recupero parametri dal form checkout.jsp
+        // Parametri dal form
         String indirizzoSpedizione = request.getParameter("indirizzoSpedizione");
         String metodoPagamento = request.getParameter("metodoPagamento");
 
@@ -49,20 +51,20 @@ public class CheckoutServlet extends HttpServlet {
         ordine.setProdotti(new ArrayList<>(carrello));
         ordine.calcolaTotale();
 
-        // ✅ Salvo i dati di checkout simulati
         ordine.setIndirizzoSpedizione(indirizzoSpedizione);
         ordine.setMetodoPagamento(metodoPagamento);
 
-        try {
-            OrdineDAO ordineDAO = new OrdineDAO();
+        try (Connection conn = DBConnection.getConnection()) {
+
+            OrdineDAO ordineDAO = new OrdineDAO(conn);
 
             // Salvataggio ordine
             ordineDAO.createOrdine(ordine);
 
-            // ✅ Svuota carrello
+            // Svuota carrello
             session.removeAttribute("carrello");
 
-            // Passa ordine a conferma
+            // Passa ordine alla conferma
             request.setAttribute("ordine", ordine);
             request.getRequestDispatcher("/pagine/confermaOrdine.jsp").forward(request, response);
 

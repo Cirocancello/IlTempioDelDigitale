@@ -24,23 +24,23 @@ public class AdminOrdiniServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-        Utente utente = (session != null) ? (Utente) session.getAttribute("utente") : null;
+        Utente admin = (session != null) ? (Utente) session.getAttribute("utente") : null;
 
-        // Controllo admin (coerente con tutto il progetto)
-        if (utente == null || utente.getRole() != 1) {
+        if (admin == null || admin.getRole() != 1) {
             response.sendRedirect(request.getContextPath() + "/admin/login");
             return;
         }
 
         try (Connection conn = DBConnection.getConnection()) {
 
-            OrdineDAO ordineDAO = new OrdineDAO();
+            OrdineDAO ordineDAO = new OrdineDAO(conn);
             List<Ordine> ordini = ordineDAO.findAll();
 
             request.setAttribute("ordini", ordini);
             request.getRequestDispatcher("/pagine/adminOrdini.jsp").forward(request, response);
 
         } catch (Exception e) {
+            e.printStackTrace();
             request.setAttribute("error", "Errore nel recupero degli ordini.");
             request.getRequestDispatcher("/pagine/adminOrdini.jsp").forward(request, response);
         }
@@ -51,33 +51,37 @@ public class AdminOrdiniServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-        Utente utente = (session != null) ? (Utente) session.getAttribute("utente") : null;
+        Utente admin = (session != null) ? (Utente) session.getAttribute("utente") : null;
 
-        if (utente == null || utente.getRole() != 1) {
+        if (admin == null || admin.getRole() != 1) {
             response.sendRedirect(request.getContextPath() + "/admin/login");
             return;
         }
 
-        String idOrdineStr = request.getParameter("idOrdine");
-        String nuovoStato = request.getParameter("nuovoStato");
-
-        if (idOrdineStr == null || nuovoStato == null ||
-            idOrdineStr.isBlank() || nuovoStato.isBlank()) {
-
-            response.sendRedirect(request.getContextPath() + "/admin/ordini");
-            return;
-        }
+        String action = request.getParameter("action");
 
         try (Connection conn = DBConnection.getConnection()) {
 
-            OrdineDAO ordineDAO = new OrdineDAO();
-            ordineDAO.updateStato(idOrdineStr, nuovoStato);
+            OrdineDAO ordineDAO = new OrdineDAO(conn);
+
+            switch (action) {
+                case "update": {
+                    String id = request.getParameter("id");
+                    String stato = request.getParameter("stato");
+                    ordineDAO.updateStato(id, stato);
+                    break;
+                }
+                case "delete": {
+                    String id = request.getParameter("id");
+                    ordineDAO.delete(id);
+                    break;
+                }
+            }
 
         } catch (Exception e) {
-            // Puoi loggare l’errore se vuoi
+            e.printStackTrace();
         }
 
-        // ✅ PRG: redirect dopo POST
         response.sendRedirect(request.getContextPath() + "/admin/ordini");
     }
 }

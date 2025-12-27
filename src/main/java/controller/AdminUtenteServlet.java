@@ -36,11 +36,11 @@ public class AdminUtenteServlet extends HttpServlet {
             List<Utente> utenti = utenteDAO.listAll();
             request.setAttribute("utenti", utenti);
 
-            request.getRequestDispatcher("/pagine/adminUtenti.jsp").forward(request, response);
+            request.getRequestDispatcher("/pagine/adminUtente.jsp").forward(request, response);
 
         } catch (Exception e) {
             request.setAttribute("error", "Errore nel caricamento utenti.");
-            request.getRequestDispatcher("/pagine/adminUtenti.jsp").forward(request, response);
+            request.getRequestDispatcher("/pagine/adminUtente.jsp").forward(request, response);
         }
     }
 

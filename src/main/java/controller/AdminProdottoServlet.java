@@ -33,19 +33,75 @@ public class AdminProdottoServlet extends HttpServlet {
             return;
         }
 
+        String action = request.getParameter("action");
+        if (action == null) action = "";
+
         try (Connection conn = DBConnection.getConnection()) {
+
             ProdottoDAO prodottoDAO = new ProdottoDAO(conn);
             CategoriaDAO categoriaDAO = new CategoriaDAO(conn);
 
-            List<Prodotto> prodotti = prodottoDAO.findAll();
-            List<Categoria> categorie = categoriaDAO.findAll();
+            switch (action) {
 
-            request.setAttribute("prodotti", prodotti);
-            request.setAttribute("categorie", categorie);
-            request.getRequestDispatcher("/pagine/adminProdotti.jsp").forward(request, response);
+                // -------------------------
+                // APRI FORM CREAZIONE
+                // -------------------------
+                case "create": {
+                    List<Categoria> categorie = categoriaDAO.findAll();
+                    request.setAttribute("categorie", categorie);
+
+                    request.getRequestDispatcher("/pagine/adminCreaProdotto.jsp")
+                           .forward(request, response);
+                    return;
+                }
+
+                // -------------------------
+                // APRI FORM MODIFICA
+                // -------------------------
+                case "edit": {
+                    String idParam = request.getParameter("id");
+                    int id;
+
+                    try {
+                        id = Integer.parseInt(idParam);
+                    } catch (NumberFormatException e) {
+                        response.sendRedirect(request.getContextPath() + "/admin/prodotti?error=invalidId");
+                        return;
+                    }
+
+                    Prodotto prodotto = prodottoDAO.findById(id);
+                    if (prodotto == null) {
+                        response.sendRedirect(request.getContextPath() + "/admin/prodotti?error=notfound");
+                        return;
+                    }
+
+                    List<Categoria> categorie = categoriaDAO.findAll();
+                    request.setAttribute("prodotto", prodotto);
+                    request.setAttribute("categorie", categorie);
+
+                    request.getRequestDispatcher("/pagine/adminModificaProdotto.jsp")
+                           .forward(request, response);
+                    return;
+                }
+
+                // -------------------------
+                // LISTA PRODOTTI (DEFAULT)
+                // -------------------------
+                default: {
+                    List<Prodotto> prodotti = prodottoDAO.findAll();
+                    List<Categoria> categorie = categoriaDAO.findAll();
+
+                    request.setAttribute("prodotti", prodotti);
+                    request.setAttribute("categorie", categorie);
+
+                    request.getRequestDispatcher("/pagine/adminProdotti.jsp")
+                           .forward(request, response);
+                }
+            }
 
         } catch (Exception e) {
-            request.setAttribute("error", "Errore nel caricamento prodotti: " + e.getMessage());
+            e.printStackTrace();
+            request.setAttribute("error", "Errore nel caricamento prodotti.");
             request.getRequestDispatcher("/pagine/adminProdotti.jsp").forward(request, response);
         }
     }
@@ -64,11 +120,15 @@ public class AdminProdottoServlet extends HttpServlet {
         if (action == null) action = "";
 
         try (Connection conn = DBConnection.getConnection()) {
+
             ProdottoDAO prodottoDAO = new ProdottoDAO(conn);
             CategoriaDAO categoriaDAO = new CategoriaDAO(conn);
 
             switch (action) {
 
+                // -------------------------
+                // CREA PRODOTTO
+                // -------------------------
                 case "create": {
                     String nome = request.getParameter("nome");
                     String brand = request.getParameter("brand");
@@ -87,6 +147,9 @@ public class AdminProdottoServlet extends HttpServlet {
                     break;
                 }
 
+                // -------------------------
+                // AGGIORNA PRODOTTO
+                // -------------------------
                 case "update": {
                     int id = Integer.parseInt(request.getParameter("id"));
                     String nome = request.getParameter("nome");
@@ -106,21 +169,20 @@ public class AdminProdottoServlet extends HttpServlet {
                     break;
                 }
 
+                // -------------------------
+                // ELIMINA PRODOTTO
+                // -------------------------
                 case "delete": {
                     int id = Integer.parseInt(request.getParameter("id"));
                     prodottoDAO.delete(id);
                     break;
                 }
-
-                default:
-                    // Azione non riconosciuta → ignora
             }
 
         } catch (Exception e) {
-            // Puoi loggare l’errore se vuoi
+            e.printStackTrace();
         }
 
-        // ✅ PRG: dopo POST → redirect
         response.sendRedirect(request.getContextPath() + "/admin/prodotti");
     }
 }

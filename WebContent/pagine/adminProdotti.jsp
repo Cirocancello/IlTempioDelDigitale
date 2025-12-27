@@ -1,16 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.List" %>
 <%@ page import="model.Prodotto" %>
-<%@ page import="model.Utente" %>
+<%@ page import="model.Categoria" %>
+<%@ page import="java.util.List" %>
 
 <%
-    Utente admin = (Utente) session.getAttribute("utente");
-    if (admin == null || admin.getRole() != 1) {
-        response.sendRedirect(request.getContextPath() + "/admin/login");
-        return;
-    }
-
     List<Prodotto> prodotti = (List<Prodotto>) request.getAttribute("prodotti");
+    List<Categoria> categorie = (List<Categoria>) request.getAttribute("categorie");
 %>
 
 <!DOCTYPE html>
@@ -18,123 +13,81 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestione Prodotti</title>
-
-    <!-- ✅ Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- ✅ Stile admin -->
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/admin.css">
 </head>
 
-<body>
+<body class="p-4">
 
-<div class="admin-container">
+<div class="container">
 
     <h1 class="mb-4">Gestione Prodotti</h1>
 
-    <!-- ✅ FORM CREAZIONE PRODOTTO -->
-    <div class="admin-form mb-5">
-        <h3 class="mb-3">Crea Nuovo Prodotto</h3>
+    <!-- 🔙 Pulsante Torna alla Dashboard -->
+    <a href="<%= request.getContextPath() %>/admin/dashboard"
+       class="btn btn-secondary mb-3">Torna alla Dashboard</a>
 
-        <form action="<%= request.getContextPath() %>/admin/prodotti" method="post">
-            <input type="hidden" name="action" value="create">
+    <!-- ➕ Pulsante Aggiungi Prodotto -->
+    <a href="<%= request.getContextPath() %>/admin/prodotti?action=create"
+       class="btn btn-dark mb-3 ms-2">Aggiungi Prodotto</a>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <label>Nome</label>
-                    <input type="text" name="nome" required>
-                </div>
+    <% if (prodotti == null || prodotti.isEmpty()) { %>
 
-                <div class="col-md-6">
-                    <label>Prezzo</label>
-                    <input type="number" step="0.01" name="prezzo" required>
-                </div>
-            </div>
+        <div class="alert alert-warning mt-3">Nessun prodotto disponibile.</div>
 
-            <label>Descrizione</label>
-            <textarea name="descrizione" rows="3" required></textarea>
+    <% } else { %>
 
-            <label>Categoria</label>
-            <select name="categoriaId" required>
-                <%-- Le categorie devono essere passate dalla servlet come attributo --%>
-                <% 
-                    List<model.Categoria> categorie = (List<model.Categoria>) request.getAttribute("categorie");
-                    if (categorie != null) {
-                        for (model.Categoria c : categorie) {
-                %>
-                    <option value="<%= c.getId() %>"><%= c.getNome() %></option>
-                <% 
-                        }
-                    }
-                %>
-            </select>
+        <table class="table table-striped table-bordered mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Brand</th>
+                    <th>Prezzo</th>
+                    <th>Quantità</th>
+                    <th>Categoria</th>
+                    <th>Visibile</th>
+                    <th>Azioni</th>
+                </tr>
+            </thead>
 
-            <button type="submit" class="btn btn-dark mt-2">Crea Prodotto</button>
-        </form>
-    </div>
-
-    <!-- ✅ TABELLA PRODOTTI -->
-    <h3 class="mb-3">Lista Prodotti</h3>
-
-    <table class="admin-table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Prezzo</th>
-            <th>Categoria</th>
-            <th>Azioni</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <% if (prodotti != null) {
-            for (Prodotto p : prodotti) { %>
-
+            <tbody>
+            <% for (Prodotto p : prodotti) { %>
                 <tr>
                     <td><%= p.getId() %></td>
                     <td><%= p.getNome() %></td>
+                    <td><%= p.getBrand() %></td>
                     <td>€ <%= p.getPrezzo() %></td>
-                    <td><%= p.getCategoria() %></td>
+                    <td><%= p.getQuantita() %></td>
+                    <td><%= p.getCategoria().getNome() %></td>
+                    <td><%= p.isVisibile() ? "Sì" : "No" %></td>
 
                     <td>
 
-                        <!-- ✅ FORM UPDATE -->
-                        <form action="<%= request.getContextPath() %>/admin/prodotti" method="post" class="d-inline">
-                            <input type="hidden" name="action" value="update">
+                        <!-- Modifica -->
+                        <form action="<%= request.getContextPath() %>/admin/prodotti" method="get" class="d-inline">
+                            <input type="hidden" name="action" value="edit">
                             <input type="hidden" name="id" value="<%= p.getId() %>">
-
-                            <button class="btn btn-sm btn-dark">Modifica</button>
+                            <button class="btn btn-sm btn-primary">Modifica</button>
                         </form>
 
-                        <!-- ✅ FORM DELETE -->
-                        <form action="<%= request.getContextPath() %>/admin/prodotti" method="post" class="d-inline">
+                        <!-- Elimina -->
+                        <form action="<%= request.getContextPath() %>/admin/prodotti"
+                              method="post" class="d-inline"
+                              onsubmit="return confirm('Sei sicuro di voler eliminare questo prodotto?');">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="id" value="<%= p.getId() %>">
-
-                            <button class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Eliminare questo prodotto?')">
-                                Elimina
-                            </button>
+                            <button class="btn btn-sm btn-danger">Elimina</button>
                         </form>
 
                     </td>
                 </tr>
+            <% } %>
+            </tbody>
+        </table>
 
-        <%  }
-        } %>
-        </tbody>
-    </table>
-
-    <!-- ✅ Logout -->
-    <div class="logout mt-5">
-        <a class="text-danger fw-bold" href="<%= request.getContextPath() %>/admin/logout">Logout</a>
-    </div>
+    <% } %>
 
 </div>
-
-<!-- ✅ Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

@@ -85,7 +85,9 @@ public class ProdottoDAO {
     public boolean insert(Prodotto p) throws SQLException {
         String sql = "INSERT INTO prodotto (nome, brand, informazioni, prezzo, quantita, image_url, visibile) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
             ps.setString(1, p.getNome());
             ps.setString(2, p.getBrand());
             ps.setString(3, p.getInformazioni());
@@ -95,14 +97,28 @@ public class ProdottoDAO {
             ps.setBoolean(7, p.isVisibile());
 
             int affected = ps.executeUpdate();
+
             if (affected == 1) {
                 try (ResultSet keys = ps.getGeneratedKeys()) {
-                    if (keys.next()) p.setId(keys.getInt(1));
+                    if (keys.next()) {
+                        int newId = keys.getInt(1);
+                        p.setId(newId);
+
+                        // 🔥 INSERIMENTO NELLA TABELLA DI ASSOCIAZIONE
+                        String sql2 = "INSERT INTO categoria_prodotto (id_prodotto, id_categoria) VALUES (?, ?)";
+                        try (PreparedStatement ps2 = conn.prepareStatement(sql2)) {
+                            ps2.setInt(1, newId);
+                            ps2.setInt(2, p.getCategoria().getId());
+                            ps2.executeUpdate();
+                        }
+                    }
                 }
             }
+
             return affected == 1;
         }
     }
+
 
     // Aggiorna un prodotto
     public boolean update(Prodotto p) throws SQLException {
@@ -124,12 +140,22 @@ public class ProdottoDAO {
 
     // Elimina un prodotto
     public boolean delete(int id) throws SQLException {
-        String sql = "DELETE FROM prodotto WHERE id = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            return ps.executeUpdate() == 1;
+
+        // 1️⃣ Prima elimini l’associazione categoria-prodotto
+        String sql1 = "DELETE FROM categoria_prodotto WHERE id_prodotto = ?";
+        try (PreparedStatement ps1 = conn.prepareStatement(sql1)) {
+            ps1.setInt(1, id);
+            ps1.executeUpdate();
+        }
+
+        // 2️⃣ Poi elimini il prodotto
+        String sql2 = "DELETE FROM prodotto WHERE id = ?";
+        try (PreparedStatement ps2 = conn.prepareStatement(sql2)) {
+            ps2.setInt(1, id);
+            return ps2.executeUpdate() == 1;
         }
     }
+
 
     // Recupera prodotti per categoria
     public List<Prodotto> findByCategoria(int categoriaId) throws SQLException {

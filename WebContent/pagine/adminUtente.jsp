@@ -18,10 +18,10 @@
     <meta charset="UTF-8">
     <title>Gestione Utenti</title>
 
-    <!-- ✅ Bootstrap -->
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- ✅ Stile admin -->
+    <!-- Stile admin -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/admin.css">
 </head>
 
@@ -31,7 +31,13 @@
 
     <h1 class="mb-4">Gestione Utenti</h1>
 
-    <!-- ✅ FORM CREAZIONE UTENTE -->
+    <!-- 🔙 Pulsante ritorno alla Dashboard Admin -->
+    <a href="<%= request.getContextPath() %>/pagine/adminDashboard.jsp" 
+       class="btn btn-outline-secondary mb-4">
+        ← Torna alla Dashboard
+    </a>
+
+    <!-- FORM CREAZIONE UTENTE -->
     <div class="admin-form mb-5">
         <h3 class="mb-3">Crea Nuovo Utente</h3>
 
@@ -66,7 +72,7 @@
         </form>
     </div>
 
-    <!-- ✅ TABELLA UTENTI -->
+    <!-- TABELLA UTENTI -->
     <h3 class="mb-3">Lista Utenti</h3>
 
     <table class="admin-table">
@@ -94,15 +100,13 @@
 
                     <td>
 
-                        <!-- ✅ FORM UPDATE -->
-                        <form action="<%= request.getContextPath() %>/admin/utenti" method="post" class="d-inline">
-                            <input type="hidden" name="action" value="update">
-                            <input type="hidden" name="id" value="<%= u.getId() %>">
+                        <!-- LINK MODIFICA -->
+                        <a href="<%= request.getContextPath() %>/pagine/adminModificaUtente.jsp?id=<%= u.getId() %>"
+                           class="btn btn-sm btn-dark">
+                            Modifica
+                        </a>
 
-                            <button class="btn btn-sm btn-dark">Modifica</button>
-                        </form>
-
-                        <!-- ✅ FORM DELETE -->
+                        <!-- FORM DELETE -->
                         <form action="<%= request.getContextPath() %>/admin/utenti" method="post" class="d-inline">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="id" value="<%= u.getId() %>">
@@ -121,14 +125,14 @@
         </tbody>
     </table>
 
-    <!-- ✅ Logout -->
+    <!-- Logout -->
     <div class="logout mt-5">
         <a class="text-danger fw-bold" href="<%= request.getContextPath() %>/admin/logout">Logout</a>
     </div>
 
 </div>
 
-<!-- ✅ Bootstrap JS -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
