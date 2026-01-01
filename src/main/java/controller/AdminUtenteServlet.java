@@ -1,14 +1,12 @@
 package controller;
 
 import dao.UtenteDAO;
-import db.DBConnection;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import model.Utente;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.List;
 
 @WebServlet("/admin/utenti")
@@ -30,12 +28,11 @@ public class AdminUtenteServlet extends HttpServlet {
             return;
         }
 
-        try (Connection conn = DBConnection.getConnection()) {
+        try {
             UtenteDAO utenteDAO = new UtenteDAO();
+            List<Utente> utenti = utenteDAO.findAll();   // ✅ metodo corretto
 
-            List<Utente> utenti = utenteDAO.listAll();
             request.setAttribute("utenti", utenti);
-
             request.getRequestDispatcher("/pagine/adminUtente.jsp").forward(request, response);
 
         } catch (Exception e) {
@@ -99,14 +96,14 @@ public class AdminUtenteServlet extends HttpServlet {
                 }
 
                 default:
-                    // Azione non riconosciuta → ignora
+                    // Azione non riconosciuta: nessuna operazione
             }
 
         } catch (Exception e) {
-            // Puoi loggare l’errore se vuoi
+            // puoi loggare l'errore se vuoi
         }
 
-        // ✅ PRG: redirect dopo POST
+        // ✅ Post/Redirect/Get
         response.sendRedirect(request.getContextPath() + "/admin/utenti");
     }
 }

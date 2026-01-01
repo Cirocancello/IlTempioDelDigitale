@@ -14,6 +14,9 @@
     <meta charset="UTF-8">
     <title>Modifica Prodotto</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+     <!-- Stile personalizzato -->
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/admin.css">
 </head>
 
 <body class="p-4">

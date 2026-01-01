@@ -1,168 +1,315 @@
-/* ============================
-   ADMIN AREA - STILE GENERALE
-   ============================ */
+/* ============================================================
+   ADMIN AREA — STILE PERSONALIZZATO
+   Palette ricavata dal progetto:
+   Primari: #1E261D, #324032, #F2D2B6
+   Accenti: #A6662E, #A6774E, #EAC9A6, #8A4F24
+   ============================================================ */
 
+/* === Reset base === */
 body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #F2D2B6;
+    color: #1E261D;
     margin: 0;
     padding: 0;
-    background: #f5f5f5;
-    font-family: Arial, sans-serif;
 }
 
-.admin-container {
-    max-width: 1100px;
-    margin: 40px auto;
-    padding: 20px;
-}
-
-h1, h2, h3 {
-    color: #333;
-    margin-bottom: 20px;
-}
-
-/* ============================
-   DASHBOARD
-   ============================ */
-
+/* === Contenitore principale admin === */
+.admin-container,
 .dashboard-container {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 40px auto;
     padding: 20px;
 }
 
-.dashboard-container h1 {
-    font-size: 28px;
-    margin-bottom: 25px;
+/* ============================================================
+   TITOLI E TESTI
+   ============================================================ */
+h1, h2, h3, h4 {
+    color: #1E261D;
+    font-weight: 700;
 }
 
+h1 {
+    border-left: 6px solid #A6662E;
+    padding-left: 12px;
+}
+
+/* ============================================================
+   CARD DASHBOARD
+   ============================================================ */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
 }
 
 .card {
-    background: white;
-    padding: 25px;
+    background-color: #EAC9A6 !important;
+    border: 2px solid #A6662E !important;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    text-align: center;
-    transition: 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
 }
 
 .card h2 {
-    font-size: 20px;
+    color: #A6662E;
+    font-weight: 700;
+}
+
+/* ============================================================
+   FORM ADMIN
+   ============================================================ */
+.admin-form {
+    background-color: #EAC9A6;
+    border: 2px solid #A6662E;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.admin-form label {
+    font-weight: 600;
+    color: #1E261D;
+}
+
+.admin-form input,
+.admin-form select {
+    width: 100%;
+    padding: 8px 10px;
     margin-bottom: 15px;
-    color: #444;
-}
-
-/* ============================
-   BOTTONI
-   ============================ */
-
-.btn {
-    display: inline-block;
-    padding: 10px 18px;
-    background: #333;
-    color: white;
+    border: 2px solid #A6662E;
     border-radius: 6px;
-    text-decoration: none;
-    transition: 0.2s ease;
+    background-color: #F2D2B6;
+    color: #1E261D;
 }
 
-.btn:hover {
-    background: #555;
+.admin-form input:focus,
+.admin-form select:focus {
+    border-color: #A6662E;
+    box-shadow: 0 0 0 0.25rem rgba(166, 102, 46, 0.35);
 }
 
-.btn-danger {
-    background: #c0392b;
-}
-
-.btn-danger:hover {
-    background: #e74c3c;
-}
-
-/* ============================
-   TABELLE
-   ============================ */
-
+/* ============================================================
+   TABELLE ADMIN
+   ============================================================ */
 .admin-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.admin-table thead {
+    background-color: #1E261D;
+    color: #F2D2B6;
 }
 
 .admin-table th,
 .admin-table td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid #A6662E;
 }
 
-.admin-table th {
-    background: #eee;
-    font-weight: bold;
+.admin-table tbody tr:nth-child(odd) {
+    background-color: #EAC9A6;
 }
 
-.admin-table tr:hover {
-    background: #fafafa;
+.admin-table tbody tr:nth-child(even) {
+    background-color: #F2D2B6;
 }
 
-/* ============================
-   FORM ADMIN
-   ============================ */
-
-.admin-form {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    margin-bottom: 30px;
+.admin-table tbody tr:hover {
+    background-color: #A6774E;
+    color: #F2D2B6;
 }
 
-.admin-form label {
-    display: block;
-    margin-bottom: 6px;
-    color: #444;
+/* ============================================================
+   PULSANTI
+   ============================================================ */
+.btn-dark {
+    background-color: #1E261D !important;
+    border-color: #1E261D !important;
+    color: #F2D2B6 !important;
 }
 
-.admin-form input,
-.admin-form select,
-.admin-form textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    margin-bottom: 15px;
+.btn-dark:hover {
+    background-color: #324032 !important;
+    border-color: #324032 !important;
 }
 
-.admin-form input:focus,
-.admin-form select:focus,
-.admin-form textarea:focus {
-    border-color: #333;
-    outline: none;
+.btn-danger {
+    background-color: #8A4F24 !important;
+    border-color: #8A4F24 !important;
 }
 
-/* ============================
+.btn-danger:hover {
+    background-color: #A6662E !important;
+    border-color: #A6662E !important;
+}
+
+.btn-info {
+    background-color: #A6662E !important;
+    border-color: #A6662E !important;
+    color: #F2D2B6 !important;
+}
+
+.btn-info:hover {
+    background-color: #324032 !important;
+    border-color: #324032 !important;
+}
+
+/* ============================================================
+   DETTAGLI COLLASSABILI (Ordini)
+   ============================================================ */
+.collapse .p-3 {
+    background-color: #1E261D !important;
+    border-radius: 10px;
+}
+
+.table-dark {
+    background-color: #1E261D !important;
+    color: #F2D2B6 !important;
+}
+
+.table-dark td,
+.table-dark th {
+    border-color: #A6662E !important;
+}
+
+/* ============================================================
    LOGOUT
-   ============================ */
-
-.logout {
-    margin-top: 40px;
-    text-align: center;
-}
-
+   ============================================================ */
 .logout a {
-    color: #c0392b;
-    font-weight: bold;
+    font-size: 1.1rem;
     text-decoration: none;
 }
 
 .logout a:hover {
-    text-decoration: underline;
+    color: #A6662E !important;
+}
+
+.btn-logout {
+    background-color: #8A4F24;
+    border: 2px solid #1E261D;
+    color: #F2D2B6;
+    font-weight: 700;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-logout:hover {
+    background-color: #A6662E;
+    color: #F2D2B6;
+    transform: scale(1.03);
+}
+
+
+.btn-back-dashboard {
+    background-color: #324032;
+    border: 2px solid #A6662E;
+    color: #F2D2B6;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-back-dashboard:hover {
+    background-color: #A6662E;
+    color: #F2D2B6;
+    transform: scale(1.03);
+}
+
+.btn-admin-action {
+    background-color: #324032;
+    border: 2px solid #A6662E;
+    color: #F2D2B6;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    min-width: 180px;
+    text-align: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-admin-action:hover {
+    background-color: #A6662E;
+    color: #F2D2B6;
+    transform: scale(1.03);
+}
+
+.btn-filtra {
+    background-color: #324032;
+    border: 2px solid #A6662E;
+    color: #F2D2B6;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-filtra:hover {
+    background-color: #A6662E;
+    color: #F2D2B6;
+    transform: scale(1.03);
+}
+
+.pagination-admin {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.page-admin {
+    background-color: #324032;
+    border: 2px solid #A6662E;
+    color: #F2D2B6;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.page-admin:hover {
+    background-color: #A6662E;
+    transform: scale(1.05);
+}
+
+.page-admin.active {
+    background-color: #A6662E;
+    border-color: #1E261D;
+    transform: scale(1.05);
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+    .admin-container,
+    .dashboard-container {
+        padding: 10px;
+    }
+
+    .admin-form {
+        padding: 15px;
+    }
 }

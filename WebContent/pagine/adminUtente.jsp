@@ -31,13 +31,14 @@
 
     <h1 class="mb-4">Gestione Utenti</h1>
 
-    <!-- 🔙 Pulsante ritorno alla Dashboard Admin -->
+    <!-- 🔙 Torna alla Dashboard -->
     <a href="<%= request.getContextPath() %>/pagine/adminDashboard.jsp" 
-       class="btn btn-outline-secondary mb-4">
-        ← Torna alla Dashboard
-    </a>
+	   class="btn-back-dashboard mb-4">
+	    ← Torna alla Dashboard
+	</a>
 
-    <!-- FORM CREAZIONE UTENTE -->
+
+    <!-- ⭐ FORM CREAZIONE UTENTE -->
     <div class="admin-form mb-5">
         <h3 class="mb-3">Crea Nuovo Utente</h3>
 
@@ -45,34 +46,40 @@
             <input type="hidden" name="action" value="create">
 
             <div class="row">
-                <div class="col-md-6">
-                    <label>Nome</label>
-                    <input type="text" name="nome" required>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Nome</label>
+                    <input type="text" name="nome" class="form-control" required>
                 </div>
 
-                <div class="col-md-6">
-                    <label>Cognome</label>
-                    <input type="text" name="cognome" required>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Cognome</label>
+                    <input type="text" name="cognome" class="form-control" required>
                 </div>
             </div>
 
-            <label>Email</label>
-            <input type="email" name="email" required>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
 
-            <label>Password</label>
-            <input type="password" name="password" required>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
 
-            <label>Ruolo</label>
-            <select name="role" required>
-                <option value="0">Utente</option>
-                <option value="1">Admin</option>
-            </select>
+            <div class="mb-3">
+                <label class="form-label">Ruolo</label>
+                <select name="role" class="form-select" required>
+                    <option value="0">Utente</option>
+                    <option value="1">Admin</option>
+                </select>
+            </div>
 
-            <button type="submit" class="btn btn-dark mt-2">Crea Utente</button>
+            <button type="submit" class="btn btn-dark">Crea Utente</button>
         </form>
     </div>
 
-    <!-- TABELLA UTENTI -->
+    <!-- ⭐ TABELLA UTENTI -->
     <h3 class="mb-3">Lista Utenti</h3>
 
     <table class="admin-table">
@@ -88,7 +95,7 @@
         </thead>
 
         <tbody>
-        <% if (utenti != null) {
+        <% if (utenti != null && !utenti.isEmpty()) {
             for (Utente u : utenti) { %>
 
                 <tr>
@@ -100,13 +107,13 @@
 
                     <td>
 
-                        <!-- LINK MODIFICA -->
+                        <!-- Modifica -->
                         <a href="<%= request.getContextPath() %>/pagine/adminModificaUtente.jsp?id=<%= u.getId() %>"
                            class="btn btn-sm btn-dark">
                             Modifica
                         </a>
 
-                        <!-- FORM DELETE -->
+                        <!-- Elimina -->
                         <form action="<%= request.getContextPath() %>/admin/utenti" method="post" class="d-inline">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="id" value="<%= u.getId() %>">
@@ -121,13 +128,21 @@
                 </tr>
 
         <%  }
-        } %>
+        } else { %>
+
+            <tr>
+                <td colspan="6" class="text-center text-warning">Nessun utente trovato.</td>
+            </tr>
+
+        <% } %>
         </tbody>
     </table>
 
     <!-- Logout -->
     <div class="logout mt-5">
-        <a class="text-danger fw-bold" href="<%= request.getContextPath() %>/admin/logout">Logout</a>
+       
+        <a class="btn-logout" href="<%= request.getContextPath() %>/admin/logout">Logout</a>
+        
     </div>
 
 </div>

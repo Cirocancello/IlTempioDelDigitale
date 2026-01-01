@@ -31,9 +31,10 @@
 
     <!-- 🔙 Pulsante ritorno alla Dashboard Admin -->
     <a href="<%= request.getContextPath() %>/pagine/adminDashboard.jsp" 
-       class="btn btn-outline-secondary mb-4">
-        ← Torna alla Dashboard
-    </a>
+	   class="btn-back-dashboard mb-4">
+	    ← Torna alla Dashboard
+	</a>
+
 
     <!-- FORM CREAZIONE CATEGORIA -->
     <div class="admin-form mb-5">
@@ -97,7 +98,8 @@
     </table>
 
     <div class="logout mt-5">
-        <a class="text-danger fw-bold" href="<%= request.getContextPath() %>/admin/logout">Logout</a>
+        <a class="btn-logout" href="<%= request.getContextPath() %>/admin/logout">Logout</a>
+
     </div>
 
 </div>

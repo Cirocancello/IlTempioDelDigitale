@@ -12,6 +12,10 @@
     <meta charset="UTF-8">
     <title>Crea Nuovo Prodotto</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+     <!-- Stile admin -->
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/admin.css">
+</head>
 </head>
 
 <body class="p-4">

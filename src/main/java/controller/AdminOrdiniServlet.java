@@ -1,6 +1,7 @@
 package controller;
 
 import dao.OrdineDAO;
+import dao.UtenteDAO;
 import db.DBConnection;
 import model.Ordine;
 import model.Utente;
@@ -19,10 +20,13 @@ import java.util.List;
 @WebServlet("/admin/ordini")
 public class AdminOrdiniServlet extends HttpServlet {
 
+    private static final int LIMIT = 10; // ⭐ 10 ordini per pagina
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // ⭐ Controllo admin
         HttpSession session = request.getSession(false);
         Utente admin = (session != null) ? (Utente) session.getAttribute("utente") : null;
 
@@ -31,12 +35,44 @@ public class AdminOrdiniServlet extends HttpServlet {
             return;
         }
 
+        // ⭐ Lettura filtri
+        String from = request.getParameter("from");
+        String to = request.getParameter("to");
+        String userIdStr = request.getParameter("userId");
+
+        Integer userId = null;
+        if (userIdStr != null && !userIdStr.isEmpty()) {
+            userId = Integer.parseInt(userIdStr);
+        }
+
+        // ⭐ Paginazione
+        int page = 1;
+        if (request.getParameter("page") != null) {
+            page = Integer.parseInt(request.getParameter("page"));
+        }
+        int offset = (page - 1) * LIMIT;
+
         try (Connection conn = DBConnection.getConnection()) {
 
             OrdineDAO ordineDAO = new OrdineDAO(conn);
-            List<Ordine> ordini = ordineDAO.findAll();
+            UtenteDAO utenteDAO = new UtenteDAO();
 
+            // ⭐ Recupero ordini filtrati + paginati
+            List<Ordine> ordini = ordineDAO.filtraOrdini(from, to, userId, LIMIT, offset);
+
+            // ⭐ Conteggio totale per paginazione
+            int totalOrdini = ordineDAO.countOrdini(from, to, userId);
+            int totalPages = (int) Math.ceil((double) totalOrdini / LIMIT);
+
+            // ⭐ Lista utenti per il filtro
+            List<Utente> utenti = utenteDAO.findAll();
+
+            // ⭐ Passaggio dati alla JSP
             request.setAttribute("ordini", ordini);
+            request.setAttribute("utenti", utenti);
+            request.setAttribute("page", page);
+            request.setAttribute("totalPages", totalPages);
+
             request.getRequestDispatcher("/pagine/adminOrdini.jsp").forward(request, response);
 
         } catch (Exception e) {
@@ -50,6 +86,7 @@ public class AdminOrdiniServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // ⭐ Controllo admin
         HttpSession session = request.getSession(false);
         Utente admin = (session != null) ? (Utente) session.getAttribute("utente") : null;
 
@@ -65,12 +102,14 @@ public class AdminOrdiniServlet extends HttpServlet {
             OrdineDAO ordineDAO = new OrdineDAO(conn);
 
             switch (action) {
+
                 case "update": {
                     String id = request.getParameter("id");
                     String stato = request.getParameter("stato");
                     ordineDAO.updateStato(id, stato);
                     break;
                 }
+
                 case "delete": {
                     String id = request.getParameter("id");
                     ordineDAO.delete(id);
@@ -82,6 +121,7 @@ public class AdminOrdiniServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        // ⭐ Torna alla lista ordini
         response.sendRedirect(request.getContextPath() + "/admin/ordini");
     }
 }

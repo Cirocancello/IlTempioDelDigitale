@@ -14,6 +14,9 @@
     <meta charset="UTF-8">
     <title>Gestione Prodotti</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+     <!-- Stile personalizzato -->
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/admin.css">
 </head>
 
 <body class="p-4">
@@ -23,12 +26,16 @@
     <h1 class="mb-4">Gestione Prodotti</h1>
 
     <!-- 🔙 Pulsante Torna alla Dashboard -->
-    <a href="<%= request.getContextPath() %>/admin/dashboard"
-       class="btn btn-secondary mb-3">Torna alla Dashboard</a>
+   <div class="d-flex justify-content-between mb-4">
+	    <a href="<%= request.getContextPath() %>/pagine/adminDashboard.jsp" class="btn-admin-action">
+	        ← Torna alla Dashboard
+	    </a>
+	
+	    <a href="<%= request.getContextPath() %>/admin/aggiungiProdotto" class="btn-admin-action">
+	        Aggiungi Prodotto
+	    </a>
+	</div>
 
-    <!-- ➕ Pulsante Aggiungi Prodotto -->
-    <a href="<%= request.getContextPath() %>/admin/prodotti?action=create"
-       class="btn btn-dark mb-3 ms-2">Aggiungi Prodotto</a>
 
     <% if (prodotti == null || prodotti.isEmpty()) { %>
 

@@ -15,10 +15,10 @@
     <meta charset="UTF-8">
     <title>Dashboard Admin</title>
 
-    <!-- Bootstrap 5 -->
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- stile admin personalizzato -->
+    <!-- Stile personalizzato -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/admin.css">
 </head>
 
@@ -26,41 +26,47 @@
 
 <div class="dashboard-container">
 
+    <!-- Titolo -->
     <h1 class="mb-4">Benvenuto, <%= admin.getNome() %> 👋</h1>
 
-    <!-- ✅ Grid delle card (gestita dal tuo admin.css) -->
+    <!-- Griglia delle sezioni -->
     <div class="grid">
 
+        <!-- Prodotti -->
         <div class="card p-4">
             <h2 class="mb-3">Gestione Prodotti</h2>
-            <a class="btn btn-dark" href="<%= request.getContextPath() %>/admin/prodotti">Vai</a>
+            <a class="btn btn-dark w-100" href="<%= request.getContextPath() %>/admin/prodotti">Vai</a>
         </div>
 
+        <!-- Categorie -->
         <div class="card p-4">
             <h2 class="mb-3">Gestione Categorie</h2>
-            <a class="btn btn-dark" href="<%= request.getContextPath() %>/admin/categorie">Vai</a>
+            <a class="btn btn-dark w-100" href="<%= request.getContextPath() %>/admin/categorie">Vai</a>
         </div>
 
+        <!-- Ordini -->
         <div class="card p-4">
             <h2 class="mb-3">Gestione Ordini</h2>
-            <a class="btn btn-dark" href="<%= request.getContextPath() %>/admin/ordini">Vai</a>
+            <a class="btn btn-dark w-100" href="<%= request.getContextPath() %>/admin/ordini">Vai</a>
         </div>
 
+        <!-- Utenti -->
         <div class="card p-4">
             <h2 class="mb-3">Gestione Utenti</h2>
-            <a class="btn btn-dark" href="<%= request.getContextPath() %>/admin/utenti">Vai</a>
+            <a class="btn btn-dark w-100" href="<%= request.getContextPath() %>/admin/utenti">Vai</a>
         </div>
 
     </div>
 
-    <!-- ✅ Logout -->
+    <!-- Logout -->
     <div class="logout mt-5">
-        <a class="text-danger fw-bold" href="<%= request.getContextPath() %>/admin/logout">Logout</a>
+        <a class="btn-logout" href="<%= request.getContextPath() %>/admin/logout">Logout</a>
+
     </div>
 
 </div>
 
-<!-- ✅ Bootstrap JS (opzionale, ma utile per dropdown, modali, ecc.) -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
