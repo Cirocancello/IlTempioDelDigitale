@@ -36,9 +36,14 @@ public class CarrelloServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        getCarrello(session);
+        // CONTROLLO TOKEN 
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("auth") == null) {
+            response.sendRedirect(request.getContextPath() + "/pagine/login.jsp");
+            return;
+        }
 
+        getCarrello(session);
         request.getRequestDispatcher("/pagine/carrello.jsp").forward(request, response);
     }
 
@@ -46,7 +51,13 @@ public class CarrelloServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+        // 🔐 CONTROLLO TOKEN (Fase 1)
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("auth") == null) {
+            response.sendRedirect(request.getContextPath() + "/pagine/login.jsp");
+            return;
+        }
+
         List<Prodotto> carrello = getCarrello(session);
 
         String action = request.getParameter("action");

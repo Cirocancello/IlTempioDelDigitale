@@ -1,6 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.*, model.Prodotto" %>
+
 <%
+    // Protezione JSP 
+    if (session == null || session.getAttribute("auth") == null) {
+        response.sendRedirect(request.getContextPath() + "/pagine/login.jsp");
+        return;
+    }
+
     List<Prodotto> carrello = (List<Prodotto>) session.getAttribute("carrello");
     if (carrello == null) carrello = new ArrayList<>();
     double totale = 0;
@@ -8,6 +15,7 @@
         totale += p.getPrezzo() * p.getQuantita();
     }
 %>
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -15,10 +23,9 @@
     <title>Checkout</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-     <!-- Stile personalizzato -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/style.css">
 </head>
-<body >
+<body>
 
 <jsp:include page="../component/navbar.jsp"/>
 
@@ -28,6 +35,7 @@
     <% if (carrello.isEmpty()) { %>
         <div class="alert alert-info">Il carrello è vuoto.</div>
     <% } else { %>
+
         <table class="table table-striped align-middle">
             <thead class="table-dark">
                 <tr>
@@ -43,10 +51,9 @@
                 double subtotale = p.getPrezzo() * p.getQuantita();
             %>
                 <tr>
-                    <!-- ✅ Correzione: aggiunto request.getContextPath() per uniformità -->
                     <td>
-                        <img src="<%= request.getContextPath() %>/<%= p.getImageUrl() %>" 
-                             alt="<%= p.getNome() %>" 
+                        <img src="<%= request.getContextPath() %>/<%= p.getImageUrl() %>"
+                             alt="<%= p.getNome() %>"
                              class="img-thumbnail" style="max-width:80px;">
                     </td>
                     <td><%= p.getNome() %></td>
@@ -59,12 +66,11 @@
         </table>
 
         <div class="alert alert-total">
-   			 Totale ordine: <strong><%= String.format("%.2f", totale) %> €</strong>
-		</div>
+            Totale ordine: <strong><%= String.format("%.2f", totale) %> €</strong>
+        </div>
 
-
-        <!-- Form conferma ordine -->
         <h4 class="mt-5"><i class="bi bi-truck"></i> Dati di spedizione e pagamento</h4>
+
         <form method="post" action="<%= request.getContextPath() %>/checkout" class="needs-validation" novalidate>
             <div class="mb-3">
                 <label for="indirizzoSpedizione" class="form-label">Indirizzo di spedizione</label>
@@ -72,6 +78,7 @@
                        placeholder="Via Roma 10, Napoli" required minlength="5">
                 <div class="invalid-feedback">Inserisci un indirizzo valido (minimo 5 caratteri).</div>
             </div>
+
             <div class="mb-3">
                 <label for="metodoPagamento" class="form-label">Metodo di pagamento</label>
                 <select class="form-select" id="metodoPagamento" name="metodoPagamento" required>
@@ -84,21 +91,21 @@
             </div>
 
             <button type="submit" class="btn btn-primary">
-    			<i class="bi bi-lock-fill"></i> Conferma ordine
-			</button>
-			<div class="mt-4">
-       			 <a href="<%= request.getContextPath() %>/catalogo" class="btn btn-secondary">
-            	 	<i class="bi bi-arrow-left"></i> Torna al catalogo
-        		 </a>
-   			</div>
+                <i class="bi bi-lock-fill"></i> Conferma ordine
+            </button>
 
+            <div class="mt-4">
+                <a href="<%= request.getContextPath() %>/catalogo" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Torna al catalogo
+                </a>
+            </div>
         </form>
+
     <% } %>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // ✅ Bootstrap validation client-side
     (function () {
         'use strict';
         const forms = document.querySelectorAll('.needs-validation');

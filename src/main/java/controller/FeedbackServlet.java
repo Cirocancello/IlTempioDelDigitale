@@ -6,7 +6,11 @@ import model.Feedback;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.sql.Connection;
 
@@ -16,6 +20,13 @@ public class FeedbackServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        //CONTROLLO TOKEN
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("auth") == null) {
+            response.sendRedirect(request.getContextPath() + "/pagine/login.jsp");
+            return;
+        }
 
         // Parametri dal form
         int prodottoId = Integer.parseInt(request.getParameter("prodottoId"));

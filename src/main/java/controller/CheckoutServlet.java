@@ -24,8 +24,9 @@ public class CheckoutServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // CONTROLLO TOKEN 
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("utente") == null) {
+        if (session == null || session.getAttribute("auth") == null) {
             response.sendRedirect(request.getContextPath() + "/pagine/login.jsp");
             return;
         }

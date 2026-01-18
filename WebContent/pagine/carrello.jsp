@@ -1,11 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, model.Prodotto" %>
+
 <%
+    //Protezione JSP 
+    if (session == null || session.getAttribute("auth") == null) {
+        response.sendRedirect(request.getContextPath() + "/pagine/login.jsp");
+        return;
+    }
+
     List<Prodotto> carrello = (List<Prodotto>) session.getAttribute("carrello");
     if (carrello == null) {
         carrello = new ArrayList<>();
     }
 %>
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -70,7 +78,7 @@
                     <td><%= p.getInformazioni() %></td>
                     <td><%= String.format("%.2f", p.getPrezzo()) %></td>
 
-                    <!-- ✅ QUANTITÀ CON PULSANTI + E - -->
+                    <!-- QUANTITÀ -->
                     <td>
                         <div class="d-flex align-items-center">
 
@@ -79,9 +87,8 @@
                                 <input type="hidden" name="action" value="dec">
                                 <input type="hidden" name="id" value="<%= p.getId() %>">
                                 <button class="btn btn-outline-secondary btn-sm btn-qty">
-    								<i class="bi bi-dash"></i>
-								</button>
-
+                                    <i class="bi bi-dash"></i>
+                                </button>
                             </form>
 
                             <span class="mx-2 fw-bold"><%= p.getQuantita() %></span>
@@ -91,9 +98,8 @@
                                 <input type="hidden" name="action" value="inc">
                                 <input type="hidden" name="id" value="<%= p.getId() %>">
                                 <button class="btn btn-outline-secondary btn-sm btn-qty">
-								    <i class="bi bi-plus"></i>
-								</button>
-
+                                    <i class="bi bi-plus"></i>
+                                </button>
                             </form>
 
                         </div>
@@ -101,7 +107,7 @@
 
                     <td><%= p.getCategoria() != null ? p.getCategoria().getNome() : "-" %></td>
 
-                    <!-- ✅ RIMUOVI -->
+                    <!-- RIMUOVI -->
                     <td>
                         <form action="<%= request.getContextPath() %>/carrello" method="post">
                             <input type="hidden" name="action" value="rimuovi">
@@ -118,7 +124,7 @@
             </tbody>
         </table>
 
-        <!-- ✅ TOTALE -->
+        <!-- TOTALE -->
         <div class="alert alert-total">
             Totale ordine: <strong><%= String.format("%.2f", totale) %> €</strong>
         </div>

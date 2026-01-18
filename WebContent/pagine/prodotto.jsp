@@ -48,7 +48,8 @@
 
             <p class="mb-4"><%= p.getInformazioni() %></p>
 
-            <form method="post" action="<%= request.getContextPath() %>/carrello">
+            <!-- 🛒 Aggiungi al carrello -->
+            <form method="post" action="<%= request.getContextPath() %>/carrello" class="d-inline">
                 <input type="hidden" name="action" value="aggiungi">
                 <input type="hidden" name="id" value="<%= p.getId() %>">
                 <input type="hidden" name="nome" value="<%= p.getNome() %>">
@@ -64,6 +65,15 @@
                     <i class="bi bi-cart-plus"></i> Aggiungi al Carrello
                 </button>
             </form>
+
+            <!-- ❤️ Aggiungi ai preferiti -->
+            <form method="post" action="<%= request.getContextPath() %>/preferiti" class="d-inline">
+                <input type="hidden" name="id_prodotto" value="<%= p.getId() %>">
+                <button type="submit" class="btn btn-outline-danger btn-lg ms-2">
+                    <i class="bi bi-heart"></i>
+                </button>
+            </form>
+
         </div>
     </div>
 

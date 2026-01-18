@@ -1,6 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
+<%
+    // Protezione JSP 
+    if (session == null || session.getAttribute("auth") == null) {
+        response.sendRedirect(request.getContextPath() + "/pagine/login.jsp");
+        return;
+    }
+%>
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -51,42 +59,68 @@
             </div>
 
             <!-- Card preferiti -->
-            <div class="card shadow-sm">
+            <div class="card shadow-sm mb-4">
                 <div class="card-header text-center">
                     <h4><i class="bi bi-heart"></i> I miei Preferiti</h4>
                 </div>
+
                 <div class="card-body">
+
                     <c:if test="${empty listaPreferiti}">
                         <p class="text-muted">Non hai ancora salvato nessun prodotto tra i preferiti.</p>
                     </c:if>
 
                     <c:forEach var="p" items="${listaPreferiti}">
                         <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-                            <span>
-                                <i class="bi bi-box"></i> Prodotto ID: ${p.prodottoId} 
-                                <small class="text-muted">- aggiunto il ${p.data}</small>
-                            </span>
-                            <form method="post" action="${pageContext.request.contextPath}/preferiti?action=remove" class="mb-0">
-                                <input type="hidden" name="id_prodotto" value="${p.prodottoId}">
-                                <button class="btn btn-sm btn-outline-danger">
-                                    <i class="bi bi-trash"></i> Rimuovi
-                                </button>
-                            </form>
+
+                            <div class="d-flex align-items-center">
+                                <img src="${pageContext.request.contextPath}/${p.imageUrl}"
+                                     class="img-thumbnail me-3"
+                                     style="width: 60px; height: 60px; object-fit: cover;">
+
+                                <div>
+                                    <strong>${p.nome}</strong><br>
+                                    <span class="text-success">€ ${p.prezzo}</span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center">
+
+                                <!-- Link al prodotto -->
+                                <a href="${pageContext.request.contextPath}/prodotto?id=${p.id}"
+                                   class="btn btn-sm btn-outline-secondary me-2">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+
+                                <!-- Rimuovi -->
+                                <form method="post" 
+                                      action="${pageContext.request.contextPath}/preferiti?action=remove"
+                                      class="mb-0">
+                                    <input type="hidden" name="id_prodotto" value="${p.id}">
+                                    <button class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+
+                            </div>
+
                         </div>
                     </c:forEach>
+
                 </div>
-                <a href="<%= request.getContextPath() %>/ordini" class="btn btn-primary">
-    				<i class="bi bi-receipt"></i> I miei ordini
-				</a>
-                
-                 <a href="<%= request.getContextPath() %>/index" class="btn btn-secondary mt-4">
-       				<i class="bi bi-house"></i> Torna alla Home
-    			 </a> 
             </div>
+
+            <!-- Pulsanti -->
+            <a href="<%= request.getContextPath() %>/ordini" class="btn btn-primary">
+                <i class="bi bi-receipt"></i> I miei ordini
+            </a>
+            
+            <a href="<%= request.getContextPath() %>/index" class="btn btn-secondary mt-3">
+                <i class="bi bi-house"></i> Torna alla Home
+            </a> 
 
         </div>
     </div>
-   
 </div>
 
 <jsp:include page="../component/footer.jsp"/>

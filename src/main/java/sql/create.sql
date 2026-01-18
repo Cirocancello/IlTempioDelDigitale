@@ -1,62 +1,100 @@
-drop database if exists td;
-create database td;
-create table td.utente(
-id integer primary key auto_increment,
-nome text not null,
-cognome text not null,
-email varchar(500) not null unique,
-_password text, 
-oauth boolean not null,
-propic_url text default ("https://via.placeholder.com/300x225"),
-provincia text not null,
-cap char(5) not null,
-via text not null,
-civico text not null,
-note text,
-_role tinyint default 0);
-create table td.ordine(
-id varchar(36) primary key not null unique,
-id_utente integer not null, 
-_data timestamp not null,
-stato text not null,
-foreign key(id_utente) references utente(id));
-create table td.categoria(
-id integer primary key auto_increment,
-nome text not null);
-create table td.prodotto(
-id integer primary key auto_increment,
-nome text not null,
-brand text not null,
-prezzo float not null,
-quantita integer not null,
-image_url text default ("https://via.placeholder.com/300x225"),
-informazioni text,
-visibile boolean default true,
-check (quantita > -1));
-create table td.categoria_prodotto(
-id_categoria integer,
-id_prodotto integer,
-primary key (id_categoria, id_prodotto),
-foreign key(id_categoria) references categoria(id),
-foreign key(id_prodotto) references prodotto(id));
-create table td.feedback(
-id integer primary key auto_increment,
-id_prodotto integer not null,
-score tinyint not null,
-titolo text,
-descrizione text,
-_data timestamp not null,
-foreign key (id_prodotto) references prodotto(id));
-create table td.prodotto_ordine(
-id integer primary key auto_increment,
-id_prodotto integer not null,
-id_ordine varchar(36) not null,
-prezzo_effettivo float not null,
-iva float not null,
-quantita integer not null,
-foreign key (id_prodotto) references prodotto(id),
-foreign key (id_ordine) references ordine(id),
-check (quantita > 0));
+package dao;
 
+import model.Preferito;
+import model.Prodotto;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
+public class PreferitiDAO {
+    private final Connection conn;
+
+    public PreferitiDAO(Connection conn) {
+        this.conn = conn;
+    }
+
+    // CREATE
+    public boolean addPreferito(int utenteId, int prodottoId) throws SQLException {
+        String sql = "INSERT INTO preferiti (id_utente, id_prodotto, data_salvataggio) " +
+                     "VALUES (?, ?, CURRENT_TIMESTAMP)";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, utenteId);
+            ps.setInt(2, prodottoId);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    // READ BASE — restituisce oggetti Preferito (id_utente, id_prodotto, data)
+    public List<Preferito> findByUtente(int utenteId) throws SQLException {
+        List<Preferito> lista = new ArrayList<>();
+        String sql = "SELECT id_utente, id_prodotto, data_salvataggio " +
+                     "FROM preferiti WHERE id_utente = ? " +
+                     "ORDER BY data_salvataggio DESC";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, utenteId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Preferito p = new Preferito();
+                    p.setUtenteId(rs.getInt("id_utente"));
+                    p.setProdottoId(rs.getInt("id_prodotto"));
+                    p.setData(rs.getTimestamp("data_salvataggio").toLocalDateTime());
+                    lista.add(p);
+                }
+            }
+        }
+        return lista;
+    }
+
+    // READ AVANZATO — restituisce direttamente i PRODOTTI preferiti
+    public List<Prodotto> findProdottiByUtente(int utenteId) throws SQLException {
+        List<Prodotto> lista = new ArrayList<>();
+
+        String sql = """
+            SELECT p.id,
+                   p.nome,
+                   p.brand,
+                   p.prezzo,
+                   p.quantita,
+                   p.image_url,
+                   p.informazioni,
+                   p.visibile
+            FROM preferiti f
+            JOIN prodotto p ON f.id_prodotto = p.id
+            WHERE f.id_utente = ?
+            ORDER BY f.data_salvataggio DESC
+        """;
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, utenteId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Prodotto p = new Prodotto();
+                    p.setId(rs.getInt("id"));
+                    p.setNome(rs.getString("nome"));
+                    p.setBrand(rs.getString("brand"));
+                    p.setPrezzo(rs.getFloat("prezzo"));
+                    p.setQuantita(rs.getInt("quantita"));
+                    p.setImageUrl(rs.getString("image_url"));
+                    p.setInformazioni(rs.getString("informazioni"));
+                    p.setVisibile(rs.getBoolean("visibile"));
+
+                    lista.add(p);
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    // DELETE
+    public boolean removePreferito(int utenteId, int prodottoId) throws SQLException {
+        String sql = "DELETE FROM preferiti WHERE id_utente = ? AND id_prodotto = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, utenteId);
+            ps.setInt(2, prodottoId);
+            return ps.executeUpdate() > 0;
+        }
+    }
+}

@@ -79,6 +79,7 @@
                                     <i class="bi bi-eye"></i> Vedi dettagli
                                 </a>
 
+                                <!-- BOTTONE AGGIUNGI AL CARRELLO -->
                                 <form method="post" action="<%= request.getContextPath() %>/carrello" class="d-inline">
                                     <input type="hidden" name="action" value="aggiungi">
                                     <input type="hidden" name="id" value="<%= p.getId() %>">
@@ -95,6 +96,15 @@
                                         <i class="bi bi-cart-plus"></i> Aggiungi
                                     </button>
                                 </form>
+
+                                <!-- BOTTONE AGGIUNGI AI PREFERITI -->
+                                <form method="post" action="<%= request.getContextPath() %>/preferiti" class="d-inline">
+                                    <input type="hidden" name="id_prodotto" value="<%= p.getId() %>">
+                                    <button type="submit" class="btn btn-outline-danger ms-2">
+                                        <i class="bi bi-heart"></i>
+                                    </button>
+                                </form>
+
                             </div>
 
                         </div>

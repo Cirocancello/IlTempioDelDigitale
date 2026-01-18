@@ -1,9 +1,17 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="model.Ordine, model.Prodotto, java.text.SimpleDateFormat" %>
+
 <%
+    // Protezione JSP
+    if (session == null || session.getAttribute("auth") == null) {
+        response.sendRedirect(request.getContextPath() + "/pagine/login.jsp");
+        return;
+    }
+
     Ordine ordine = (Ordine) request.getAttribute("ordine");
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 %>
+
 <!DOCTYPE html>
 <html lang="it">
 <head>

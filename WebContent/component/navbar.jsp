@@ -48,7 +48,8 @@
                 <% } else { %>
                     <!-- Utente loggato -->
                     <li class="nav-item">
-                        <a class="nav-link" href="<%= request.getContextPath() %>/pagine/profile.jsp">
+                        <!-- 🔥 CORRETTO QUI -->
+                        <a class="nav-link" href="<%= request.getContextPath() %>/profile">
                             <i class="bi bi-person-circle"></i> Profilo
                         </a>
                     </li>
@@ -60,7 +61,7 @@
                         </a>
                     </li>
 
-                    <!-- Pulsante Logout: chiama la servlet /logout -->
+                    <!-- Pulsante Logout -->
                     <li class="nav-item">
                         <form method="post" action="<%= request.getContextPath() %>/pagine/logout.jsp" class="d-inline">
                             <button type="submit" class="nav-link btn btn-link text-decoration-none">

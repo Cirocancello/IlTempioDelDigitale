@@ -24,13 +24,19 @@ public class OrdiniServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // CONTROLLO TOKEN 
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("utente") == null) {
+        if (session == null || session.getAttribute("auth") == null) {
             response.sendRedirect(request.getContextPath() + "/pagine/login.jsp");
             return;
         }
 
+        // Controllo presenza utente in sessione
         Utente utente = (Utente) session.getAttribute("utente");
+        if (utente == null) {
+            response.sendRedirect(request.getContextPath() + "/pagine/login.jsp");
+            return;
+        }
 
         try (Connection conn = DBConnection.getConnection()) {
 

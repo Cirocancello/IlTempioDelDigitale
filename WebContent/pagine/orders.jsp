@@ -1,9 +1,17 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.*, model.Ordine, model.Prodotto, java.text.SimpleDateFormat" %>
+
 <%
+    //Protezione JSP 
+    if (session == null || session.getAttribute("auth") == null) {
+        response.sendRedirect(request.getContextPath() + "/pagine/login.jsp");
+        return;
+    }
+
     List<Ordine> ordini = (List<Ordine>) request.getAttribute("ordini");
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 %>
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -21,7 +29,7 @@
 </head>
 <body>
 
-<!-- ✅ Navbar -->
+<!-- Navbar -->
 <jsp:include page="/component/navbar.jsp"/>
 
 <div class="container mt-5">
@@ -123,11 +131,11 @@
     <% } %>
 
     <a href="<%= request.getContextPath() %>/index" class="btn btn-secondary mt-4">
-       	<i class="bi bi-house"></i> Torna alla Home
-    </a> 
+        <i class="bi bi-house"></i> Torna alla Home
+    </a>
 </div>
 
-<!-- ✅ Footer -->
+<!-- Footer -->
 <jsp:include page="/component/footer.jsp"/>
 
 <!-- Bootstrap JS -->

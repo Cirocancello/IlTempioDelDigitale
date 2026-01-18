@@ -10,18 +10,26 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.sql.Connection; // ✅ usa JDBC
+import java.sql.Connection; 
 import java.util.List;
 
-import db.DBConnection; // ✅ Assicurati che questa classe esista
+import db.DBConnection; 
 
 @WebServlet("/prodotto")
 public class ProdottoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        // CONTROLLO TOKEN 
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("auth") == null) {
+            response.sendRedirect(request.getContextPath() + "/pagine/login.jsp");
+            return;
+        }
 
         String idStr = request.getParameter("id");
         if (idStr == null || idStr.isBlank()) {

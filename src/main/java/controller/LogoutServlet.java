@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * LogoutServlet.java
  * -----------------
- * Gestisce il logout utente invalidando la sessione e reindirizzando al login.
+ * Gestisce il logout utente invalidando la sessione e reindirizzando alla pagina di logout.
  */
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
@@ -22,9 +22,8 @@ public class LogoutServlet extends HttpServlet {
             session.invalidate(); // chiude la sessione
         }
 
-        // Redirect alla pagina di login
+        // Redirect alla pagina di logout
         response.sendRedirect(request.getContextPath() + "/pagine/logout.jsp");
-
     }
 
     @Override
@@ -33,4 +32,3 @@ public class LogoutServlet extends HttpServlet {
         doGet(request, response);
     }
 }
-

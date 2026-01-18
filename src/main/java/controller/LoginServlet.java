@@ -36,16 +36,26 @@ public class LoginServlet extends HttpServlet {
 
         // 🔹 Verifica credenziali con hash
         if (u != null && PasswordUtils.verifyPassword(password, u.getPassword())) {
+
             HttpSession session = request.getSession();
+
+            // 🔹 Salvataggio dati utente
             session.setAttribute("utente", u);
             session.setAttribute("utenteId", u.getId());
 
-            // Gestione ruoli (0 = user, 1 = admin)
+            // 🔹 TOKEN DI AUTENTICAZIONE (richiesto dal prof)
+            session.setAttribute("auth", true);
+
+            // 🔹 RUOLO (0 = user, 1 = admin)
+            session.setAttribute("role", u.getRole());
+
+            // 🔹 Redirect in base al ruolo
             if (u.getRole() == 1) {
                 response.sendRedirect(request.getContextPath() + "/admin/prodotti");
             } else {
                 response.sendRedirect(request.getContextPath() + "/profile");
             }
+
         } else {
             request.setAttribute("error", "Credenziali non corrette");
             request.getRequestDispatcher("/pagine/login.jsp").forward(request, response);
