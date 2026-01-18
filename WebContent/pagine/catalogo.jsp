@@ -17,7 +17,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/style.css">
 </head>
-<body>
+
+<!-- ⭐ NECESSARIO PER L'AJAX -->
+<body data-base="<%= request.getContextPath() %>">
+
+<!-- ⭐ NAVBAR -->
+<jsp:include page="/component/navbar.jsp"/>
 
 <div class="container mt-5">
 
@@ -79,25 +84,12 @@
                                     <i class="bi bi-eye"></i> Vedi dettagli
                                 </a>
 
-                                <!-- BOTTONE AGGIUNGI AL CARRELLO -->
-                                <form method="post" action="<%= request.getContextPath() %>/carrello" class="d-inline">
-                                    <input type="hidden" name="action" value="aggiungi">
-                                    <input type="hidden" name="id" value="<%= p.getId() %>">
-                                    <input type="hidden" name="nome" value="<%= p.getNome() %>">
-                                    <input type="hidden" name="brand" value="<%= p.getBrand() %>">
-                                    <input type="hidden" name="informazioni" value="<%= p.getInformazioni() %>">
-                                    <input type="hidden" name="prezzo" value="<%= p.getPrezzo() %>">
-                                    <input type="hidden" name="categoriaId" value="<%= p.getCategoria().getId() %>">
-                                    <input type="hidden" name="categoriaNome" value="<%= p.getCategoria().getNome() %>">
-                                    <input type="hidden" name="imageUrl" value="<%= p.getImageUrl() %>">
-                                    <input type="hidden" name="quantita" value="1">
+                                <!-- 🛒 BOTTONE AGGIUNGI AL CARRELLO (AJAX) -->
+                                <button class="btn btn-primary ms-2 add-cart" data-id="<%= p.getId() %>">
+                                    <i class="bi bi-cart-plus"></i> Aggiungi
+                                </button>
 
-                                    <button type="submit" class="btn btn-primary ms-2">
-                                        <i class="bi bi-cart-plus"></i> Aggiungi
-                                    </button>
-                                </form>
-
-                                <!-- BOTTONE AGGIUNGI AI PREFERITI -->
+                                <!-- ❤️ BOTTONE AGGIUNGI AI PREFERITI -->
                                 <form method="post" action="<%= request.getContextPath() %>/preferiti" class="d-inline">
                                     <input type="hidden" name="id_prodotto" value="<%= p.getId() %>">
                                     <button type="submit" class="btn btn-outline-danger ms-2">
@@ -119,6 +111,11 @@
 
 </div>
 
+<!-- JS Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ⭐ Script AJAX carrello (PERCORSO CORRETTO) -->
+<script src="<%= request.getContextPath() %>/assets/carrello.js"></script>
+
 </body>
 </html>

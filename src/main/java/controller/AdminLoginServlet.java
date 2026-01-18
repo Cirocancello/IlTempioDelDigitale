@@ -6,7 +6,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import model.Utente;
 import util.PasswordUtils;
-import util.TokenUtils;
 
 import java.io.IOException;
 
@@ -20,6 +19,7 @@ public class AdminLoginServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         Utente u = (session != null) ? (Utente) session.getAttribute("utente") : null;
 
+        // Se già loggato come admin → vai alla dashboard
         if (u != null && u.getRole() == 1) {
             response.sendRedirect(request.getContextPath() + "/admin/dashboard");
             return;
@@ -44,6 +44,7 @@ public class AdminLoginServlet extends HttpServlet {
         UtenteDAO dao = new UtenteDAO();
         Utente admin = dao.findByEmail(email.trim());
 
+        // Controlli: utente esiste, è admin, password corretta
         if (admin == null ||
             admin.getRole() != 1 ||
             !PasswordUtils.verifyPassword(password.trim(), admin.getPassword())) {
@@ -53,18 +54,11 @@ public class AdminLoginServlet extends HttpServlet {
             return;
         }
 
-        // GENERA TOKEN SICURO
-        String token = TokenUtils.generateToken();
-
-        // SALVA TOKEN NEL DB
-        dao.updateToken(admin.getId(), token);
-
-        // SALVA IN SESSIONE
+        // 🔐 SALVA IN SESSIONE (versione corretta senza token)
         HttpSession session = request.getSession(true);
         session.setAttribute("utente", admin);
         session.setAttribute("auth", true);
         session.setAttribute("role", admin.getRole());
-        session.setAttribute("token", token);
 
         // REDIRECT ALLA DASHBOARD
         response.sendRedirect(request.getContextPath() + "/admin/dashboard");

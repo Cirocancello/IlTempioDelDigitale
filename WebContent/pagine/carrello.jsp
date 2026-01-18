@@ -2,7 +2,7 @@
 <%@ page import="java.util.*, model.Prodotto" %>
 
 <%
-    //Protezione JSP 
+    // Protezione JSP 
     if (session == null || session.getAttribute("auth") == null) {
         response.sendRedirect(request.getContextPath() + "/pagine/login.jsp");
         return;
@@ -24,7 +24,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/style.css">
 </head>
-<body>
+
+<!-- ⭐ NECESSARIO PER L'AJAX -->
+<body data-base="<%= request.getContextPath() %>">
 
 <jsp:include page="/component/navbar.jsp"/>
 
@@ -66,7 +68,8 @@
                     totale += p.getPrezzo() * p.getQuantita();
             %>
 
-                <tr>
+                <tr id="row-<%= p.getId() %>">
+
                     <td>
                         <img src="<%= request.getContextPath() %>/<%= p.getImageUrl() %>"
                              alt="<%= p.getNome() %>"
@@ -82,40 +85,33 @@
                     <td>
                         <div class="d-flex align-items-center">
 
-                            <!-- Bottone - -->
-                            <form action="<%= request.getContextPath() %>/carrello" method="post" class="me-1">
-                                <input type="hidden" name="action" value="dec">
-                                <input type="hidden" name="id" value="<%= p.getId() %>">
-                                <button class="btn btn-outline-secondary btn-sm btn-qty">
-                                    <i class="bi bi-dash"></i>
-                                </button>
-                            </form>
+                            <!-- Bottone - AJAX -->
+                            <button class="btn btn-outline-secondary btn-sm btn-dec me-2"
+                                    data-id="<%= p.getId() %>">
+                                <i class="bi bi-dash"></i>
+                            </button>
 
-                            <span class="mx-2 fw-bold"><%= p.getQuantita() %></span>
+                            <span id="qty-<%= p.getId() %>" class="mx-2 fw-bold">
+                                <%= p.getQuantita() %>
+                            </span>
 
-                            <!-- Bottone + -->
-                            <form action="<%= request.getContextPath() %>/carrello" method="post" class="ms-1">
-                                <input type="hidden" name="action" value="inc">
-                                <input type="hidden" name="id" value="<%= p.getId() %>">
-                                <button class="btn btn-outline-secondary btn-sm btn-qty">
-                                    <i class="bi bi-plus"></i>
-                                </button>
-                            </form>
+                            <!-- Bottone + AJAX -->
+                            <button class="btn btn-outline-secondary btn-sm btn-inc ms-2"
+                                    data-id="<%= p.getId() %>">
+                                <i class="bi bi-plus"></i>
+                            </button>
 
                         </div>
                     </td>
 
                     <td><%= p.getCategoria() != null ? p.getCategoria().getNome() : "-" %></td>
 
-                    <!-- RIMUOVI -->
+                    <!-- RIMUOVI AJAX -->
                     <td>
-                        <form action="<%= request.getContextPath() %>/carrello" method="post">
-                            <input type="hidden" name="action" value="rimuovi">
-                            <input type="hidden" name="id" value="<%= p.getId() %>">
-                            <button type="submit" class="btn btn-outline-danger btn-sm">
-                                <i class="bi bi-trash"></i> Rimuovi
-                            </button>
-                        </form>
+                        <button class="btn btn-outline-danger btn-sm btn-remove"
+                                data-id="<%= p.getId() %>">
+                            <i class="bi bi-trash"></i> Rimuovi
+                        </button>
                     </td>
 
                 </tr>
@@ -124,9 +120,9 @@
             </tbody>
         </table>
 
-        <!-- TOTALE -->
+        <!-- ⭐ TOTALE CON ID PER AGGIORNAMENTO AJAX -->
         <div class="alert alert-total">
-            Totale ordine: <strong><%= String.format("%.2f", totale) %> €</strong>
+            Totale ordine: <strong id="totale-ordine"><%= String.format("%.2f", totale) %></strong> €
         </div>
 
         <div class="d-flex justify-content-between">
@@ -149,5 +145,9 @@
 <jsp:include page="/component/footer.jsp"/>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ⭐ Script AJAX carrello (PERCORSO CORRETTO) -->
+<script src="<%= request.getContextPath() %>/assets/carrello.js"></script>
+
 </body>
 </html>

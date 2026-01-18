@@ -7,6 +7,7 @@ encoding//src/main/java/controller/AdminLogoutServlet.java=UTF-8
 encoding//src/main/java/controller/AdminOrdiniServlet.java=UTF-8
 encoding//src/main/java/controller/AdminProdottoServlet.java=UTF-8
 encoding//src/main/java/controller/AdminUtenteServlet.java=UTF-8
+encoding//src/main/java/controller/CarrelloAjaxServlet.java=UTF-8
 encoding//src/main/java/controller/CarrelloServlet.java=UTF-8
 encoding//src/main/java/controller/CatalogoServlet.java=UTF-8
 encoding//src/main/java/controller/CheckoutServlet.java=UTF-8

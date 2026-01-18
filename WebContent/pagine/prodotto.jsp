@@ -27,7 +27,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/style.css">
 </head>
-<body>
+
+<!-- ⭐ AGGIUNTA FONDAMENTALE PER L'AJAX -->
+<body data-base="<%= request.getContextPath() %>">
+
+<!-- ⭐ NAVBAR -->
+<jsp:include page="/component/navbar.jsp"/>
 
 <div class="container my-5">
 
@@ -48,23 +53,10 @@
 
             <p class="mb-4"><%= p.getInformazioni() %></p>
 
-            <!-- 🛒 Aggiungi al carrello -->
-            <form method="post" action="<%= request.getContextPath() %>/carrello" class="d-inline">
-                <input type="hidden" name="action" value="aggiungi">
-                <input type="hidden" name="id" value="<%= p.getId() %>">
-                <input type="hidden" name="nome" value="<%= p.getNome() %>">
-                <input type="hidden" name="brand" value="<%= p.getBrand() %>">
-                <input type="hidden" name="informazioni" value="<%= p.getInformazioni() %>">
-                <input type="hidden" name="prezzo" value="<%= p.getPrezzo() %>">
-                <input type="hidden" name="categoriaId" value="<%= p.getCategoria().getId() %>">
-                <input type="hidden" name="categoriaNome" value="<%= p.getCategoria().getNome() %>">
-                <input type="hidden" name="imageUrl" value="<%= p.getImageUrl() %>">
-                <input type="hidden" name="quantita" value="1">
-
-                <button type="submit" class="btn btn-primary btn-lg">
-                    <i class="bi bi-cart-plus"></i> Aggiungi al Carrello
-                </button>
-            </form>
+            <!-- 🛒 Aggiungi al carrello (AJAX) -->
+            <button class="btn btn-primary btn-lg add-cart" data-id="<%= p.getId() %>">
+                <i class="bi bi-cart-plus"></i> Aggiungi al Carrello
+            </button>
 
             <!-- ❤️ Aggiungi ai preferiti -->
             <form method="post" action="<%= request.getContextPath() %>/preferiti" class="d-inline">
@@ -209,7 +201,7 @@
 
 </div>
 
-<!-- ⭐ JS: stelle + menu a tendina -->
+<!-- ⭐ Script stelle + menu a tendina -->
 <script>
 /* Stelle cliccabili */
 const stars = document.querySelectorAll('#starRating i');
@@ -246,6 +238,9 @@ document.getElementById("descrizioneSelect").addEventListener("change", function
     }
 });
 </script>
+
+<!-- ⭐ Script AJAX carrello -->
+<script src="<%= request.getContextPath() %>/assets/carrello.js"></script>
 
 </body>
 </html>
