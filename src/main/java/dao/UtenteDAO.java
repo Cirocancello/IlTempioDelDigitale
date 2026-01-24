@@ -2,6 +2,7 @@ package dao;
 
 import db.DBConnection;
 import model.Utente;
+import util.PasswordUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -41,19 +42,24 @@ public class UtenteDAO {
     }
 
     // ============================================================
-    // 2️⃣ LOGIN
+    // LOGIN
     // ============================================================
-    public Utente login(String email, String password) {
-        String sql = "SELECT * FROM utente WHERE email=? AND _password=?";
+    public Utente login(String email, String plainPassword) {
+        String sql = "SELECT * FROM utente WHERE email=?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, email);
-            ps.setString(2, password);
-
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) return map(rs);
+
+            if (rs.next()) {
+                String hashedPassword = rs.getString("_password");
+
+                if (PasswordUtils.verifyPassword(plainPassword, hashedPassword)) {
+                    return map(rs);
+                }
+            }
 
         } catch (SQLException e) {
             System.err.println("Errore login utente: " + e.getMessage());
@@ -62,8 +68,9 @@ public class UtenteDAO {
         return null;
     }
 
+
     // ============================================================
-    // 3️⃣ FIND BY EMAIL
+    // FIND BY EMAIL
     // ============================================================
     public Utente findByEmail(String email) {
         String sql = "SELECT * FROM utente WHERE email=?";
@@ -84,7 +91,7 @@ public class UtenteDAO {
     }
 
     // ============================================================
-    // 4️⃣ FIND BY ID
+    // FIND BY ID
     // ============================================================
     public Utente findById(int id) {
         String sql = "SELECT * FROM utente WHERE id=?";
@@ -105,7 +112,7 @@ public class UtenteDAO {
     }
 
     // ============================================================
-    // 5️⃣ EXISTS BY EMAIL
+    // EXISTS BY EMAIL
     // ============================================================
     public boolean existsByEmail(String email) {
         String sql = "SELECT 1 FROM utente WHERE email=?";
@@ -125,7 +132,7 @@ public class UtenteDAO {
     }
 
     // ============================================================
-    // 6️⃣ UPDATE
+    // UPDATE
     // ============================================================
     public boolean update(Utente u) {
         String sql = "UPDATE utente SET nome=?, cognome=?, email=?, _password=?, oauth=?, propic_url=?, provincia=?, cap=?, via=?, civico=?, note=?, _role=? WHERE id=?";
@@ -156,7 +163,7 @@ public class UtenteDAO {
     }
 
     // ============================================================
-    // 7️⃣ DELETE
+    // DELETE
     // ============================================================
     public boolean delete(int id) {
         String sql = "DELETE FROM utente WHERE id=?";
@@ -174,7 +181,7 @@ public class UtenteDAO {
     }
 
     // ============================================================
-    // 8️⃣ FIND ALL (per admin)
+    // FIND ALL (per admin)
     // ============================================================
     public List<Utente> findAll() {
         List<Utente> utenti = new ArrayList<>();
@@ -194,7 +201,7 @@ public class UtenteDAO {
     }
 
     // ============================================================
-    // 9️⃣ MAPPATORE (unico punto di conversione)
+    // MAPPATORE (unico punto di conversione)
     // ============================================================
     private Utente map(ResultSet rs) throws SQLException {
         Utente u = new Utente();
@@ -217,7 +224,7 @@ public class UtenteDAO {
     }
 
     // ============================================================
-    // 🔟 SAFE STRING
+    // SAFE STRING
     // ============================================================
     private String safe(String value) {
         return value == null ? "" : value.trim();

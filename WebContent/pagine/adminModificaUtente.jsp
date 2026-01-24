@@ -43,7 +43,11 @@
         ← Torna alla Dashboard
     </a>
 
-    <form action="<%= request.getContextPath() %>/admin/utenti" method="post">
+    <!-- ⭐ FORM MODIFICA UTENTE -->
+    <form id="formAdminModificaUtente"
+          action="<%= request.getContextPath() %>/admin/utenti"
+          method="post"
+          novalidate>
 
         <input type="hidden" name="action" value="update">
         <input type="hidden" name="id" value="<%= u.getId() %>">
@@ -51,23 +55,27 @@
         <div class="row">
             <div class="col-md-6">
                 <label>Nome</label>
-                <input type="text" name="nome" value="<%= u.getNome() %>" required>
+                <input type="text" name="nome" value="<%= u.getNome() %>" class="form-control" required>
             </div>
 
             <div class="col-md-6">
                 <label>Cognome</label>
-                <input type="text" name="cognome" value="<%= u.getCognome() %>" required>
+                <input type="text" name="cognome" value="<%= u.getCognome() %>" class="form-control" required>
             </div>
         </div>
 
-        <label>Email</label>
-        <input type="email" name="email" value="<%= u.getEmail() %>" required>
+        <div class="mt-3">
+            <label>Email</label>
+            <input type="email" name="email" value="<%= u.getEmail() %>" class="form-control" required>
+        </div>
 
-        <label>Ruolo</label>
-        <select name="role" required>
-            <option value="0" <%= u.getRole()==0 ? "selected" : "" %>>Utente</option>
-            <option value="1" <%= u.getRole()==1 ? "selected" : "" %>>Admin</option>
-        </select>
+        <div class="mt-3">
+            <label>Ruolo</label>
+            <select name="role" class="form-select" required>
+                <option value="0" <%= u.getRole()==0 ? "selected" : "" %>>Utente</option>
+                <option value="1" <%= u.getRole()==1 ? "selected" : "" %>>Admin</option>
+            </select>
+        </div>
 
         <button type="submit" class="btn btn-dark mt-3">Salva Modifiche</button>
         <a href="<%= request.getContextPath() %>/admin/utenti" class="btn btn-secondary mt-3">Annulla</a>
@@ -75,6 +83,12 @@
     </form>
 
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Validazione client-side -->
+<script src="<%= request.getContextPath() %>/assets/validazione.js"></script>
 
 </body>
 </html>

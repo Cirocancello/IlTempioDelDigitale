@@ -13,9 +13,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Modifica Prodotto</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-     <!-- Stile personalizzato -->
+
+    <!-- Stile personalizzato -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/admin.css">
 </head>
 
@@ -29,15 +30,23 @@
         <div class="alert alert-danger">
             Errore: prodotto non trovato.
         </div>
+
         <a href="<%= request.getContextPath() %>/admin/prodotti" class="btn btn-secondary mt-3">
             Torna alla lista
         </a>
+
     </div>
+
 </body>
 </html>
+
 <% return; } %>
 
-    <form action="<%= request.getContextPath() %>/admin/prodotti" method="post">
+    <!-- ⭐ FORM MODIFICA PRODOTTO -->
+    <form id="formAdminModificaProdotto"
+          action="<%= request.getContextPath() %>/admin/prodotti"
+          method="post"
+          novalidate>
 
         <input type="hidden" name="action" value="update">
         <input type="hidden" name="id" value="<%= p.getId() %>">
@@ -98,6 +107,12 @@
     </form>
 
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Validazione client-side -->
+<script src="<%= request.getContextPath() %>/assets/validazione.js"></script>
 
 </body>
 </html>

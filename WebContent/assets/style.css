@@ -8,22 +8,21 @@ body {
     padding-top: 70px; /* altezza navbar */
 }
 
-
 /* === Navbar === */
 .navbar {
-    background-color: #1E261D !important;   
+    background-color: #1E261D !important;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 9999; /* resta sopra tutto */
+    z-index: 9999;
 }
-    
 
 .navbar .nav-link,
 .navbar-brand {
     color: #F2D2B6 !important;
 }
+
 .navbar .nav-link:hover {
     color: #A6662E !important;
 }
@@ -36,31 +35,36 @@ footer {
     text-align: center;
 }
 
-/* === Pulsanti === */
+/* === Pulsanti generali === */
 .btn-primary {
     background-color: #A6662E !important;
     border-color: #A6662E !important;
     color: #F2D2B6 !important;
 }
+
 .btn-primary:hover {
     background-color: #324032 !important;
     border-color: #324032 !important;
     color: #F2D2B6 !important;
 }
+
 .btn-secondary {
     background-color: #324032;
     border-color: #324032;
     color: #F2D2B6;
 }
+
 .btn-secondary:hover {
     background-color: #1E261D;
     border-color: #1E261D;
     color: #F2D2B6;
 }
+
 .btn-outline-secondary {
     border-color: #A6774E !important;
     color: #A6774E !important;
 }
+
 .btn-outline-secondary:hover {
     background-color: #A6774E !important;
     color: #F2D2B6 !important;
@@ -86,20 +90,22 @@ footer {
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
 }
 
-
 /* === Card generali === */
 .card {
     border: none;
     background-color: #F2D2B6 !important;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
+
 .card-header {
     background-color: #F2D2B6 !important;
     border-bottom: 1px solid rgba(0,0,0,0.08);
 }
+
 .card-title {
     color: #A6662E;
 }
+
 .card-footer {
     background-color: #F2D2B6 !important;
 }
@@ -122,6 +128,7 @@ footer {
     border-radius: 10px 10px 0 0;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .card:hover .card-img-top {
     transform: scale(1.05);
     box-shadow: 0 6px 18px rgba(0,0,0,0.25);
@@ -139,10 +146,12 @@ footer {
     box-shadow: 0 6px 16px rgba(0,0,0,0.25);
     border-radius: 10px;
 }
+
 .card.register-card,
 .card.login-card {
     border: 4px solid #A6662E !important;
 }
+
 .login-card .card-header,
 .register-card .card-header,
 .profile-card .card-header,
@@ -174,6 +183,7 @@ footer {
     background-color: #324032;
     color: #F2D2B6;
 }
+
 .tooltip-arrow {
     border-top-color: #324032 !important;
 }
@@ -183,6 +193,7 @@ footer {
     background-color: #1E261D;
     color: #F2D2B6;
 }
+
 .dark-mode .card {
     background-color: #324032;
     color: #F2D2B6;
@@ -285,13 +296,16 @@ header.carousel-container {
     opacity: 0;
     transition: opacity 0.8s ease-in-out;
 }
+
 .carousel-item--visible {
     opacity: 1;
 }
+
 .carousel-text-container {
     opacity: 0;
     transition: opacity 0.8s ease-in-out;
 }
+
 .carousel-item--visible .carousel-text-container {
     opacity: 1;
 }
@@ -301,9 +315,11 @@ header.carousel-container {
     .carousel {
         height: 250px;
     }
+
     .carousel-text-container h1 {
         font-size: 1.2rem;
     }
+
     .carousel-button i {
         font-size: 2rem;
     }
@@ -314,13 +330,16 @@ table.table {
     border-radius: 6px;
     overflow: hidden;
 }
+
 .table-dark {
     background-color: #1E261D !important;
     color: #F2D2B6 !important;
 }
+
 .table-striped > tbody > tr:nth-of-type(odd) {
     background-color: #EAC9A6 !important;
 }
+
 .table-striped > tbody > tr:nth-of-type(even) {
     background-color: #F2D2B6 !important;
 }
@@ -344,20 +363,24 @@ table.table {
     border-radius: 10px !important;
     background-color: #F2D2B6 !important;
 }
+
 .accordion-button {
     background-color: #EAC9A6 !important;
     color: #1E261D !important;
     font-weight: 600;
     border-radius: 10px !important;
 }
+
 .accordion-button:not(.collapsed) {
     background-color: #A6662E !important;
     color: #F2D2B6 !important;
     box-shadow: none !important;
 }
+
 .accordion-button:focus {
     box-shadow: 0 0 0 0.25rem rgba(166, 102, 46, 0.35) !important;
 }
+
 .accordion-body {
     background-color: #F2D2B6 !important;
     border-radius: 0 0 10px 10px !important;
@@ -375,11 +398,9 @@ table.table {
     margin-top: 15px;
 }
 
-/* === Feedback Section (palette personalizzata) === */
-
-/* Contenitore feedback */
+/* === Feedback Section === */
 .feedback-item {
-    background-color: #EAC9A6; /* come le card evidenziate */
+    background-color: #EAC9A6;
     border: 2px solid #A6662E;
     border-radius: 12px;
     padding: 18px 20px;
@@ -394,7 +415,6 @@ table.table {
     animation: feedbackFadeIn 0.4s ease forwards;
 }
 
-/* Animazione comparsa */
 @keyframes feedbackFadeIn {
     to {
         opacity: 1;
@@ -402,7 +422,6 @@ table.table {
     }
 }
 
-/* Avatar utente */
 .feedback-avatar {
     width: 55px;
     height: 55px;
@@ -417,26 +436,22 @@ table.table {
     box-shadow: 0 3px 8px rgba(0,0,0,0.25);
 }
 
-/* Contenuto feedback */
 .feedback-content {
     flex: 1;
 }
 
-/* Titolo feedback */
 .feedback-title {
     color: #A6662E;
     font-weight: 700;
     margin-bottom: 6px;
 }
 
-/* Stelle voto */
 .feedback-stars {
     color: #A6662E;
     font-size: 1.1rem;
     margin-right: 8px;
 }
 
-/* Badge voto (se vuoi tenerlo) */
 .feedback-score {
     background-color: #A6662E;
     color: #F2D2B6;
@@ -445,7 +460,6 @@ table.table {
     font-weight: 600;
 }
 
-/* Alert personalizzato quando non ci sono feedback */
 .feedback-empty {
     background-color: #F2D2B6;
     color: #1E261D;
@@ -454,4 +468,110 @@ table.table {
     border-radius: 6px;
     font-weight: 600;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* === Conferma Ordine === */
+.admin-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px 60px 60px 60px; /* padding laterale aumentato */
+    background-color: #F2D2B6;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 20px 20px 40px 20px;
+    }
+}
+
+.admin-box {
+    background-color: #EAC9A6;
+    border: 2px solid #A6662E;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.admin-table thead {
+    background-color: #1E261D;
+    color: #F2D2B6;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 12px;
+    border-bottom: 1px solid #A6662E;
+}
+
+.admin-table tr:nth-child(odd) {
+    background-color: #EAC9A6;
+}
+
+.admin-table tr:nth-child(even) {
+    background-color: #F2D2B6;
+}
+
+.alert-custom-success {
+    background-color: #A6662E;
+    color: #F2D2B6;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+}
+
+.alert-custom-warning {
+    background-color: #EAC9A6;
+    color: #1E261D;
+    padding: 15px 20px;
+    border-left: 6px solid #A6662E;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.alert-custom-danger {
+    background-color: #8A4F24;
+    color: #F2D2B6;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.badge-admin {
+    background-color: #A6662E;
+    color: #F2D2B6;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+/* === Bottoni conferma ordine === */
+.btn-order-action {
+    background-color: #A6662E !important;
+    border-color: #A6662E !important;
+    color: #F2D2B6 !important;
+    padding: 12px 24px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    transition: background-color 0.3s ease, transform 0.15s ease;
+}
+
+.btn-order-action:hover {
+    background-color: #324032 !important;
+    border-color: #324032 !important;
+    color: #F2D2B6 !important;
+    transform: scale(0.97);
 }

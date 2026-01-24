@@ -31,26 +31,29 @@
 
     <!-- 🔙 Pulsante ritorno alla Dashboard Admin -->
     <a href="<%= request.getContextPath() %>/pagine/adminDashboard.jsp" 
-	   class="btn-back-dashboard mb-4">
-	    ← Torna alla Dashboard
-	</a>
+       class="btn-back-dashboard mb-4">
+        ← Torna alla Dashboard
+    </a>
 
-
-    <!-- FORM CREAZIONE CATEGORIA -->
+    <!-- ⭐ FORM CREAZIONE CATEGORIA -->
     <div class="admin-form mb-5">
         <h3 class="mb-3">Crea Nuova Categoria</h3>
 
-        <form action="<%= request.getContextPath() %>/admin/categorie" method="post">
+        <form id="formAdminCategoria"
+              action="<%= request.getContextPath() %>/admin/categorie"
+              method="post"
+              novalidate>
+
             <input type="hidden" name="action" value="create">
 
             <label>Nome Categoria</label>
-            <input type="text" name="nome" required>
+            <input type="text" name="nome" class="form-control" required>
 
             <button type="submit" class="btn btn-dark mt-2">Crea Categoria</button>
         </form>
     </div>
 
-    <!-- TABELLA CATEGORIE -->
+    <!-- ⭐ TABELLA CATEGORIE -->
     <h3 class="mb-3">Lista Categorie</h3>
 
     <table class="admin-table">
@@ -72,13 +75,13 @@
 
                     <td>
 
-                        <!-- LINK MODIFICA -->
+                        <!-- Modifica -->
                         <a href="<%= request.getContextPath() %>/pagine/adminModificaCategoria.jsp?id=<%= c.getId() %>"
                            class="btn btn-sm btn-dark">
                             Modifica
                         </a>
 
-                        <!-- FORM DELETE -->
+                        <!-- Elimina -->
                         <form action="<%= request.getContextPath() %>/admin/categorie" method="post" class="d-inline">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="id" value="<%= c.getId() %>">
@@ -99,12 +102,14 @@
 
     <div class="logout mt-5">
         <a class="btn-logout" href="<%= request.getContextPath() %>/admin/logout">Logout</a>
-
     </div>
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Validazione client-side -->
+<script src="<%= request.getContextPath() %>/assets/validazione.js"></script>
 
 </body>
 </html>

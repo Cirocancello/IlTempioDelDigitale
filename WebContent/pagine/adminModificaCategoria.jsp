@@ -48,12 +48,16 @@
         ← Torna alla Dashboard
     </a>
 
-    <form action="<%= request.getContextPath() %>/admin/categorie" method="post">
+    <!-- ⭐ FORM MODIFICA CATEGORIA -->
+    <form id="formAdminModificaCategoria"
+          action="<%= request.getContextPath() %>/admin/categorie"
+          method="post"
+          novalidate>
 
         <input type="hidden" name="action" value="update">
         <input type="hidden" name="id" value="<%= c.getId() %>">
 
-        <label>Nome Categoria</label>
+        <label class="form-label">Nome Categoria</label>
         <input type="text" name="nome" class="form-control" value="<%= c.getNome() %>" required>
 
         <button type="submit" class="btn btn-dark mt-3">Salva Modifiche</button>
@@ -62,6 +66,12 @@
     </form>
 
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Validazione client-side -->
+<script src="<%= request.getContextPath() %>/assets/validazione.js"></script>
 
 </body>
 </html>

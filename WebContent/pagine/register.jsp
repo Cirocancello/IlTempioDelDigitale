@@ -45,7 +45,8 @@
                     </c:if>
 
                     <!-- Form di registrazione -->
-                    <form action="${pageContext.request.contextPath}/register" 
+                    <form id="formRegistrazione"
+                          action="${pageContext.request.contextPath}/register" 
                           method="post" 
                           class="needs-validation" 
                           novalidate>
@@ -126,7 +127,9 @@
 </div>
 
 <jsp:include page="/component/footer.jsp"/>
+
 <script src="<%= request.getContextPath() %>/assets/script.js"></script>
+<script src="<%= request.getContextPath() %>/assets/validazione.js"></script>
 
 </body>
 </html>

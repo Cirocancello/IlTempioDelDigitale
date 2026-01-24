@@ -33,16 +33,19 @@
 
     <!-- 🔙 Torna alla Dashboard -->
     <a href="<%= request.getContextPath() %>/pagine/adminDashboard.jsp" 
-	   class="btn-back-dashboard mb-4">
-	    ← Torna alla Dashboard
-	</a>
-
+       class="btn-back-dashboard mb-4">
+        ← Torna alla Dashboard
+    </a>
 
     <!-- ⭐ FORM CREAZIONE UTENTE -->
     <div class="admin-form mb-5">
         <h3 class="mb-3">Crea Nuovo Utente</h3>
 
-        <form action="<%= request.getContextPath() %>/admin/utenti" method="post">
+        <form id="formAdminUtente"
+              action="<%= request.getContextPath() %>/admin/utenti"
+              method="post"
+              novalidate>
+
             <input type="hidden" name="action" value="create">
 
             <div class="row">
@@ -140,15 +143,16 @@
 
     <!-- Logout -->
     <div class="logout mt-5">
-       
         <a class="btn-logout" href="<%= request.getContextPath() %>/admin/logout">Logout</a>
-        
     </div>
 
 </div>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Validazione client-side -->
+<script src="<%= request.getContextPath() %>/assets/validazione.js"></script>
 
 </body>
 </html>

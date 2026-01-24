@@ -11,11 +11,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Crea Nuovo Prodotto</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-     <!-- Stile admin -->
+
+    <!-- Stile admin -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/admin.css">
-</head>
 </head>
 
 <body class="p-4">
@@ -25,18 +25,26 @@
     <h1 class="mb-4">Crea Nuovo Prodotto</h1>
 
     <% if (categorie == null || categorie.isEmpty()) { %>
+
         <div class="alert alert-warning">
             Nessuna categoria disponibile. Creane una prima di aggiungere prodotti.
         </div>
+
         <a href="<%= request.getContextPath() %>/admin/prodotti" class="btn btn-secondary mt-3">
             Torna alla Gestione Prodotti
         </a>
+
     </div>
 </body>
 </html>
+
 <% return; } %>
 
-    <form action="<%= request.getContextPath() %>/admin/prodotti" method="post">
+    <!-- ⭐ FORM CREAZIONE PRODOTTO -->
+    <form id="formAdminProdotto"
+          action="<%= request.getContextPath() %>/admin/prodotti"
+          method="post"
+          novalidate>
 
         <input type="hidden" name="action" value="create">
 
@@ -93,6 +101,12 @@
     </form>
 
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Validazione client-side -->
+<script src="<%= request.getContextPath() %>/assets/validazione.js"></script>
 
 </body>
 </html>

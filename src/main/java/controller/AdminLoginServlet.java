@@ -35,6 +35,7 @@ public class AdminLoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
+        // Validazione campi
         if (email == null || password == null || email.isBlank() || password.isBlank()) {
             request.setAttribute("error", "Inserisci email e password");
             request.getRequestDispatcher("/pagine/adminLogin.jsp").forward(request, response);
@@ -54,13 +55,13 @@ public class AdminLoginServlet extends HttpServlet {
             return;
         }
 
-        // 🔐 SALVA IN SESSIONE (versione corretta senza token)
+        // Salvataggio in sessione
         HttpSession session = request.getSession(true);
         session.setAttribute("utente", admin);
         session.setAttribute("auth", true);
         session.setAttribute("role", admin.getRole());
 
-        // REDIRECT ALLA DASHBOARD
+        // Redirect alla dashboard
         response.sendRedirect(request.getContextPath() + "/admin/dashboard");
     }
 }

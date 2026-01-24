@@ -21,6 +21,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Checkout</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/style.css">
@@ -71,7 +72,13 @@
 
         <h4 class="mt-5"><i class="bi bi-truck"></i> Dati di spedizione e pagamento</h4>
 
-        <form method="post" action="<%= request.getContextPath() %>/checkout" class="needs-validation" novalidate>
+        <!-- FORM CHECKOUT CON ID PER VALIDAZIONE JS -->
+        <form id="formCheckout"
+              method="post"
+              action="<%= request.getContextPath() %>/checkout"
+              class="needs-validation"
+              novalidate>
+
             <div class="mb-3">
                 <label for="indirizzoSpedizione" class="form-label">Indirizzo di spedizione</label>
                 <input type="text" class="form-control" id="indirizzoSpedizione" name="indirizzoSpedizione"
@@ -105,21 +112,10 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    (function () {
-        'use strict';
-        const forms = document.querySelectorAll('.needs-validation');
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            }, false);
-        });
-    })();
-</script>
+
+
+<!-- Validazione personalizzata con regex -->
+<script src="<%= request.getContextPath() %>/assets/validazione.js"></script>
 
 <jsp:include page="../component/footer.jsp"/>
 
