@@ -15,8 +15,6 @@
     <title>Modifica Prodotto</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Stile personalizzato -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/admin.css">
 </head>
 
@@ -27,6 +25,7 @@
     <h1 class="mb-4">Modifica Prodotto</h1>
 
     <% if (p == null) { %>
+
         <div class="alert alert-danger">
             Errore: prodotto non trovato.
         </div>
@@ -37,12 +36,12 @@
 
     </div>
 
-</body>
-</html>
+    </body>
+    </html>
 
-<% return; } %>
+    <% return; } %>
 
-    <!-- ⭐ FORM MODIFICA PRODOTTO -->
+    <!-- ⭐ FORM 1 — MODIFICA DATI TESTUALI -->
     <form id="formAdminModificaProdotto"
           action="<%= request.getContextPath() %>/admin/prodotti"
           method="post"
@@ -77,11 +76,6 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">URL Immagine</label>
-            <input type="text" name="imageUrl" class="form-control" value="<%= p.getImageUrl() %>">
-        </div>
-
-        <div class="mb-3">
             <label class="form-label">Visibile</label>
             <select name="visibile" class="form-select">
                 <option value="true" <%= p.isVisibile() ? "selected" : "" %>>Sì</option>
@@ -106,12 +100,41 @@
 
     </form>
 
+    <hr class="my-5">
+
+    <!-- ⭐ FORM 2 — MODIFICA IMMAGINE (UploadProdottoServlet) -->
+    <h3 class="mb-3">Modifica Immagine</h3>
+
+    <!-- Immagine attuale -->
+    <div class="mb-3">
+        <% if (p.getImageUrl() != null && !p.getImageUrl().isEmpty()) { %>
+            <img src="<%= request.getContextPath() + "/" + p.getImageUrl() %>"
+                 alt="Immagine prodotto"
+                 style="max-width: 200px; border: 1px solid #ccc; padding: 5px;">
+        <% } else { %>
+            <p class="text-muted">Nessuna immagine disponibile.</p>
+        <% } %>
+    </div>
+
+    <form action="<%= request.getContextPath() %>/admin/uploadProdotto"
+          method="post"
+          enctype="multipart/form-data">
+
+        <input type="hidden" name="action" value="updateImage">
+        <input type="hidden" name="id" value="<%= p.getId() %>">
+
+        <div class="mb-3">
+            <label class="form-label">Carica Nuova Immagine</label>
+            <input type="file" id="immagine" name="immagine" class="form-control" accept="image/*">
+            <img id="preview" src="" style="max-width: 200px; margin-top: 10px; display: none;">
+        </div>
+
+        <button class="btn btn-primary mt-2">Aggiorna Immagine</button>
+    </form>
+
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Validazione client-side -->
 <script src="<%= request.getContextPath() %>/assets/validazione.js"></script>
 
 </body>

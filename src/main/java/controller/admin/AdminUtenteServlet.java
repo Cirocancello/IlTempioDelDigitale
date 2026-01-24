@@ -1,19 +1,16 @@
-package controller;
+package controller.admin;
 
-import dao.CategoriaDAO;
+import dao.UtenteDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import model.Categoria;
 import model.Utente;
-import db.DBConnection;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.List;
 
-@WebServlet("/admin/categorie")
-public class AdminCategoriaServlet extends HttpServlet {
+@WebServlet("/admin/utenti")
+public class AdminUtenteServlet extends HttpServlet {
 
     private boolean isAdmin(HttpSession session) {
         if (session == null) return false;
@@ -31,16 +28,18 @@ public class AdminCategoriaServlet extends HttpServlet {
             return;
         }
 
-        try (Connection conn = DBConnection.getConnection()) {
-            CategoriaDAO categoriaDAO = new CategoriaDAO(conn);
+        try {
+            UtenteDAO utenteDAO = new UtenteDAO();
+            List<Utente> utenti = utenteDAO.findAll();
 
-            List<Categoria> categorie = categoriaDAO.findAll();
-            request.setAttribute("categorie", categorie);
-            request.getRequestDispatcher("/pagine/adminCategorie.jsp").forward(request, response);
+            request.setAttribute("utenti", utenti);
+            request.getRequestDispatcher("/pagine/admin/adminUtente.jsp")
+                   .forward(request, response);
 
         } catch (Exception e) {
-            request.setAttribute("error", "Errore nel caricamento categorie.");
-            request.getRequestDispatcher("/pagine/adminCategorie.jsp").forward(request, response);
+            request.setAttribute("error", "Errore nel caricamento utenti.");
+            request.getRequestDispatcher("/pagine/admin/adminUtente.jsp")
+                   .forward(request, response);
         }
     }
 
@@ -57,41 +56,53 @@ public class AdminCategoriaServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action == null) action = "";
 
-        try (Connection conn = DBConnection.getConnection()) {
-            CategoriaDAO categoriaDAO = new CategoriaDAO(conn);
+        try {
+            UtenteDAO utenteDAO = new UtenteDAO();
 
             switch (action) {
 
                 case "create": {
                     String nome = request.getParameter("nome");
-                    Categoria c = new Categoria(0, nome);
-                    categoriaDAO.insert(c);
+                    String cognome = request.getParameter("cognome");
+                    String email = request.getParameter("email");
+                    String password = request.getParameter("password");
+                    int role = Integer.parseInt(request.getParameter("role"));
+
+                    Utente u = new Utente(nome, cognome, email, password, role);
+                    utenteDAO.register(u);
                     break;
                 }
 
                 case "update": {
                     int id = Integer.parseInt(request.getParameter("id"));
                     String nome = request.getParameter("nome");
-                    Categoria c = new Categoria(id, nome);
-                    categoriaDAO.update(c);
+                    String cognome = request.getParameter("cognome");
+                    String email = request.getParameter("email");
+                    int role = Integer.parseInt(request.getParameter("role"));
+
+                    Utente u = utenteDAO.findById(id);
+                    if (u != null) {
+                        u.setNome(nome);
+                        u.setCognome(cognome);
+                        u.setEmail(email);
+                        u.setRole(role);
+                        utenteDAO.update(u);
+                    }
                     break;
                 }
 
                 case "delete": {
                     int id = Integer.parseInt(request.getParameter("id"));
-                    categoriaDAO.delete(id);
+                    utenteDAO.delete(id);
                     break;
                 }
-
-                default:
-                    // Azione non riconosciuta → ignora
             }
 
         } catch (Exception e) {
-            // Puoi loggare l’errore se vuoi
+            // log se necessario
         }
 
-        // ✅ PRG: redirect dopo POST
-        response.sendRedirect(request.getContextPath() + "/admin/categorie");
+        // ⭐ PRG
+        response.sendRedirect(request.getContextPath() + "/admin/utenti");
     }
 }

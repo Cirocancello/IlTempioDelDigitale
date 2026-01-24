@@ -15,7 +15,7 @@
     <title>Gestione Prodotti</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     
-     <!-- Stile personalizzato -->
+    <!-- Stile personalizzato -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/admin.css">
 </head>
 
@@ -25,16 +25,19 @@
 
     <h1 class="mb-4">Gestione Prodotti</h1>
 
-    <!-- 🔙 Pulsante Torna alla Dashboard -->
-   <div class="d-flex justify-content-between mb-4">
-	    <a href="<%= request.getContextPath() %>/pagine/adminDashboard.jsp" class="btn-admin-action">
-	        ← Torna alla Dashboard
-	    </a>
-	
-	    <a href="<%= request.getContextPath() %>/admin/aggiungiProdotto" class="btn-admin-action">
-	        Aggiungi Prodotto
-	    </a>
-	</div>
+    <!-- 🔙 Pulsante Torna alla Dashboard + Aggiungi Prodotto -->
+    <div class="d-flex justify-content-between mb-4">
+
+        <a href="<%= request.getContextPath() %>/pagine/adminDashboard.jsp" class="btn-admin-action">
+            ← Torna alla Dashboard
+        </a>
+
+        <!-- 🔥 LINK CORRETTO PER APRIRE IL FORM DI CREAZIONE -->
+        <a href="<%= request.getContextPath() %>/admin/prodotti?action=create" class="btn-admin-action">
+            Aggiungi Prodotto
+        </a>
+
+    </div>
 
 
     <% if (prodotti == null || prodotti.isEmpty()) { %>

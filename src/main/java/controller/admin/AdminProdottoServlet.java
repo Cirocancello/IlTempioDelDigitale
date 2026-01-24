@@ -1,4 +1,4 @@
-package controller;
+package controller.admin;
 
 import dao.CategoriaDAO;
 import dao.ProdottoDAO;
@@ -43,25 +43,21 @@ public class AdminProdottoServlet extends HttpServlet {
 
             switch (action) {
 
-                // -------------------------
-                // APRI FORM CREAZIONE
-                // -------------------------
+                // ⭐ FORM CREAZIONE PRODOTTO
                 case "create": {
                     List<Categoria> categorie = categoriaDAO.findAll();
                     request.setAttribute("categorie", categorie);
 
-                    request.getRequestDispatcher("/pagine/adminCreaProdotto.jsp")
+                    request.getRequestDispatcher("/pagine/admin/adminCreaProdotto.jsp")
                            .forward(request, response);
                     return;
                 }
 
-                // -------------------------
-                // APRI FORM MODIFICA
-                // -------------------------
+                // ⭐ FORM MODIFICA PRODOTTO
                 case "edit": {
                     String idParam = request.getParameter("id");
-                    int id;
 
+                    int id;
                     try {
                         id = Integer.parseInt(idParam);
                     } catch (NumberFormatException e) {
@@ -76,17 +72,16 @@ public class AdminProdottoServlet extends HttpServlet {
                     }
 
                     List<Categoria> categorie = categoriaDAO.findAll();
+
                     request.setAttribute("prodotto", prodotto);
                     request.setAttribute("categorie", categorie);
 
-                    request.getRequestDispatcher("/pagine/adminModificaProdotto.jsp")
+                    request.getRequestDispatcher("/pagine/admin/adminModificaProdotto.jsp")
                            .forward(request, response);
                     return;
                 }
 
-                // -------------------------
-                // LISTA PRODOTTI (DEFAULT)
-                // -------------------------
+                // ⭐ LISTA PRODOTTI (DEFAULT)
                 default: {
                     List<Prodotto> prodotti = prodottoDAO.findAll();
                     List<Categoria> categorie = categoriaDAO.findAll();
@@ -94,7 +89,7 @@ public class AdminProdottoServlet extends HttpServlet {
                     request.setAttribute("prodotti", prodotti);
                     request.setAttribute("categorie", categorie);
 
-                    request.getRequestDispatcher("/pagine/adminProdotti.jsp")
+                    request.getRequestDispatcher("/pagine/admin/adminProdotti.jsp")
                            .forward(request, response);
                 }
             }
@@ -102,7 +97,8 @@ public class AdminProdottoServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "Errore nel caricamento prodotti.");
-            request.getRequestDispatcher("/pagine/adminProdotti.jsp").forward(request, response);
+            request.getRequestDispatcher("/pagine/admin/adminProdotti.jsp")
+                   .forward(request, response);
         }
     }
 
@@ -126,42 +122,23 @@ public class AdminProdottoServlet extends HttpServlet {
 
             switch (action) {
 
-                // -------------------------
-                // CREA PRODOTTO
-                // -------------------------
-                case "create": {
-                    String nome = request.getParameter("nome");
-                    String brand = request.getParameter("brand");
-                    String informazioni = request.getParameter("informazioni");
-                    double prezzo = Double.parseDouble(request.getParameter("prezzo"));
-                    int quantita = Integer.parseInt(request.getParameter("quantita"));
-                    String imageUrl = request.getParameter("imageUrl");
-                    boolean visibile = Boolean.parseBoolean(request.getParameter("visibile"));
-                    int categoriaId = Integer.parseInt(request.getParameter("categoriaId"));
-
-                    Categoria cat = categoriaDAO.findById(categoriaId);
-                    Prodotto p = new Prodotto(0, nome, brand, informazioni, prezzo,
-                            quantita, imageUrl, visibile, cat);
-
-                    prodottoDAO.insert(p);
-                    break;
-                }
-
-                // -------------------------
-                // AGGIORNA PRODOTTO
-                // -------------------------
+                // ⭐ AGGIORNA SOLO I DATI TESTUALI
                 case "update": {
+
                     int id = Integer.parseInt(request.getParameter("id"));
                     String nome = request.getParameter("nome");
                     String brand = request.getParameter("brand");
                     String informazioni = request.getParameter("informazioni");
                     double prezzo = Double.parseDouble(request.getParameter("prezzo"));
                     int quantita = Integer.parseInt(request.getParameter("quantita"));
-                    String imageUrl = request.getParameter("imageUrl");
+
+                    String imageUrl = request.getParameter("imageUrl"); // mantieni immagine attuale
+
                     boolean visibile = Boolean.parseBoolean(request.getParameter("visibile"));
                     int categoriaId = Integer.parseInt(request.getParameter("categoriaId"));
 
                     Categoria cat = categoriaDAO.findById(categoriaId);
+
                     Prodotto p = new Prodotto(id, nome, brand, informazioni, prezzo,
                             quantita, imageUrl, visibile, cat);
 
@@ -169,9 +146,7 @@ public class AdminProdottoServlet extends HttpServlet {
                     break;
                 }
 
-                // -------------------------
-                // ELIMINA PRODOTTO
-                // -------------------------
+                // ⭐ ELIMINA PRODOTTO
                 case "delete": {
                     int id = Integer.parseInt(request.getParameter("id"));
                     prodottoDAO.delete(id);

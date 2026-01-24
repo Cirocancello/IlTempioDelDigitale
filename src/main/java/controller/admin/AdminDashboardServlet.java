@@ -1,4 +1,4 @@
-package controller;
+package controller.admin;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -35,6 +35,7 @@ public class AdminDashboardServlet extends HttpServlet {
         // Qui puoi passare eventuali statistiche alla dashboard
         // (es: numero utenti, numero ordini, ecc.)
 
-        request.getRequestDispatcher("/pagine/adminDashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("/pagine/admin/adminDashboard.jsp").forward(request, response);
+
     }
 }

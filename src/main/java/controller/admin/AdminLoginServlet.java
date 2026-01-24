@@ -1,4 +1,4 @@
-package controller;
+package controller.admin;
 
 import dao.UtenteDAO;
 import jakarta.servlet.ServletException;
@@ -25,7 +25,7 @@ public class AdminLoginServlet extends HttpServlet {
             return;
         }
 
-        request.getRequestDispatcher("/pagine/adminLogin.jsp").forward(request, response);
+        request.getRequestDispatcher("/pagine/admin/adminLogin.jsp").forward(request, response);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class AdminLoginServlet extends HttpServlet {
         // Validazione campi
         if (email == null || password == null || email.isBlank() || password.isBlank()) {
             request.setAttribute("error", "Inserisci email e password");
-            request.getRequestDispatcher("/pagine/adminLogin.jsp").forward(request, response);
+            request.getRequestDispatcher("/pagine/admin/adminLogin.jsp").forward(request, response);
             return;
         }
 
@@ -51,7 +51,7 @@ public class AdminLoginServlet extends HttpServlet {
             !PasswordUtils.verifyPassword(password.trim(), admin.getPassword())) {
 
             request.setAttribute("error", "Credenziali non valide o non sei un amministratore");
-            request.getRequestDispatcher("/pagine/adminLogin.jsp").forward(request, response);
+            request.getRequestDispatcher("/pagine/admin/adminLogin.jsp").forward(request, response);
             return;
         }
 

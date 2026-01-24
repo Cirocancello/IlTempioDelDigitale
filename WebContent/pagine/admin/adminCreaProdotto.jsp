@@ -13,8 +13,6 @@
     <title>Crea Nuovo Prodotto</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Stile admin -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/admin.css">
 </head>
 
@@ -35,15 +33,17 @@
         </a>
 
     </div>
-</body>
-</html>
 
-<% return; } %>
+    </body>
+    </html>
 
-    <!-- ⭐ FORM CREAZIONE PRODOTTO -->
+    <% return; } %>
+
+    <!-- ⭐ FORM CREAZIONE PRODOTTO (UploadProdottoServlet) -->
     <form id="formAdminProdotto"
-          action="<%= request.getContextPath() %>/admin/prodotti"
+          action="<%= request.getContextPath() %>/admin/uploadProdotto"
           method="post"
+          enctype="multipart/form-data"
           novalidate>
 
         <input type="hidden" name="action" value="create">
@@ -73,9 +73,11 @@
             <input type="number" name="quantita" class="form-control" required>
         </div>
 
+        <!-- ⭐ UPLOAD IMMAGINE -->
         <div class="mb-3">
-            <label class="form-label">URL Immagine</label>
-            <input type="text" name="imageUrl" class="form-control">
+            <label class="form-label">Immagine Prodotto</label>
+            <input type="file" id="immagine" name="immagine" class="form-control" accept="image/*" required>
+            <img id="preview" src="" style="max-width: 200px; margin-top: 10px; display: none;">
         </div>
 
         <div class="mb-3">
@@ -102,10 +104,7 @@
 
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Validazione client-side -->
 <script src="<%= request.getContextPath() %>/assets/validazione.js"></script>
 
 </body>

@@ -1,4 +1,4 @@
-package controller;
+package controller.admin;
 
 import dao.OrdineDAO;
 import dao.UtenteDAO;
@@ -73,12 +73,14 @@ public class AdminOrdiniServlet extends HttpServlet {
             request.setAttribute("page", page);
             request.setAttribute("totalPages", totalPages);
 
-            request.getRequestDispatcher("/pagine/adminOrdini.jsp").forward(request, response);
+            request.getRequestDispatcher("/pagine/admin/adminOrdini.jsp")
+                   .forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "Errore nel recupero degli ordini.");
-            request.getRequestDispatcher("/pagine/adminOrdini.jsp").forward(request, response);
+            request.getRequestDispatcher("/pagine/admin/adminOrdini.jsp")
+                   .forward(request, response);
         }
     }
 
@@ -121,7 +123,7 @@ public class AdminOrdiniServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        // ⭐ Torna alla lista ordini
+        // ⭐ Torna alla lista ordini (PRG)
         response.sendRedirect(request.getContextPath() + "/admin/ordini");
     }
 }

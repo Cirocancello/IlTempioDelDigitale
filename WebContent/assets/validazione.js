@@ -354,5 +354,64 @@ document.addEventListener("DOMContentLoaded", () => {
 	        }
 	    });
 	}
+	
+	//-----------------------------------------
+	// VALIDAZIONE FILE + ANTEPRIMA IMMAGINE
+	//-----------------------------------------
+	
+	const inputFile = document.getElementById("immagine");
+	const preview = document.getElementById("preview");
+	const form = document.getElementById("formAdminProdotto"); // più preciso
+
+	if (inputFile && preview && form) {
+
+	    // 1) Anteprima immagine
+	    inputFile.addEventListener("change", function () {
+	        const file = this.files[0];
+
+	        if (!file) return;
+
+	        const validExtensions = ["image/jpeg", "image/png", "image/gif"];
+	        if (!validExtensions.includes(file.type)) {
+	            alert("Formato non valido. Usa JPG, PNG o GIF.");
+	            this.value = "";
+	            preview.src = "";
+	            return;
+	        }
+
+	        if (file.size > 5 * 1024 * 1024) {
+	            alert("L'immagine supera i 5MB.");
+	            this.value = "";
+	            preview.src = "";
+	            return;
+	        }
+			
+			const categoria = document.getElementById("categoria").value;
+			if (!categoria || categoria === "0") {
+			    alert("Seleziona una categoria.");
+			    e.preventDefault();
+			    return;
+			}
+
+
+	        const reader = new FileReader();
+	        reader.onload = e => preview.src = e.target.result;
+	        reader.readAsDataURL(file);
+	    });
+
+	    // 2) Validazione campi
+	    form.addEventListener("submit", function (e) {
+	        const nome = document.getElementById("nome").value.trim();
+	        const brand = document.getElementById("brand").value.trim();
+	        const prezzo = document.getElementById("prezzo").value.trim();
+	        const quantita = document.getElementById("quantita").value.trim();
+
+	        if (!nome || !brand || !prezzo || !quantita) {
+	            alert("Compila tutti i campi obbligatori.");
+	            e.preventDefault();
+	        }
+	    });
+	}
+
 
 });

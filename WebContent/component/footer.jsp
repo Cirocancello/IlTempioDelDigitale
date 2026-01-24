@@ -13,13 +13,23 @@
             </div>
 
             <!-- Logo + Motto -->
-            <div class="col-md-6 text-center mb-3">
-                <img src="<%= getServletContext().getContextPath() + "/assets/img/logo/logo.PNG" %>" 
-                     alt="Logo" style="height:50px;" class="mb-2">
-                <h5 class="fw-bold">Il Tempio Del Digitale</h5>
-                <p class="small">Il digitale che semplifica la tua vita.</p>
-                <p class="small mb-0">&copy; 2025 Il Tempio Del Digitale - All rights reserved</p>
-            </div>
+			<div class="col-md-6 text-center mb-3">
+			    <img src="<%= getServletContext().getContextPath() + "/assets/img/logo/logo.PNG" %>" 
+			         alt="Logo" style="height:50px;" class="mb-2">
+			    <h5 class="fw-bold">Il Tempio Del Digitale</h5>
+			    <p class="small">Il digitale che semplifica la tua vita.</p>
+			
+			    <!-- ⭐ Area Admin con icona -->
+			    <p class="small mt-2">
+			        <a href="<%= request.getContextPath() %>/pagine/admin/adminLogin.jsp"
+			           class="text-decoration-none text-light">
+			            <i class="bi bi-gear-fill"></i> Area Riservata Admin
+			        </a>
+			    </p>
+			
+			    <p class="small mb-0">&copy; 2025 Il Tempio Del Digitale - All rights reserved</p>
+			</div>
+
 
             <!-- Social -->
             <div class="col-md-3 text-center mb-3">
