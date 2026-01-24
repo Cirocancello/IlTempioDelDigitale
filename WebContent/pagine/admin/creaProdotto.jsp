@@ -3,6 +3,9 @@
       enctype="multipart/form-data"
       class="form-prodotto">
 
+    <!-- NECESSARIO per attivare la creazione -->
+    <input type="hidden" name="action" value="create">
+
     <!-- Nome prodotto -->
     <label for="nome">Nome</label>
     <input type="text" id="nome" name="nome" required>

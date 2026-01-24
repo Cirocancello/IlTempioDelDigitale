@@ -1,9 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="model.Prodotto" %>
 <%@ page import="model.Categoria" %>
+<%@ page import="model.Utente" %>
 <%@ page import="java.util.List" %>
 
 <%
+    // Controllo admin
+    Utente admin = (Utente) session.getAttribute("utente");
+    if (admin == null || admin.getRole() != 1) {
+        response.sendRedirect(request.getContextPath() + "/admin/login");
+        return;
+    }
+
     List<Prodotto> prodotti = (List<Prodotto>) request.getAttribute("prodotti");
     List<Categoria> categorie = (List<Categoria>) request.getAttribute("categorie");
 %>
@@ -28,7 +36,7 @@
     <!-- 🔙 Pulsante Torna alla Dashboard + Aggiungi Prodotto -->
     <div class="d-flex justify-content-between mb-4">
 
-        <a href="<%= request.getContextPath() %>/pagine/adminDashboard.jsp" class="btn-admin-action">
+        <a href="<%= request.getContextPath() %>/admin/dashboard" class="btn-admin-action">
             ← Torna alla Dashboard
         </a>
 

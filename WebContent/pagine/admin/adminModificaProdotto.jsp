@@ -1,9 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="model.Prodotto" %>
 <%@ page import="model.Categoria" %>
+<%@ page import="model.Utente" %>
 <%@ page import="java.util.List" %>
 
 <%
+    // Controllo admin
+    Utente admin = (Utente) session.getAttribute("utente");
+    if (admin == null || admin.getRole() != 1) {
+        response.sendRedirect(request.getContextPath() + "/admin/login");
+        return;
+    }
+
     Prodotto p = (Prodotto) request.getAttribute("prodotto");
     List<Categoria> categorie = (List<Categoria>) request.getAttribute("categorie");
 %>
@@ -24,6 +32,12 @@
 
     <h1 class="mb-4">Modifica Prodotto</h1>
 
+    <!-- 🔙 Torna alla Dashboard -->
+    <a href="<%= request.getContextPath() %>/admin/dashboard"
+       class="btn btn-outline-secondary mb-4">
+        ← Torna alla Dashboard
+    </a>
+
     <% if (p == null) { %>
 
         <div class="alert alert-danger">
@@ -36,10 +50,10 @@
 
     </div>
 
-    </body>
-    </html>
+</body>
+</html>
 
-    <% return; } %>
+<% return; } %>
 
     <!-- ⭐ FORM 1 — MODIFICA DATI TESTUALI -->
     <form id="formAdminModificaProdotto"
@@ -49,6 +63,9 @@
 
         <input type="hidden" name="action" value="update">
         <input type="hidden" name="id" value="<%= p.getId() %>">
+
+        <!-- ⭐ MANTIENI L’IMMAGINE ATTUALE -->
+        <input type="hidden" name="imageUrl" value="<%= p.getImageUrl() %>">
 
         <div class="mb-3">
             <label class="form-label">Nome</label>
@@ -102,10 +119,9 @@
 
     <hr class="my-5">
 
-    <!-- ⭐ FORM 2 — MODIFICA IMMAGINE (UploadProdottoServlet) -->
+    <!-- ⭐ FORM 2 — MODIFICA IMMAGINE -->
     <h3 class="mb-3">Modifica Immagine</h3>
 
-    <!-- Immagine attuale -->
     <div class="mb-3">
         <% if (p.getImageUrl() != null && !p.getImageUrl().isEmpty()) { %>
             <img src="<%= request.getContextPath() + "/" + p.getImageUrl() %>"

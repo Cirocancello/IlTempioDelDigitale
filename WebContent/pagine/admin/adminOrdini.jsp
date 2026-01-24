@@ -41,8 +41,8 @@
 
     <h1 class="mb-4">Gestione Ordini</h1>
 
-    <!-- Pulsante Torna alla Dashboard con stile progetto -->
-    <a href="<%= request.getContextPath() %>/pagine/adminDashboard.jsp"
+    <!-- 🔙 Torna alla Dashboard -->
+    <a href="<%= request.getContextPath() %>/admin/dashboard"
        class="btn-admin-action mb-4">
         ← Torna alla Dashboard
     </a>
@@ -54,14 +54,12 @@
 
         <div class="col-md-3">
             <label class="form-label">Data inizio</label>
-            <input type="date" name="from" class="form-control"
-                   value="<%= fromParam %>">
+            <input type="date" name="from" class="form-control" value="<%= fromParam %>">
         </div>
 
         <div class="col-md-3">
             <label class="form-label">Data fine</label>
-            <input type="date" name="to" class="form-control"
-                   value="<%= toParam %>">
+            <input type="date" name="to" class="form-control" value="<%= toParam %>">
         </div>
 
         <div class="col-md-3">
@@ -85,7 +83,6 @@
         </div>
 
         <div class="col-md-3 d-flex align-items-end">
-            <!-- Pulsante Filtra con stile palette -->
             <button type="submit" class="btn-filtra">Filtra</button>
         </div>
 
@@ -127,7 +124,6 @@
                 <td>€ <%= o.getTotale() %></td>
                 <td><%= o.getStato() %></td>
 
-                <!-- ⭐ DETTAGLIO ORDINE -->
                 <td>
                     <button class="btn btn-sm btn-info"
                             data-bs-toggle="collapse"
@@ -210,7 +206,7 @@
         </tbody>
     </table>
 
-    <!-- ⭐ PAGINAZIONE STILE PROGETTO -->
+    <!-- ⭐ PAGINAZIONE -->
     <div class="pagination-admin">
         <% if (currentPage > 1) { %>
             <a class="page-admin"

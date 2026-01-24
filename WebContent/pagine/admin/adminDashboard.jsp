@@ -61,7 +61,13 @@
     <!-- Logout -->
     <div class="logout mt-5">
         <a class="btn-logout" href="<%= request.getContextPath() %>/admin/logout">Logout</a>
+    </div>
 
+    <!-- ⭐ Torna all’area utente (login utente) -->
+    <div class="mt-4">
+        <a href="<%= request.getContextPath() %>/pagine/login.jsp" class="btn-admin-action">
+            Vai all’area utente
+        </a>
     </div>
 
 </div>

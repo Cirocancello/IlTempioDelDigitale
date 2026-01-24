@@ -23,13 +23,6 @@ import java.sql.Connection;
 )
 public class UploadProdottoServlet extends HttpServlet {
 
-    /**
-     * Gestisce:
-     *  - creazione prodotto con upload immagine
-     *  - aggiornamento immagine prodotto
-     *
-     *  I dati testuali vengono gestiti da AdminProdottoServlet.
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -45,7 +38,6 @@ public class UploadProdottoServlet extends HttpServlet {
             // ----------------------------------------------------
             if ("create".equals(action)) {
 
-                // --- Campi testuali ---
                 String nome = request.getParameter("nome");
                 String brand = request.getParameter("brand");
                 String informazioni = request.getParameter("informazioni");
@@ -53,29 +45,21 @@ public class UploadProdottoServlet extends HttpServlet {
                 int quantita = Integer.parseInt(request.getParameter("quantita"));
                 int categoriaId = Integer.parseInt(request.getParameter("categoriaId"));
 
-                // --- File immagine ---
                 Part filePart = request.getPart("immagine");
-
-                // Validazioni immagine
                 validateImage(filePart);
 
-                // Nome file univoco
                 String fileName = System.currentTimeMillis() + "_" +
                         filePart.getSubmittedFileName().toLowerCase();
 
-                // Percorso fisico
                 String uploadPath = getServletContext().getRealPath("/assets/img/prodotti");
                 File uploadDir = new File(uploadPath);
                 if (!uploadDir.exists()) uploadDir.mkdirs();
 
-                // Salvataggio file
                 File file = new File(uploadDir, fileName);
                 Files.copy(filePart.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-                // Percorso da salvare nel DB
                 String imageUrl = "assets/img/prodotti/" + fileName;
 
-                // Creazione oggetto prodotto
                 Categoria categoria = new Categoria(categoriaId, null);
 
                 Prodotto p = new Prodotto();
@@ -107,29 +91,30 @@ public class UploadProdottoServlet extends HttpServlet {
 
                 Part filePart = request.getPart("immagine");
 
-                // Validazioni immagine
+                // ⭐ Se non è stato selezionato alcun file → NON aggiornare l'immagine
+                if (filePart == null || filePart.getSize() == 0) {
+                    response.sendRedirect(request.getContextPath() + "/admin/prodotti?action=edit&id=" + id);
+                    return;
+                }
+
+                // Validazione immagine
                 validateImage(filePart);
 
-                // Nome file univoco
                 String fileName = System.currentTimeMillis() + "_" +
                         filePart.getSubmittedFileName().toLowerCase();
 
-                // Percorso fisico
                 String uploadPath = getServletContext().getRealPath("/assets/img/prodotti");
                 File uploadDir = new File(uploadPath);
                 if (!uploadDir.exists()) uploadDir.mkdirs();
 
-                // Salvataggio file
                 File file = new File(uploadDir, fileName);
                 Files.copy(filePart.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-                // Aggiorna percorso immagine
                 String imageUrl = "assets/img/prodotti/" + fileName;
                 prodotto.setImageUrl(imageUrl);
 
                 dao.update(prodotto);
 
-                // Torna alla pagina di modifica
                 response.sendRedirect(request.getContextPath() + "/admin/prodotti?action=edit&id=" + id);
                 return;
             }
@@ -140,9 +125,6 @@ public class UploadProdottoServlet extends HttpServlet {
         }
     }
 
-    /**
-     * ⭐ Metodo di utilità per validare un'immagine caricata
-     */
     private void validateImage(Part filePart) throws ServletException {
 
         if (filePart == null || filePart.getSize() == 0)

@@ -1,8 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="model.Categoria" %>
+<%@ page import="model.Utente" %>
 <%@ page import="java.util.List" %>
 
 <%
+    Utente admin = (Utente) session.getAttribute("utente");
+    if (admin == null || admin.getRole() != 1) {
+        response.sendRedirect(request.getContextPath() + "/admin/login");
+        return;
+    }
+
     List<Categoria> categorie = (List<Categoria>) request.getAttribute("categorie");
 %>
 
@@ -22,6 +29,11 @@
 
     <h1 class="mb-4">Crea Nuovo Prodotto</h1>
 
+    <!-- 🔙 Torna alla Dashboard -->
+    <a href="<%= request.getContextPath() %>/admin/dashboard" class="btn-back-dashboard mb-4">
+        ← Torna alla Dashboard
+    </a>
+
     <% if (categorie == null || categorie.isEmpty()) { %>
 
         <div class="alert alert-warning">
@@ -33,13 +45,12 @@
         </a>
 
     </div>
+</body>
+</html>
 
-    </body>
-    </html>
+<% return; } %>
 
-    <% return; } %>
-
-    <!-- ⭐ FORM CREAZIONE PRODOTTO (UploadProdottoServlet) -->
+    <!-- ⭐ FORM CREAZIONE PRODOTTO -->
     <form id="formAdminProdotto"
           action="<%= request.getContextPath() %>/admin/uploadProdotto"
           method="post"

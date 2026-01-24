@@ -18,10 +18,7 @@
     <meta charset="UTF-8">
     <title>Gestione Utenti</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Stile admin -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/admin.css">
 </head>
 
@@ -32,7 +29,7 @@
     <h1 class="mb-4">Gestione Utenti</h1>
 
     <!-- 🔙 Torna alla Dashboard -->
-    <a href="<%= request.getContextPath() %>/pagine/adminDashboard.jsp" 
+    <a href="<%= request.getContextPath() %>/admin/dashboard"
        class="btn-back-dashboard mb-4">
         ← Torna alla Dashboard
     </a>
@@ -111,7 +108,7 @@
                     <td>
 
                         <!-- Modifica -->
-                        <a href="<%= request.getContextPath() %>/pagine/adminModificaUtente.jsp?id=<%= u.getId() %>"
+                        <a href="<%= request.getContextPath() %>/pagine/admin/adminModificaUtente.jsp?id=<%= u.getId() %>"
                            class="btn btn-sm btn-dark">
                             Modifica
                         </a>
@@ -148,10 +145,7 @@
 
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Validazione client-side -->
 <script src="<%= request.getContextPath() %>/assets/validazione.js"></script>
 
 </body>

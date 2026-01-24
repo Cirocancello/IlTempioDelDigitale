@@ -43,7 +43,7 @@
     <h1 class="mb-4">Modifica Categoria</h1>
 
     <!-- 🔙 Pulsante ritorno alla Dashboard Admin -->
-    <a href="<%= request.getContextPath() %>/pagine/adminDashboard.jsp" 
+    <a href="<%= request.getContextPath() %>/admin/dashboard"
        class="btn btn-outline-secondary mb-4">
         ← Torna alla Dashboard
     </a>
@@ -67,10 +67,7 @@
 
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Validazione client-side -->
 <script src="<%= request.getContextPath() %>/assets/validazione.js"></script>
 
 </body>

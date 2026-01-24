@@ -1,15 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="model.Utente" %>
 <%@ page import="dao.UtenteDAO" %>
-<%@ page import="db.DBConnection" %>
 
 <%
+    // Controllo admin
     Utente admin = (Utente) session.getAttribute("utente");
     if (admin == null || admin.getRole() != 1) {
         response.sendRedirect(request.getContextPath() + "/admin/login");
         return;
     }
 
+    // Recupero ID utente
     int id = Integer.parseInt(request.getParameter("id"));
 
     UtenteDAO dao = new UtenteDAO();
@@ -38,7 +39,7 @@
     <h1 class="mb-4">Modifica Utente</h1>
 
     <!-- 🔙 Pulsante ritorno alla Dashboard Admin -->
-    <a href="<%= request.getContextPath() %>/pagine/adminDashboard.jsp" 
+    <a href="<%= request.getContextPath() %>/admin/dashboard"
        class="btn btn-outline-secondary mb-4">
         ← Torna alla Dashboard
     </a>
