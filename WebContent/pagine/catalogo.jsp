@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/style.css">
 </head>
 
-<!-- ⭐ NECESSARIO PER L'AJAX -->
 <body data-base="<%= request.getContextPath() %>">
 
 <!-- ⭐ NAVBAR -->
@@ -31,6 +30,12 @@
     <a href="<%= request.getContextPath() %>/index" class="btn btn-secondary mb-4">
         <i class="bi bi-house"></i> Torna alla Home
     </a>
+
+    <!-- ⭐⭐⭐ CAMPO DI RICERCA AJAX -->
+    <div class="mb-4">
+        <label class="form-label fw-bold">Cerca prodotto</label>
+        <input type="text" id="campoRicerca" class="form-control" placeholder="Digita per cercare...">
+    </div>
 
     <!-- FILTRO PER CATEGORIA -->
     <form method="get" action="<%= request.getContextPath() %>/catalogo" class="mb-4">
@@ -54,7 +59,11 @@
 
     </form>
 
-    <!-- LISTA PRODOTTI -->
+    <!-- ⭐⭐⭐ RISULTATI AJAX (sovrascrive la lista prodotti quando si digita) -->
+    <div id="risultati"></div>
+
+    <!-- LISTA PRODOTTI (mostrata solo se non c'è ricerca attiva) -->
+    <div id="listaProdotti">
     <% if (prodotti == null || prodotti.isEmpty()) { %>
 
         <div class="alert alert-info">Nessun prodotto disponibile.</div>
@@ -108,14 +117,18 @@
         </div>
 
     <% } %>
+    </div>
 
 </div>
 
 <!-- JS Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- ⭐ Script AJAX carrello (PERCORSO CORRETTO) -->
+<!-- ⭐ Script AJAX carrello -->
 <script src="<%= request.getContextPath() %>/assets/carrello.js"></script>
+
+<!-- ⭐⭐⭐ Script AJAX ricerca -->
+<script src="<%= request.getContextPath() %>/assets/ricerca.js"></script>
 
 </body>
 </html>

@@ -223,4 +223,40 @@ public class ProdottoDAO {
             }
         }
     }
+    
+    public List<Prodotto> search(String keyword) throws SQLException {
+        String sql = "SELECT p.id, p.nome, p.brand, p.informazioni, p.prezzo, p.quantita, " +
+                     "p.image_url, p.visibile, c.id AS cid, c.nome AS cnome " +
+                     "FROM prodotto p " +
+                     "JOIN categoria_prodotto cp ON p.id = cp.id_prodotto " +
+                     "JOIN categoria c ON cp.id_categoria = c.id " +
+                     "WHERE p.nome LIKE ? ORDER BY p.nome";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, "%" + keyword + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                List<Prodotto> list = new ArrayList<>();
+
+                while (rs.next()) {
+                    Categoria cat = new Categoria(rs.getInt("cid"), rs.getString("cnome"));
+                    Prodotto p = new Prodotto(
+                            rs.getInt("id"),
+                            rs.getString("nome"),
+                            rs.getString("brand"),
+                            rs.getString("informazioni"),
+                            rs.getDouble("prezzo"),
+                            rs.getInt("quantita"),
+                            rs.getString("image_url"),
+                            rs.getBoolean("visibile"),
+                            cat
+                    );
+                    list.add(p);
+                }
+
+                return list;
+            }
+        }
+    }
+
 }
