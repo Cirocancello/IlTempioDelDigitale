@@ -1,16 +1,35 @@
-/* === Reset base === */
+/* ==========================
+   THEME TOKENS (brand)
+   ========================== */
+:root {
+    --ttd-bg: #F2D2B6;       /* sabbia */
+    --ttd-text: #1E261D;     /* verde scuro */
+    --ttd-surface: #F2D2B6;  /* superfici (card, ecc.) */
+    --ttd-surface-2: #EAC9A6;
+    --ttd-accent: #A6662E;   /* marrone */
+    --ttd-accent-2: #324032; /* verde */
+    --ttd-nav: #1E261D;
+    --ttd-footer: #1E261D;
+    --ttd-border: rgba(0,0,0,0.08);
+}
+
+/* ==========================
+   RESET / BASE
+   ========================== */
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
-    background-color: #F2D2B6;
-    color: #1E261D;
+    background-color: var(--ttd-bg);
+    color: var(--ttd-text);
     margin: 0;
     padding: 0;
     padding-top: 70px; /* altezza navbar */
 }
 
-/* === Navbar === */
+/* ==========================
+   NAVBAR
+   ========================== */
 .navbar {
-    background-color: #1E261D !important;
+    background-color: var(--ttd-nav) !important;
     position: fixed;
     top: 0;
     left: 0;
@@ -20,44 +39,48 @@ body {
 
 .navbar .nav-link,
 .navbar-brand {
-    color: #F2D2B6 !important;
+    color: var(--ttd-bg) !important;
 }
 
 .navbar .nav-link:hover {
-    color: #A6662E !important;
+    color: var(--ttd-accent) !important;
 }
 
-/* === Footer === */
+/* ==========================
+   FOOTER
+   ========================== */
 footer {
-    background-color: #1E261D;
-    color: #F2D2B6;
+    background-color: var(--ttd-footer);
+    color: var(--ttd-bg);
     padding: 20px 0;
     text-align: center;
 }
 
-/* === Pulsanti generali === */
+/* ==========================
+   BUTTONS (brand)
+   ========================== */
 .btn-primary {
-    background-color: #A6662E !important;
-    border-color: #A6662E !important;
-    color: #F2D2B6 !important;
+    background-color: var(--ttd-accent) !important;
+    border-color: var(--ttd-accent) !important;
+    color: var(--ttd-bg) !important;
 }
 
 .btn-primary:hover {
-    background-color: #324032 !important;
-    border-color: #324032 !important;
-    color: #F2D2B6 !important;
+    background-color: var(--ttd-accent-2) !important;
+    border-color: var(--ttd-accent-2) !important;
+    color: var(--ttd-bg) !important;
 }
 
 .btn-secondary {
-    background-color: #324032;
-    border-color: #324032;
-    color: #F2D2B6;
+    background-color: var(--ttd-accent-2);
+    border-color: var(--ttd-accent-2);
+    color: var(--ttd-bg);
 }
 
 .btn-secondary:hover {
-    background-color: #1E261D;
-    border-color: #1E261D;
-    color: #F2D2B6;
+    background-color: var(--ttd-nav);
+    border-color: var(--ttd-nav);
+    color: var(--ttd-bg);
 }
 
 .btn-outline-secondary {
@@ -67,18 +90,18 @@ footer {
 
 .btn-outline-secondary:hover {
     background-color: #A6774E !important;
-    color: #F2D2B6 !important;
+    color: var(--ttd-bg) !important;
 }
 
 .btn-outline-green {
-    border: 1px solid #324032 !important;
-    color: #324032 !important;
+    border: 1px solid var(--ttd-accent-2) !important;
+    color: var(--ttd-accent-2) !important;
     background-color: transparent !important;
 }
 
 .btn-outline-green:hover {
-    background-color: #324032 !important;
-    color: #F2D2B6 !important;
+    background-color: var(--ttd-accent-2) !important;
+    color: var(--ttd-bg) !important;
 }
 
 .btn-qty {
@@ -90,27 +113,31 @@ footer {
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
 }
 
-/* === Card generali === */
+/* ==========================
+   CARDS
+   ========================== */
 .card {
     border: none;
-    background-color: #F2D2B6 !important;
+    background-color: var(--ttd-surface) !important;
+    color: var(--ttd-text);
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .card-header {
-    background-color: #F2D2B6 !important;
-    border-bottom: 1px solid rgba(0,0,0,0.08);
+    background-color: var(--ttd-surface) !important;
+    border-bottom: 1px solid var(--ttd-border);
+    color: var(--ttd-text);
 }
 
 .card-title {
-    color: #A6662E;
+    color: var(--ttd-accent);
 }
 
 .card-footer {
-    background-color: #F2D2B6 !important;
+    background-color: var(--ttd-surface) !important;
+    color: var(--ttd-text);
 }
 
-/* === Corpo card uniforme === */
 .card-body {
     min-height: 230px;
     display: flex;
@@ -118,7 +145,6 @@ footer {
     justify-content: space-between;
 }
 
-/* === Immagini catalogo === */
 .card-img-top {
     width: 100%;
     height: 250px;
@@ -134,22 +160,22 @@ footer {
     box-shadow: 0 6px 18px rgba(0,0,0,0.25);
 }
 
-/* === Card evidenziate === */
+/* Card evidenziate */
 .card.login-card,
 .card.register-card,
 .card.profile-card,
 .card.catalog-card,
 .card.product-card,
 .card.logout-card {
-    background-color: #EAC9A6 !important;
-    border: 2px solid #A6662E !important;
+    background-color: var(--ttd-surface-2) !important;
+    border: 2px solid var(--ttd-accent) !important;
     box-shadow: 0 6px 16px rgba(0,0,0,0.25);
     border-radius: 10px;
 }
 
 .card.register-card,
 .card.login-card {
-    border: 4px solid #A6662E !important;
+    border: 4px solid var(--ttd-accent) !important;
 }
 
 .login-card .card-header,
@@ -158,57 +184,56 @@ footer {
 .catalog-card .card-header,
 .product-card .card-header,
 .logout-card .card-header {
-    background-color: #A6662E !important;
-    color: #F2D2B6 !important;
+    background-color: var(--ttd-accent) !important;
+    color: var(--ttd-bg) !important;
     font-weight: 600;
     border-bottom: none;
 }
 
-/* === Form === */
+/* ==========================
+   FORMS
+   ========================== */
 .form-control:focus {
-    border-color: #A6662E !important;
+    border-color: var(--ttd-accent) !important;
     box-shadow: 0 0 0 0.25rem rgba(166, 102, 46, 0.35);
 }
 
-/* === Hero section === */
+/* ==========================
+   HERO
+   ========================== */
 .hero {
-    background: linear-gradient(135deg, #1E261D, #324032);
-    color: #F2D2B6;
+    background: linear-gradient(135deg, var(--ttd-nav), var(--ttd-accent-2));
+    color: var(--ttd-bg);
     padding: 60px 20px;
     border-radius: 10px;
 }
 
-/* === Tooltip === */
+/* ==========================
+   TOOLTIP
+   ========================== */
 .tooltip-inner {
-    background-color: #324032;
-    color: #F2D2B6;
+    background-color: var(--ttd-accent-2);
+    color: var(--ttd-bg);
 }
 
 .tooltip-arrow {
-    border-top-color: #324032 !important;
+    border-top-color: var(--ttd-accent-2) !important;
 }
 
-/* === Dark mode === */
-.dark-mode {
-    background-color: #1E261D;
-    color: #F2D2B6;
-}
-
-.dark-mode .card {
-    background-color: #324032;
-    color: #F2D2B6;
-}
-
-/* === Info page === */
+/* ==========================
+   INFO PAGE
+   ========================== */
 .info-page {
-    background-color: #f8f9fa;
+    background-color: var(--ttd-surface);
     border-radius: 8px;
     padding: 30px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     margin-top: 40px;
 }
 
-/* === Collaboratori === */
+/* ==========================
+   COLLABORATORI
+   ========================== */
 .collaborator-image {
     width: 200px;
     height: 200px;
@@ -217,7 +242,9 @@ footer {
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* === Carosello === */
+/* ==========================
+   CAROUSEL
+   ========================== */
 header.carousel-container {
     position: relative;
     width: 100%;
@@ -244,10 +271,13 @@ header.carousel-container {
     left: 0;
     width: 100%;
     height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
 }
 
 .carousel-item--visible {
     display: block;
+    opacity: 1;
 }
 
 .carousel-image {
@@ -270,6 +300,12 @@ header.carousel-container {
     text-align: center;
     z-index: 2;
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+
+.carousel-item--visible .carousel-text-container {
+    opacity: 1;
 }
 
 .carousel-text-container h1 {
@@ -291,89 +327,70 @@ header.carousel-container {
     font-size: 3rem;
 }
 
-/* Effetto fade elegante */
-.carousel-item {
-    opacity: 0;
-    transition: opacity 0.8s ease-in-out;
-}
-
-.carousel-item--visible {
-    opacity: 1;
-}
-
-.carousel-text-container {
-    opacity: 0;
-    transition: opacity 0.8s ease-in-out;
-}
-
-.carousel-item--visible .carousel-text-container {
-    opacity: 1;
-}
-
-/* === Responsive carosello === */
 @media (max-width: 768px) {
     .carousel {
         height: 250px;
     }
-
     .carousel-text-container h1 {
         font-size: 1.2rem;
     }
-
     .carousel-button i {
         font-size: 2rem;
     }
 }
 
-/* === Tabella ordini === */
+/* ==========================
+   TABLES / LIST GROUP
+   ========================== */
 table.table {
     border-radius: 6px;
     overflow: hidden;
 }
 
 .table-dark {
-    background-color: #1E261D !important;
-    color: #F2D2B6 !important;
+    background-color: var(--ttd-nav) !important;
+    color: var(--ttd-bg) !important;
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) {
-    background-color: #EAC9A6 !important;
+    background-color: var(--ttd-surface-2) !important;
 }
 
 .table-striped > tbody > tr:nth-of-type(even) {
-    background-color: #F2D2B6 !important;
+    background-color: var(--ttd-surface) !important;
 }
 
-/* === List-group ordini === */
 .list-group-item {
-    background-color: #F2D2B6 !important;
-    border-color: #A6662E !important;
-    color: #1E261D !important;
+    background-color: var(--ttd-surface) !important;
+    border-color: var(--ttd-accent) !important;
+    color: var(--ttd-text) !important;
 }
 
-/* === Badge stato ordine === */
+/* Badge stato ordine */
 .badge.bg-info {
-    background-color: #A6662E !important;
-    color: #F2D2B6 !important;
+    background-color: var(--ttd-accent) !important;
+    color: var(--ttd-bg) !important;
 }
 
-/* === Accordion CodifAI === */
+/* ==========================
+   ACCORDION
+   ========================== */
 .accordion-item {
-    border: 2px solid #A6662E !important;
+    border: 2px solid var(--ttd-accent) !important;
     border-radius: 10px !important;
-    background-color: #F2D2B6 !important;
+    background-color: var(--ttd-surface) !important;
 }
 
 .accordion-button {
-    background-color: #EAC9A6 !important;
-    color: #1E261D !important;
+    background-color: var(--ttd-surface-2) !important;
+    color: var(--ttd-text) !important;
     font-weight: 600;
     border-radius: 10px !important;
 }
 
 .accordion-button:not(.collapsed) {
-    background-color: #A6662E !important;
-    color: #F2D2B6 !important;
+    background-color: var(--ttd-accent) !important;
+    color: var(--ttd-bg) !important;
     box-shadow: none !important;
 }
 
@@ -382,30 +399,35 @@ table.table {
 }
 
 .accordion-body {
-    background-color: #F2D2B6 !important;
+    background-color: var(--ttd-surface) !important;
     border-radius: 0 0 10px 10px !important;
+    color: var(--ttd-text);
 }
 
-/* === Alert totale === */
+/* ==========================
+   ALERT TOTAL
+   ========================== */
 .alert-total {
     background-color: #8A4F24;
-    color: #F2D2B6;
+    color: var(--ttd-bg);
     font-weight: 700;
-    border: 3px solid #1E261D;
+    border: 3px solid var(--ttd-nav);
     box-shadow: 0 4px 14px rgba(0,0,0,0.35);
     border-radius: 6px;
     padding: 12px 16px;
     margin-top: 15px;
 }
 
-/* === Feedback Section === */
+/* ==========================
+   FEEDBACK
+   ========================== */
 .feedback-item {
-    background-color: #EAC9A6;
-    border: 2px solid #A6662E;
+    background-color: var(--ttd-surface-2);
+    border: 2px solid var(--ttd-accent);
     border-radius: 12px;
     padding: 18px 20px;
     margin-bottom: 18px;
-    color: #1E261D;
+    color: var(--ttd-text);
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     display: flex;
     gap: 15px;
@@ -426,8 +448,8 @@ table.table {
     width: 55px;
     height: 55px;
     border-radius: 50%;
-    background-color: #A6662E;
-    color: #F2D2B6;
+    background-color: var(--ttd-accent);
+    color: var(--ttd-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -436,47 +458,45 @@ table.table {
     box-shadow: 0 3px 8px rgba(0,0,0,0.25);
 }
 
-.feedback-content {
-    flex: 1;
-}
-
 .feedback-title {
-    color: #A6662E;
+    color: var(--ttd-accent);
     font-weight: 700;
     margin-bottom: 6px;
 }
 
 .feedback-stars {
-    color: #A6662E;
+    color: var(--ttd-accent);
     font-size: 1.1rem;
     margin-right: 8px;
 }
 
 .feedback-score {
-    background-color: #A6662E;
-    color: #F2D2B6;
+    background-color: var(--ttd-accent);
+    color: var(--ttd-bg);
     padding: 4px 10px;
     border-radius: 6px;
     font-weight: 600;
 }
 
 .feedback-empty {
-    background-color: #F2D2B6;
-    color: #1E261D;
-    border-left: 5px solid #A6662E;
+    background-color: var(--ttd-surface);
+    color: var(--ttd-text);
+    border-left: 5px solid var(--ttd-accent);
     padding: 12px 15px;
     border-radius: 6px;
     font-weight: 600;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
-/* === Conferma Ordine === */
+/* ==========================
+   ADMIN CONTAINER
+   ========================== */
 .admin-container {
     width: 100%;
     max-width: 900px;
     margin: 40px auto;
-    padding: 30px 60px 60px 60px; /* padding laterale aumentato */
-    background-color: #F2D2B6;
+    padding: 30px 60px 60px 60px;
+    background-color: var(--ttd-surface);
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
@@ -488,8 +508,8 @@ table.table {
 }
 
 .admin-box {
-    background-color: #EAC9A6;
-    border: 2px solid #A6662E;
+    background-color: var(--ttd-surface-2);
+    border: 2px solid var(--ttd-accent);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 3px 10px rgba(0,0,0,0.2);
@@ -504,27 +524,27 @@ table.table {
 }
 
 .admin-table thead {
-    background-color: #1E261D;
-    color: #F2D2B6;
+    background-color: var(--ttd-nav);
+    color: var(--ttd-bg);
 }
 
 .admin-table th,
 .admin-table td {
     padding: 12px;
-    border-bottom: 1px solid #A6662E;
+    border-bottom: 1px solid var(--ttd-accent);
 }
 
 .admin-table tr:nth-child(odd) {
-    background-color: #EAC9A6;
+    background-color: var(--ttd-surface-2);
 }
 
 .admin-table tr:nth-child(even) {
-    background-color: #F2D2B6;
+    background-color: var(--ttd-surface);
 }
 
 .alert-custom-success {
-    background-color: #A6662E;
-    color: #F2D2B6;
+    background-color: var(--ttd-accent);
+    color: var(--ttd-bg);
     padding: 15px 20px;
     border-radius: 8px;
     font-weight: bold;
@@ -532,35 +552,34 @@ table.table {
 }
 
 .alert-custom-warning {
-    background-color: #EAC9A6;
-    color: #1E261D;
+    background-color: var(--ttd-surface-2);
+    color: var(--ttd-text);
     padding: 15px 20px;
-    border-left: 6px solid #A6662E;
+    border-left: 6px solid var(--ttd-accent);
     border-radius: 8px;
     font-weight: 600;
 }
 
 .alert-custom-danger {
     background-color: #8A4F24;
-    color: #F2D2B6;
+    color: var(--ttd-bg);
     padding: 15px 20px;
     border-radius: 8px;
     font-weight: bold;
 }
 
 .badge-admin {
-    background-color: #A6662E;
-    color: #F2D2B6;
+    background-color: var(--ttd-accent);
+    color: var(--ttd-bg);
     padding: 6px 12px;
     border-radius: 20px;
     font-weight: bold;
 }
 
-/* === Bottoni conferma ordine === */
 .btn-order-action {
-    background-color: #A6662E !important;
-    border-color: #A6662E !important;
-    color: #F2D2B6 !important;
+    background-color: var(--ttd-accent) !important;
+    border-color: var(--ttd-accent) !important;
+    color: var(--ttd-bg) !important;
     padding: 12px 24px !important;
     border-radius: 8px !important;
     font-weight: 600 !important;
@@ -570,8 +589,8 @@ table.table {
 }
 
 .btn-order-action:hover {
-    background-color: #324032 !important;
-    border-color: #324032 !important;
-    color: #F2D2B6 !important;
+    background-color: var(--ttd-accent-2) !important;
+    border-color: var(--ttd-accent-2) !important;
+    color: var(--ttd-bg) !important;
     transform: scale(0.97);
 }

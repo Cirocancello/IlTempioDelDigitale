@@ -148,6 +148,7 @@
 
 <!-- ⭐ Script AJAX carrello (PERCORSO CORRETTO) -->
 <script src="<%= request.getContextPath() %>/assets/carrello.js"></script>
+<script src="<%= request.getContextPath() %>/assets/script.js"></script>
 
 </body>
 </html>

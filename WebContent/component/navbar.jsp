@@ -6,7 +6,6 @@
     HttpSession sessione = request.getSession(false);
     Utente u = (sessione != null) ? (Utente) sessione.getAttribute("utente") : null;
 
-    // Calcolo quantità totale nel carrello (serve per mostrare il badge)
     int totaleCarrello = 0;
     List<Prodotto> carrello = (sessione != null) ? (List<Prodotto>) sessione.getAttribute("carrello") : null;
     if (carrello != null) {
@@ -16,7 +15,7 @@
     }
 %>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
 
         <!-- Brand -->
@@ -46,14 +45,12 @@
 
                 <% if (u == null) { %>
 
-                    <!-- Login -->
                     <li class="nav-item">
                         <a class="nav-link" href="<%= request.getContextPath() %>/pagine/login.jsp">
                             <i class="bi bi-box-arrow-in-right"></i> Login
                         </a>
                     </li>
 
-                    <!-- Registrati -->
                     <li class="nav-item">
                         <a class="nav-link" href="<%= request.getContextPath() %>/pagine/register.jsp">
                             <i class="bi bi-person-plus-fill"></i> Registrati
@@ -62,19 +59,15 @@
 
                 <% } else { %>
 
-                    <!-- Profilo -->
                     <li class="nav-item">
                         <a class="nav-link" href="<%= request.getContextPath() %>/profile">
                             <i class="bi bi-person-circle"></i> Profilo
                         </a>
                     </li>
 
-                    <!-- Carrello con badge AJAX -->
                     <li class="nav-item">
                         <a class="nav-link position-relative" href="<%= request.getContextPath() %>/pagine/carrello.jsp">
                             <i class="bi bi-cart"></i> Carrello
-
-                            <!-- ⭐ Badge aggiornato via AJAX -->
                             <span id="cart-count"
                                   class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">
                                 <%= totaleCarrello %>
@@ -82,7 +75,6 @@
                         </a>
                     </li>
 
-                    <!-- Logout -->
                     <li class="nav-item">
                         <form method="post" action="<%= request.getContextPath() %>/pagine/logout.jsp" class="d-inline">
                             <button type="submit" class="nav-link btn btn-link text-decoration-none">
@@ -92,7 +84,6 @@
                     </li>
 
                     <% if (u.getRole() == 1) { %>
-                        <!-- Admin -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">
@@ -113,14 +104,7 @@
                         </li>
                     <% } %>
 
-                <% } %>
-
-                <!-- Dark Mode -->
-                <li class="nav-item">
-                    <button class="btn btn-sm btn-outline-light ms-3" type="button" onclick="toggleDarkMode()">
-                        <i class="bi bi-moon"></i> Dark Mode
-                    </button>
-                </li>
+                <% } %>               
 
             </ul>
         </div>

@@ -49,39 +49,37 @@
                             </div>
                         </c:if>
 
-                        <!-- Form login -->
                         <form id="formLogin" 
-                              action="${pageContext.request.contextPath}/login" 
-                              method="post" 
-                              class="needs-validation" 
-                              novalidate>
+						      action="${pageContext.request.contextPath}/login" 
+						      method="post" 
+						      novalidate>
+						
+						    <div class="mb-3">
+						        <label for="email" class="form-label">
+						            <i class="bi bi-envelope"></i> Email
+						        </label>
+						        <input type="text" 
+						               class="form-control" 
+						               id="email" 
+						               name="email">
+						    </div>
+						
+						    <div class="mb-3">
+						        <label for="password" class="form-label">
+						            <i class="bi bi-lock"></i> Password
+						        </label>
+						        <input type="password" 
+						               class="form-control" 
+						               id="password" 
+						               name="password">
+						    </div>
+						
+						    <button type="submit" class="btn btn-primary w-100">
+						        <i class="bi bi-box-arrow-in-right"></i> Accedi
+						    </button>
+						</form>
 
-                            <div class="mb-3">
-                                <label for="email" class="form-label">
-                                    <i class="bi bi-envelope"></i> Email
-                                </label>
-                                <input type="email" 
-                                       class="form-control" 
-                                       id="email" 
-                                       name="email" 
-                                       required>
-                            </div>
 
-                            <div class="mb-3">
-                                <label for="password" class="form-label">
-                                    <i class="bi bi-lock"></i> Password
-                                </label>
-                                <input type="password" 
-                                       class="form-control" 
-                                       id="password" 
-                                       name="password" 
-                                       required>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="bi bi-box-arrow-in-right"></i> Accedi
-                            </button>
-                        </form>
 
                         <!-- Pulsante torna alla Home -->
                         <a href="${pageContext.request.contextPath}/index" 
@@ -108,11 +106,9 @@
 
 <jsp:include page="/component/footer.jsp"/>
 
-<!-- Script generali -->
-<script src="<%= request.getContextPath() %>/assets/script.js"></script>
-
 <!-- Validazione client-side -->
 <script src="<%= request.getContextPath() %>/assets/validazione.js"></script>
-
+<!-- Script generali -->
+<script src="<%= request.getContextPath() %>/assets/script.js"></script>
 </body>
 </html>

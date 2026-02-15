@@ -72,9 +72,11 @@ MySQL con tabelle principali:
 - `utente`
 - `prodotto`
 - `categoria`
-- `categoria_prodotto`
-- `prodotto_ordine`
+- `ordine`
+- `preferiti`
 - `feedback`
+- `prodotto_ordine`
+
 
 ---
 
@@ -100,11 +102,16 @@ MySQL con tabelle principali:
 6. Avvia il server e apri:  
 http://localhost:8080/IlTempioDelDigitale
 
-Codice
+-----
+
+Credenziai di accdesso come admin: 
+
+utente :     admin@tempio.it
+password :   admin
 
 ---
 
 ## 👨‍💻 Autore
 
 **Ciro**  
-Progetto sviluppato per l'esame di Tecnologie Software per il Web.
+Progetto sviluppato per l'esame di Tecnologie Software per il Web anno accademnico 2024/25.

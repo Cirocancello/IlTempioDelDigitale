@@ -1,120 +1,126 @@
-// script.js
-
-// Messaggio di benvenuto in console
+// assets/script.js
 console.log("Il Tempio del Digitale - assets caricati correttamente!");
 
 // ==========================
-// Validazione form (con alert)
+// FUNZIONE GENERALE: mostra messaggi inline
 // ==========================
-document.addEventListener("DOMContentLoaded", function () {
-    const form = document.querySelector("form.needs-validation");
-    if (form) {
-        form.addEventListener("submit", function (event) {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-                alert("⚠️ Compila tutti i campi prima di inviare.");
-            }
-            form.classList.add("was-validated");
-        }, false);
-    }
+function mostraMessaggio(testo, tipo = "success") {
+  var box = document.createElement("div");
+  box.className = "alert alert-" + tipo + " mt-3";
+  box.textContent = testo;
 
-    // Ripristino Dark Mode da localStorage
-    if (localStorage.getItem("darkMode") === "enabled") {
-        enableDarkMode();
-    }
-});
+  // Inserisco il messaggio in cima alla pagina
+  var container = document.querySelector(".container") || document.body;
+  container.prepend(box);
 
-// ==========================
-// Funzioni Dark Mode
-// ==========================
-function enableDarkMode() {
-    document.body.classList.add("dark-mode");
-    localStorage.setItem("darkMode", "enabled");
-}
-
-function disableDarkMode() {
-    document.body.classList.remove("dark-mode");
-    localStorage.setItem("darkMode", "disabled");
-}
-
-function toggleDarkMode() {
-    if (document.body.classList.contains("dark-mode")) {
-        disableDarkMode();
-    } else {
-        enableDarkMode();
-    }
+  // Rimuovo dopo 3 secondi
+  setTimeout(() => box.remove(), 3000);
 }
 
 // ==========================
-// Gestione Carrello (demo)
+// CLICK GLOBALI (carrello / preferiti)
 // ==========================
 document.addEventListener("click", function (e) {
-    if (e.target && e.target.closest("form[action$='/carrello']")) {
-        const form = e.target.closest("form");
-        const nomeProdotto = form.querySelector("input[name='nome']").value;
-        alert("🛒 '" + nomeProdotto + "' aggiunto al carrello!");
-    }
+  // Carrello
+  var cartForm = e.target && e.target.closest
+    ? e.target.closest("form[action$='/carrello']")
+    : null;
+
+  if (cartForm) {
+    var inputNome = cartForm.querySelector("input[name='nome']");
+    var nomeProdotto = inputNome ? inputNome.value : "Prodotto";
+
+    mostraMessaggio("🛒 '" + nomeProdotto + "' aggiunto al carrello!", "success");
+    return;
+  }
+
+  // Preferiti
+  var favForm = e.target && e.target.closest
+    ? e.target.closest("form[action$='/preferiti']")
+    : null;
+
+  if (favForm) {
+    var inputId = favForm.querySelector("input[name='id_prodotto']");
+    var idProdotto = inputId ? inputId.value : "?";
+
+    mostraMessaggio("❤️ Prodotto ID " + idProdotto + " aggiunto ai preferiti!", "info");
+  }
 });
 
 // ==========================
-// Gestione Preferiti (demo)
-// ==========================
-document.addEventListener("click", function (e) {
-    if (e.target && e.target.closest("form[action$='/preferiti']")) {
-        const form = e.target.closest("form");
-        const idProdotto = form.querySelector("input[name='id_prodotto']").value;
-        alert("❤️ Prodotto ID " + idProdotto + " aggiunto ai preferiti!");
-    }
-});
-
-// ==========================
-// Ricerca Live nel Catalogo
+// DOM READY
 // ==========================
 document.addEventListener("DOMContentLoaded", function () {
-    const searchInput = document.getElementById("searchCatalogo");
-    if (searchInput) {
-        searchInput.addEventListener("keyup", function () {
-            const filter = searchInput.value.toLowerCase();
-            const cards = document.querySelectorAll(".card");
-            cards.forEach(card => {
-                const titolo = card.querySelector(".card-title").textContent.toLowerCase();
-                card.style.display = titolo.includes(filter) ? "" : "none";
-            });
-        });
-    }
-});
 
-// ==========================
-// Carousel custom
-// ==========================
-const items = document.querySelectorAll('.carousel-item');
-const buttons = document.querySelectorAll('.carousel-button');
-let currentItem = 0;
+  // --------------------------
+  // Validazione form (DOM manipulation)
+  // --------------------------
+  var form = document.querySelector("form.needs-validation");
+  if (form) {
+    form.addEventListener(
+      "submit",
+      function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
 
-function showItem(index) {
-    items.forEach((item, i) => {
-        item.classList.remove('carousel-item--visible');
-        if (i === index) {
-            item.classList.add('carousel-item--visible');
+          mostraMessaggio("⚠️ Compila tutti i campi prima di inviare.", "danger");
         }
-    });
-}
+        form.classList.add("was-validated");
+      },
+      false
+    );
+  }
 
-if (buttons.length >= 2) {
-    buttons[0].addEventListener('click', () => {
-        currentItem = (currentItem === 0) ? items.length - 1 : currentItem - 1;
+  // --------------------------
+  // Ricerca Live nel Catalogo
+  // --------------------------
+  var searchInput = document.getElementById("searchCatalogo");
+  if (searchInput) {
+    searchInput.addEventListener("keyup", function () {
+      var filter = (searchInput.value || "").toLowerCase();
+      var cards = document.querySelectorAll(".card");
+
+      for (var i = 0; i < cards.length; i++) {
+        var titleEl = cards[i].querySelector(".card-title");
+        var titolo = titleEl ? (titleEl.textContent || "").toLowerCase() : "";
+        cards[i].style.display = titolo.indexOf(filter) !== -1 ? "" : "none";
+      }
+    });
+  }
+
+  // --------------------------
+  // Carousel custom
+  // --------------------------
+  var items = document.querySelectorAll(".carousel-item");
+  var buttons = document.querySelectorAll(".carousel-button");
+  var currentItem = 0;
+
+  function showItem(index) {
+    for (var i = 0; i < items.length; i++) {
+      if (i === index) items[i].classList.add("carousel-item--visible");
+      else items[i].classList.remove("carousel-item--visible");
+    }
+  }
+
+  if (items && items.length > 0) {
+    showItem(0);
+
+    if (buttons && buttons.length >= 2) {
+      buttons[0].addEventListener("click", function () {
+        currentItem = currentItem === 0 ? items.length - 1 : currentItem - 1;
         showItem(currentItem);
-    });
+      });
 
-    buttons[1].addEventListener('click', () => {
-        currentItem = (currentItem === items.length - 1) ? 0 : currentItem + 1;
+      buttons[1].addEventListener("click", function () {
+        currentItem = currentItem === items.length - 1 ? 0 : currentItem + 1;
         showItem(currentItem);
-    });
-}
+      });
+    }
 
-// Avvio automatico ogni 5 secondi
-setInterval(() => {
-    currentItem = (currentItem === items.length - 1) ? 0 : currentItem + 1;
-    showItem(currentItem);
-}, 5000);
+    setInterval(function () {
+      currentItem = currentItem === items.length - 1 ? 0 : currentItem + 1;
+      showItem(currentItem);
+    }, 5000);
+  }
+});
