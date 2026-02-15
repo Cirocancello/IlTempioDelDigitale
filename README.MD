@@ -98,7 +98,7 @@ Tabelle principali:
 4. Crea il database MySQL e importa lo schema  
 5. Aggiorna le credenziali in `DBConnection.java`  
 6. Avvia il server e apri:  
-   http://localhost:8080/IlTempioDelDigitale
+   "http://localhost:8080/IlTempioDelDigitale"
 
 ---
 
