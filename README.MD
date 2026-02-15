@@ -53,8 +53,6 @@ webapp/
 │     ├── styles/    → CSS
 │     ├── scripts/   → JS (carrello, ricerca AJAX…)
 
-
-
 ---
 
 ## 🔍 Ricerca dinamica AJAX
@@ -108,7 +106,6 @@ Tabelle principali:
 
 Email:    admin@tempio.it
 Password: admin
-
 
 ---
 
