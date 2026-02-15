@@ -1,8 +1,8 @@
 # 🛒 IlTempioDelDigitale  
 E-commerce modulare sviluppato in Java, JSP, Servlet e MySQL
 
-IlTempioDelDigitale è un progetto e-commerce completo, progettato con architettura MVC.  
-Include gestione utenti, catalogo prodotti, carrello, preferiti, feedback, pannello admin e ricerca dinamica tramite AJAX.
+**IlTempioDelDigitale** è un progetto e-commerce completo, progettato con architettura **MVC**.  
+Include gestione utenti, catalogo prodotti, carrello dinamico, preferiti, feedback, pannello admin e ricerca AJAX in tempo reale.
 
 ---
 
@@ -12,31 +12,31 @@ Include gestione utenti, catalogo prodotti, carrello, preferiti, feedback, panne
 - Registrazione con controllo email duplicata  
 - Login con gestione errori  
 - Logout con invalidazione sessione  
-- Pagina profilo protetta da filtro di autenticazione  
+- Pagina profilo protetta tramite filtro di autenticazione  
 
 ### 🛍️ Catalogo Prodotti
 - Visualizzazione prodotti con immagini, prezzo e dettagli  
 - Filtraggio per categoria  
-- **Ricerca dinamica AJAX** (nuova funzionalità)  
+- **Ricerca dinamica AJAX**  
 - Aggiunta al carrello (AJAX)  
 - Aggiunta ai preferiti  
 
 ### ⭐ Feedback
-- Inserimento recensioni con titolo, descrizione e stelle  
-- Media valutazioni  
+- Inserimento recensioni con titolo, descrizione e valutazione in stelle  
+- Calcolo media valutazioni  
 - Visualizzazione feedback per prodotto  
 
 ### 🛠️ Pannello Admin
 - Gestione prodotti (CRUD completo)  
 - Gestione categorie  
-- Gestione associazioni prodotto–categoria  
+- Associazione prodotto–categoria  
 - Upload immagini prodotto  
 
 ---
 
 ## 🧱 Architettura del progetto
 
-Il progetto segue una struttura chiara e professionale:
+Struttura chiara e modulare:
 
 src/
 ├── controller/      → Servlet (logica applicativa)
@@ -44,6 +44,7 @@ src/
 ├── dao/             → Data Access Object (CRUD e query)
 ├── util/            → Utility (DBConnection, helper vari)
 ├── filter/          → Filtri (autenticazione)
+
 webapp/
 ├── pagine/          → JSP principali
 ├── component/       → Componenti riutilizzabili (navbar, footer…)
@@ -56,7 +57,7 @@ Codice
 
 ---
 
-## 🔍 Ricerca dinamica AJAX (nuova funzionalità)
+## 🔍 Ricerca dinamica AJAX
 
 Implementata tramite:
 - `RicercaProdottiServlet`
@@ -68,7 +69,7 @@ Implementata tramite:
 
 ## 🗄️ Database
 
-MySQL con tabelle principali:
+Tabelle principali:
 - `utente`
 - `prodotto`
 - `categoria`
@@ -76,7 +77,6 @@ MySQL con tabelle principali:
 - `preferiti`
 - `feedback`
 - `prodotto_ordine`
-
 
 ---
 
@@ -100,18 +100,20 @@ MySQL con tabelle principali:
 4. Crea il database MySQL e importa lo schema  
 5. Aggiorna le credenziali in `DBConnection.java`  
 6. Avvia il server e apri:  
-http://localhost:8080/IlTempioDelDigitale
+   http://localhost:8080/IlTempioDelDigitale
 
------
+---
 
-Credenziai di accdesso come admin: 
+## 🔐 Credenziali Admin
 
-utente :     admin@tempio.it
-password :   admin
+Email:    admin@tempio.it
+Password: admin
+
+Codice
 
 ---
 
 ## 👨‍💻 Autore
 
 **Ciro**  
-Progetto sviluppato per l'esame di Tecnologie Software per il Web anno accademnico 2024/25.
+Progetto sviluppato per l'esame di *Tecnologie Software per il Web* — A.A. 2024/2025.
