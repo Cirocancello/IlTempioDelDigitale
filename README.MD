@@ -53,7 +53,7 @@ webapp/
 │     ├── styles/    → CSS
 │     ├── scripts/   → JS (carrello, ricerca AJAX…)
 
-Codice
+
 
 ---
 
@@ -109,7 +109,6 @@ Tabelle principali:
 Email:    admin@tempio.it
 Password: admin
 
-Codice
 
 ---
 
