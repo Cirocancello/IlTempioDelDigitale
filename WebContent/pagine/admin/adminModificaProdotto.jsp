@@ -5,13 +5,22 @@
 <%@ page import="java.util.List" %>
 
 <%
-    // Controllo admin
+    // ============================================================
+    // ⭐ CONTROLLO ACCESSO ADMIN
+    // ============================================================
     Utente admin = (Utente) session.getAttribute("utente");
     if (admin == null || admin.getRole() != 1) {
         response.sendRedirect(request.getContextPath() + "/admin/login");
         return;
     }
 
+    // ============================================================
+    // ⭐ RECUPERO DATI PASSATI DALLA SERVLET
+    // La servlet AdminProdottiServlet (action=edit) ha già:
+    //   - recuperato il prodotto
+    //   - recuperato la lista categorie
+    //   - messo tutto nella request
+    // ============================================================
     Prodotto p = (Prodotto) request.getAttribute("prodotto");
     List<Categoria> categorie = (List<Categoria>) request.getAttribute("categorie");
 %>
@@ -40,6 +49,9 @@
 
     <% if (p == null) { %>
 
+        <!-- ============================================================
+             ⭐ MESSAGGIO ERRORE SE IL PRODOTTO NON ESISTE
+             ============================================================ -->
         <div class="alert alert-danger">
             Errore: prodotto non trovato.
         </div>
@@ -49,49 +61,59 @@
         </a>
 
     </div>
-
 </body>
 </html>
 
 <% return; } %>
 
-    <!-- ⭐ FORM 1 — MODIFICA DATI TESTUALI -->
+    <!-- ============================================================
+         ⭐ FORM 1 — MODIFICA DATI TESTUALI
+         ============================================================ -->
     <form id="formAdminModificaProdotto"
           action="<%= request.getContextPath() %>/admin/prodotti"
           method="post"
           novalidate>
 
-        <input type="hidden" name="action" value="update">
+        <!-- ID prodotto -->
         <input type="hidden" name="id" value="<%= p.getId() %>">
 
-        <!-- ⭐ MANTIENI L’IMMAGINE ATTUALE -->
+        <!-- Indica alla servlet che questa è un’operazione UPDATE -->
+        <input type="hidden" name="action" value="update">
+
+        <!-- Mantiene l’immagine attuale -->
         <input type="hidden" name="imageUrl" value="<%= p.getImageUrl() %>">
 
+        <!-- Nome -->
         <div class="mb-3">
             <label class="form-label">Nome</label>
             <input type="text" name="nome" class="form-control" value="<%= p.getNome() %>" required>
         </div>
 
+        <!-- Brand -->
         <div class="mb-3">
             <label class="form-label">Brand</label>
             <input type="text" name="brand" class="form-control" value="<%= p.getBrand() %>" required>
         </div>
 
+        <!-- Informazioni -->
         <div class="mb-3">
             <label class="form-label">Informazioni</label>
             <textarea name="informazioni" class="form-control" rows="3" required><%= p.getInformazioni() %></textarea>
         </div>
 
+        <!-- Prezzo -->
         <div class="mb-3">
             <label class="form-label">Prezzo</label>
             <input type="number" step="0.01" name="prezzo" class="form-control" value="<%= p.getPrezzo() %>" required>
         </div>
 
+        <!-- Quantità -->
         <div class="mb-3">
             <label class="form-label">Quantità</label>
             <input type="number" name="quantita" class="form-control" value="<%= p.getQuantita() %>" required>
         </div>
 
+        <!-- Visibilità -->
         <div class="mb-3">
             <label class="form-label">Visibile</label>
             <select name="visibile" class="form-select">
@@ -100,6 +122,7 @@
             </select>
         </div>
 
+        <!-- Categoria -->
         <div class="mb-3">
             <label class="form-label">Categoria</label>
             <select name="categoriaId" class="form-select" required>
@@ -119,9 +142,12 @@
 
     <hr class="my-5">
 
-    <!-- ⭐ FORM 2 — MODIFICA IMMAGINE -->
+    <!-- ============================================================
+         ⭐ FORM 2 — MODIFICA IMMAGINE
+         ============================================================ -->
     <h3 class="mb-3">Modifica Immagine</h3>
 
+    <!-- Anteprima immagine attuale -->
     <div class="mb-3">
         <% if (p.getImageUrl() != null && !p.getImageUrl().isEmpty()) { %>
             <img src="<%= request.getContextPath() + "/" + p.getImageUrl() %>"

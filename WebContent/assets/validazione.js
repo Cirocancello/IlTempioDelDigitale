@@ -1,11 +1,30 @@
+// ======================================================================
+// VALIDAZIONE FORM — SCRIPT UNICO PER TUTTO IL SITO
+// ======================================================================
+// Questo file gestisce la validazione lato client di:
+// - Login utente
+// - Registrazione
+// - Checkout
+// - Login Admin
+// - CRUD Admin (Utenti, Categorie, Prodotti)
+// 
+// La validazione lato client migliora l’esperienza utente (UX) e riduce
+// gli errori prima dell’invio al server, ma NON sostituisce la validazione
+// lato server, che rimane obbligatoria.
+// ======================================================================
+
 document.addEventListener("DOMContentLoaded", () => {
-	console.log("✅ VALIDAZIONE VERSIONE CORRETTA CARICATA");
 
+    console.log("✅ Script validazione caricato correttamente");
 
-    // ==========================
-    // FUNZIONI GLOBALI
-    // ==========================
+    // ==================================================================
+    // FUNZIONI GLOBALI DI SUPPORTO
+    // ==================================================================
 
+    /**
+     * Mostra un messaggio di errore in cima al form.
+     * Se il box non esiste, lo crea.
+     */
     function mostraErroreForm(form, testo) {
         let box = form.querySelector(".errore-form");
 
@@ -17,21 +36,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
         box.textContent = testo;
 
+        // Rimuove automaticamente il messaggio dopo 4 secondi
         setTimeout(() => box.remove(), 4000);
     }
 
+    /**
+     * Evidenzia un campo come non valido e mostra un messaggio nel form.
+     */
     function invalidaCampo(campo, form, messaggio) {
         campo.classList.add("is-invalid");
         mostraErroreForm(form, messaggio);
     }
 
+    /**
+     * Ripulisce tutti gli errori visivi dal form.
+     */
     function pulisciErrori(form) {
         form.querySelectorAll(".is-invalid").forEach(el => el.classList.remove("is-invalid"));
     }
 
-    // ==========================
-    // VALIDAZIONE LOGIN
-    // ==========================
+    // ==================================================================
+    // VALIDAZIONE LOGIN UTENTE
+    // ==================================================================
     const formLogin = document.getElementById("formLogin");
 
     if (formLogin) {
@@ -59,9 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==========================
-    // VALIDAZIONE REGISTRAZIONE
-    // ==========================
+    // ==================================================================
+    // VALIDAZIONE REGISTRAZIONE UTENTE
+    // ==================================================================
     const formRegistrazione = document.getElementById("formRegistrazione");
 
     if (formRegistrazione) {
@@ -111,9 +137,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==========================
+    // ==================================================================
     // VALIDAZIONE CHECKOUT
-    // ==========================
+    // ==================================================================
     const formCheckout = document.getElementById("formCheckout");
 
     if (formCheckout) {
@@ -140,9 +166,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==========================
-    // VALIDAZIONE ADMIN LOGIN
-    // ==========================
+    // ==================================================================
+    // VALIDAZIONE LOGIN ADMIN
+    // ==================================================================
     const formAdminLogin = document.getElementById("formAdminLogin");
 
     if (formAdminLogin) {
@@ -170,9 +196,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==========================
-    // VALIDAZIONE ADMIN UTENTE
-    // ==========================
+    // ==================================================================
+    // VALIDAZIONE ADMIN — CREAZIONE / MODIFICA UTENTE
+    // ==================================================================
     const formAdminUtente = document.getElementById("formAdminUtente");
 
     if (formAdminUtente) {
@@ -222,183 +248,90 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==========================
-    // VALIDAZIONE ADMIN CATEGORIA
-    // ==========================
+    // ==================================================================
+    // VALIDAZIONE ADMIN — CATEGORIA (CREA / MODIFICA)
+    // ==================================================================
     const formAdminCategoria = document.getElementById("formAdminCategoria");
+    const formAdminModificaCategoria = document.getElementById("formAdminModificaCategoria");
+
+    function validaCategoria(form, e) {
+        pulisciErrori(form);
+        const nome = form.querySelector("input[name='nome']");
+
+        if (nome.value.trim().length < 3) {
+            e.preventDefault();
+            invalidaCampo(nome, form, "Il nome della categoria deve contenere almeno 3 caratteri.");
+        }
+    }
 
     if (formAdminCategoria) {
         formAdminCategoria.addEventListener("submit", function(e) {
-
-            pulisciErrori(formAdminCategoria);
-
-            const nome = formAdminCategoria.querySelector("input[name='nome']");
-
-            if (nome.value.trim().length < 3) {
-                e.preventDefault();
-                invalidaCampo(nome, formAdminCategoria, "Il nome della categoria deve contenere almeno 3 caratteri.");
-                return;
-            }
+            validaCategoria(formAdminCategoria, e);
         });
     }
-
-    // ==========================
-    // VALIDAZIONE ADMIN CREA PRODOTTO
-    // ==========================
-    const formAdminProdotto = document.getElementById("formAdminProdotto");
-
-    if (formAdminProdotto) {
-        formAdminProdotto.addEventListener("submit", function(e) {
-
-            pulisciErrori(formAdminProdotto);
-
-            const nome = formAdminProdotto.querySelector("input[name='nome']");
-            const brand = formAdminProdotto.querySelector("input[name='brand']");
-            const info = formAdminProdotto.querySelector("textarea[name='informazioni']");
-            const prezzo = formAdminProdotto.querySelector("input[name='prezzo']");
-            const quantita = formAdminProdotto.querySelector("input[name='quantita']");
-
-            if (nome.value.trim().length < 3) {
-                e.preventDefault();
-                invalidaCampo(nome, formAdminProdotto, "Il nome deve contenere almeno 3 caratteri.");
-                return;
-            }
-
-            if (brand.value.trim().length < 2) {
-                e.preventDefault();
-                invalidaCampo(brand, formAdminProdotto, "Il brand deve contenere almeno 2 caratteri.");
-                return;
-            }
-
-            if (info.value.trim().length < 10) {
-                e.preventDefault();
-                invalidaCampo(info, formAdminProdotto, "Le informazioni devono contenere almeno 10 caratteri.");
-                return;
-            }
-
-            if (isNaN(prezzo.value) || parseFloat(prezzo.value) <= 0) {
-                e.preventDefault();
-                invalidaCampo(prezzo, formAdminProdotto, "Inserisci un prezzo valido.");
-                return;
-            }
-
-            if (isNaN(quantita.value) || parseInt(quantita.value) < 0) {
-                e.preventDefault();
-                invalidaCampo(quantita, formAdminProdotto, "Inserisci una quantità valida.");
-                return;
-            }
-        });
-    }
-
-    // ==========================
-    // VALIDAZIONE ADMIN MODIFICA CATEGORIA
-    // ==========================
-    const formAdminModificaCategoria = document.getElementById("formAdminModificaCategoria");
 
     if (formAdminModificaCategoria) {
         formAdminModificaCategoria.addEventListener("submit", function(e) {
-
-            pulisciErrori(formAdminModificaCategoria);
-
-            const nome = formAdminModificaCategoria.querySelector("input[name='nome']");
-
-            if (nome.value.trim().length < 3) {
-                e.preventDefault();
-                invalidaCampo(nome, formAdminModificaCategoria, "Il nome della categoria deve contenere almeno 3 caratteri.");
-                return;
-            }
+            validaCategoria(formAdminModificaCategoria, e);
         });
     }
 
-    // ==========================
-    // VALIDAZIONE ADMIN MODIFICA PRODOTTO
-    // ==========================
+    // ==================================================================
+    // VALIDAZIONE ADMIN — PRODOTTO (CREA / MODIFICA)
+    // ==================================================================
+    const formAdminProdotto = document.getElementById("formAdminProdotto");
     const formAdminModificaProdotto = document.getElementById("formAdminModificaProdotto");
+
+    function validaProdotto(form, e) {
+
+        pulisciErrori(form);
+
+        const nome = form.querySelector("input[name='nome']");
+        const brand = form.querySelector("input[name='brand']");
+        const info = form.querySelector("textarea[name='informazioni']");
+        const prezzo = form.querySelector("input[name='prezzo']");
+        const quantita = form.querySelector("input[name='quantita']");
+
+        if (nome.value.trim().length < 3) {
+            e.preventDefault();
+            invalidaCampo(nome, form, "Il nome deve contenere almeno 3 caratteri.");
+            return;
+        }
+
+        if (brand.value.trim().length < 2) {
+            e.preventDefault();
+            invalidaCampo(brand, form, "Il brand deve contenere almeno 2 caratteri.");
+            return;
+        }
+
+        if (info.value.trim().length < 10) {
+            e.preventDefault();
+            invalidaCampo(info, form, "Le informazioni devono contenere almeno 10 caratteri.");
+            return;
+        }
+
+        if (isNaN(prezzo.value) || parseFloat(prezzo.value) <= 0) {
+            e.preventDefault();
+            invalidaCampo(prezzo, form, "Inserisci un prezzo valido.");
+            return;
+        }
+
+        if (isNaN(quantita.value) || parseInt(quantita.value) < 0) {
+            e.preventDefault();
+            invalidaCampo(quantita, form, "Inserisci una quantità valida.");
+            return;
+        }
+    }
+
+    if (formAdminProdotto) {
+        formAdminProdotto.addEventListener("submit", function(e) {
+            validaProdotto(formAdminProdotto, e);
+        });
+    }
 
     if (formAdminModificaProdotto) {
         formAdminModificaProdotto.addEventListener("submit", function(e) {
-
-            pulisciErrori(formAdminModificaProdotto);
-
-            const nome = formAdminModificaProdotto.querySelector("input[name='nome']");
-            const brand = formAdminModificaProdotto.querySelector("input[name='brand']");
-            const info = formAdminModificaProdotto.querySelector("textarea[name='informazioni']");
-            const prezzo = formAdminModificaProdotto.querySelector("input[name='prezzo']");
-            const quantita = formAdminModificaProdotto.querySelector("input[name='quantita']");
-
-            if (nome.value.trim().length < 3) {
-                e.preventDefault();
-                invalidaCampo(nome, formAdminModificaProdotto, "Il nome deve contenere almeno 3 caratteri.");
-                return;
-            }
-
-            if (brand.value.trim().length < 2) {
-                e.preventDefault();
-                invalidaCampo(brand, formAdminModificaProdotto, "Il brand deve contenere almeno 2 caratteri.");
-                return;
-            }
-
-            if (info.value.trim().length < 10) {
-                e.preventDefault();
-                invalidaCampo(info, formAdminModificaProdotto, "Le informazioni devono contenere almeno 10 caratteri.");
-                return;
-            }
-
-            if (isNaN(prezzo.value) || parseFloat(prezzo.value) <= 0) {
-                e.preventDefault();
-                invalidaCampo(prezzo, formAdminModificaProdotto, "Inserisci un prezzo valido.");
-                return;
-            }
-
-            if (isNaN(quantita.value) || parseInt(quantita.value) < 0) {
-                e.preventDefault();
-                invalidaCampo(quantita, formAdminModificaProdotto, "Inserisci una quantità valida.");
-                return;
-            }
-        });
-    }
-
-    // ==========================
-    // VALIDAZIONE ADMIN MODIFICA UTENTE
-    // ==========================
-    const formAdminModificaUtente = document.getElementById("formAdminModificaUtente");
-
-    if (formAdminModificaUtente) {
-        formAdminModificaUtente.addEventListener("submit", function(e) {
-
-            pulisciErrori(formAdminModificaUtente);
-
-            const nome = formAdminModificaUtente.querySelector("input[name='nome']");
-            const cognome = formAdminModificaUtente.querySelector("input[name='cognome']");
-            const email = formAdminModificaUtente.querySelector("input[name='email']");
-            const ruolo = formAdminModificaUtente.querySelector("select[name='role']");
-
-            const nomeRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s']{2,30}$/;
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-            if (!nomeRegex.test(nome.value.trim())) {
-                e.preventDefault();
-                invalidaCampo(nome, formAdminModificaUtente, "Il nome deve contenere solo lettere.");
-                return;
-            }
-
-            if (!nomeRegex.test(cognome.value.trim())) {
-                e.preventDefault();
-                invalidaCampo(cognome, formAdminModificaUtente, "Il cognome deve contenere solo lettere.");
-                return;
-            }
-
-            if (!emailRegex.test(email.value.trim())) {
-                e.preventDefault();
-                invalidaCampo(email, formAdminModificaUtente, "Inserisci un'email valida.");
-                return;
-            }
-
-            if (ruolo.value !== "0" && ruolo.value !== "1") {
-                e.preventDefault();
-                invalidaCampo(ruolo, formAdminModificaUtente, "Seleziona un ruolo valido.");
-                return;
-            }
+            validaProdotto(formAdminModificaProdotto, e);
         });
     }
 

@@ -66,26 +66,23 @@ public class OrdineDAO {
     }
 
     // ============================================================
-    // 2️⃣ FILTRO + PAGINAZIONE (ADMIN) — VERSIONE CORRETTA
+    // 2️⃣ FILTRO + PAGINAZIONE (ADMIN)
     // ============================================================
     public List<Ordine> filtraOrdini(String from, String to, Integer userId, int limit, int offset) throws SQLException {
 
         StringBuilder sql = new StringBuilder("SELECT * FROM ordine WHERE 1=1 ");
         List<Object> params = new ArrayList<>();
 
-        // ⭐ Filtro data inizio (00:00:00)
         if (from != null && !from.isEmpty()) {
             sql.append(" AND _data >= ?");
             params.add(Timestamp.valueOf(from + " 00:00:00"));
         }
 
-        // ⭐ Filtro data fine (23:59:59)
         if (to != null && !to.isEmpty()) {
             sql.append(" AND _data <= ?");
             params.add(Timestamp.valueOf(to + " 23:59:59"));
         }
 
-        // ⭐ Filtro utente
         if (userId != null) {
             sql.append(" AND id_utente = ?");
             params.add(userId);
@@ -120,7 +117,7 @@ public class OrdineDAO {
     }
 
     // ============================================================
-    // 3️⃣ CONTEGGIO ORDINI PER PAGINAZIONE — VERSIONE CORRETTA
+    // 3️⃣ CONTEGGIO ORDINI PER PAGINAZIONE
     // ============================================================
     public int countOrdini(String from, String to, Integer userId) throws SQLException {
 
@@ -195,15 +192,39 @@ public class OrdineDAO {
     }
 
     // ============================================================
-    // 6️⃣ DELETE ORDINE
+    // 6️⃣ DELETE ORDINE — VERSIONE CORRETTA
     // ============================================================
     public boolean delete(String idOrdine) throws SQLException {
-        String sql = "DELETE FROM ordine WHERE id = ?";
 
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, idOrdine);
+        String sqlDeleteProdotti = "DELETE FROM prodotto_ordine WHERE id_ordine = ?";
+        String sqlDeleteOrdine = "DELETE FROM ordine WHERE id = ?";
 
-        return ps.executeUpdate() == 1;
+        try {
+            conn.setAutoCommit(false);
+
+            // 1️⃣ Elimina prima i prodotti associati
+            try (PreparedStatement ps = conn.prepareStatement(sqlDeleteProdotti)) {
+                ps.setString(1, idOrdine);
+                ps.executeUpdate();
+            }
+
+            // 2️⃣ Poi elimina l’ordine
+            int rows;
+            try (PreparedStatement ps = conn.prepareStatement(sqlDeleteOrdine)) {
+                ps.setString(1, idOrdine);
+                rows = ps.executeUpdate();
+            }
+
+            conn.commit();
+            return rows == 1;
+
+        } catch (SQLException e) {
+            conn.rollback();
+            throw e;
+
+        } finally {
+            conn.setAutoCommit(true);
+        }
     }
 
     // ============================================================

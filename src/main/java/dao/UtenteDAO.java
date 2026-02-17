@@ -68,7 +68,6 @@ public class UtenteDAO {
         return null;
     }
 
-
     // ============================================================
     // FIND BY EMAIL
     // ============================================================
@@ -163,16 +162,43 @@ public class UtenteDAO {
     }
 
     // ============================================================
-    // DELETE
+    //  DELETE — VERSIONE CORRETTA (con eliminazione ordini)
     // ============================================================
-    public boolean delete(int id) {
-        String sql = "DELETE FROM utente WHERE id=?";
+    public boolean delete(int idUtente) {
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        String sqlDeleteProdotti = 
+            "DELETE po FROM prodotto_ordine po " +
+            "JOIN ordine o ON po.id_ordine = o.id " +
+            "WHERE o.id_utente = ?";
 
-            ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
+        String sqlDeleteOrdini = "DELETE FROM ordine WHERE id_utente = ?";
+        String sqlDeleteUtente = "DELETE FROM utente WHERE id = ?";
+
+        try (Connection conn = DBConnection.getConnection()) {
+
+            conn.setAutoCommit(false);
+
+            // 1️⃣ Elimina prodotti degli ordini dell’utente
+            try (PreparedStatement ps = conn.prepareStatement(sqlDeleteProdotti)) {
+                ps.setInt(1, idUtente);
+                ps.executeUpdate();
+            }
+
+            // 2️⃣ Elimina ordini dell’utente
+            try (PreparedStatement ps = conn.prepareStatement(sqlDeleteOrdini)) {
+                ps.setInt(1, idUtente);
+                ps.executeUpdate();
+            }
+
+            // 3️⃣ Elimina l’utente
+            int rows;
+            try (PreparedStatement ps = conn.prepareStatement(sqlDeleteUtente)) {
+                ps.setInt(1, idUtente);
+                rows = ps.executeUpdate();
+            }
+
+            conn.commit();
+            return rows == 1;
 
         } catch (SQLException e) {
             System.err.println("Errore cancellazione utente: " + e.getMessage());
@@ -201,7 +227,7 @@ public class UtenteDAO {
     }
 
     // ============================================================
-    // MAPPATORE (unico punto di conversione)
+    // MAPPATORE
     // ============================================================
     private Utente map(ResultSet rs) throws SQLException {
         Utente u = new Utente();

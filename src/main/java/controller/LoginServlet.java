@@ -10,9 +10,14 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 
 /**
- * LoginServlet.java
- * -----------------
- * Gestisce il login utente basato sullo schema td.utente.
+ * LoginServlet
+ * -------------------------
+ * Gestisce il login degli utenti.
+ * - Valida l'input
+ * - Recupera l'utente dal DB
+ * - Verifica la password tramite hashing
+ * - Crea la sessione
+ * - Reindirizza in base al ruolo (user/admin)
  */
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -20,43 +25,50 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
+        // ⭐ 1) Recupero parametri dal form
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        // 🔹 Validazione input
+        // ⭐ 2) Validazione lato server
+        // Evita email vuote, formati errati o password mancanti
         if (!Validator.isValidEmail(email) || Validator.isEmpty(password)) {
             request.setAttribute("error", "Email o password non valide");
             request.getRequestDispatcher("/pagine/login.jsp").forward(request, response);
             return;
         }
 
+        // ⭐ 3) Recupero utente dal database tramite email
         UtenteDAO dao = new UtenteDAO();
-        Utente u = dao.findByEmail(email); // recupera utente dal DB
+        Utente u = dao.findByEmail(email);
 
-        // 🔹 Verifica credenziali con hash
+        // ⭐ 4) Verifica credenziali
+        // - L'utente deve esistere
+        // - La password inserita deve corrispondere all'hash salvato
         if (u != null && PasswordUtils.verifyPassword(password, u.getPassword())) {
 
+            // ⭐ 5) Creazione sessione
             HttpSession session = request.getSession();
 
-            // 🔹 Salvataggio dati utente
+            // Salvo l'intero oggetto utente
             session.setAttribute("utente", u);
+
+            // Salvo ID e ruolo per comodità
             session.setAttribute("utenteId", u.getId());
-
-            // 🔹 TOKEN DI AUTENTICAZIONE (richiesto dal prof)
-            session.setAttribute("auth", true);
-
-            // 🔹 RUOLO (0 = user, 1 = admin)
             session.setAttribute("role", u.getRole());
 
-            // 🔹 Redirect in base al ruolo
+            // Token di autenticazione richiesto dal prof
+            session.setAttribute("auth", true);
+
+            // ⭐ 6) Redirect in base al ruolo
             if (u.getRole() == 1) {
-                response.sendRedirect(request.getContextPath() + "/admin/prodotti");
+                response.sendRedirect(request.getContextPath() + "/admin/adminDashboard");
             } else {
                 response.sendRedirect(request.getContextPath() + "/profile");
             }
 
         } else {
+            // ⭐ Credenziali errate → ritorno al login con messaggio
             request.setAttribute("error", "Credenziali non corrette");
             request.getRequestDispatcher("/pagine/login.jsp").forward(request, response);
         }

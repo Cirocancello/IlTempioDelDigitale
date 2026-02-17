@@ -4,12 +4,18 @@
 <%@ page import="model.Utente" %>
 
 <%
+    // ============================================================
+    // ⭐ CONTROLLO ACCESSO ADMIN
+    // ============================================================
     Utente admin = (Utente) session.getAttribute("utente");
     if (admin == null || admin.getRole() != 1) {
         response.sendRedirect(request.getContextPath() + "/admin/login");
         return;
     }
 
+    // ============================================================
+    // ⭐ Recupero lista categorie passata dalla servlet
+    // ============================================================
     List<Categoria> categorie = (List<Categoria>) request.getAttribute("categorie");
 %>
 
@@ -19,7 +25,10 @@
     <meta charset="UTF-8">
     <title>Gestione Categorie</title>
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Stile personalizzato admin -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/admin.css">
 </head>
 
@@ -27,15 +36,18 @@
 
 <div class="admin-container">
 
+    <!-- ⭐ Titolo pagina -->
     <h1 class="mb-4">Gestione Categorie</h1>
 
-    <!-- 🔙 Pulsante ritorno alla Dashboard Admin -->
+    <!-- ⭐ Pulsante ritorno alla Dashboard -->
     <a href="<%= request.getContextPath() %>/admin/dashboard"
        class="btn-back-dashboard mb-4">
         ← Torna alla Dashboard
     </a>
 
-    <!-- ⭐ FORM CREAZIONE CATEGORIA -->
+    <!-- ============================================================
+         ⭐ FORM CREAZIONE NUOVA CATEGORIA
+         ============================================================ -->
     <div class="admin-form mb-5">
         <h3 class="mb-3">Crea Nuova Categoria</h3>
 
@@ -53,7 +65,9 @@
         </form>
     </div>
 
-    <!-- ⭐ TABELLA CATEGORIE -->
+    <!-- ============================================================
+         ⭐ TABELLA CATEGORIE
+         ============================================================ -->
     <h3 class="mb-3">Lista Categorie</h3>
 
     <table class="admin-table">
@@ -66,48 +80,56 @@
         </thead>
 
         <tbody>
-        <% if (categorie != null) {
-            for (Categoria c : categorie) { %>
+        <% 
+            if (categorie != null) {
+                for (Categoria c : categorie) { 
+        %>
 
-                <tr>
-                    <td><%= c.getId() %></td>
-                    <td><%= c.getNome() %></td>
+            <tr>
+                <td><%= c.getId() %></td>
+                <td><%= c.getNome() %></td>
 
-                    <td>
+                <td>
 
-                        <!-- Modifica -->
-                        <a href="<%= request.getContextPath() %>/pagine/admin/adminModificaCategoria.jsp?id=<%= c.getId() %>"
-                           class="btn btn-sm btn-dark">
-                            Modifica
-                        </a>
+                    <!-- ⭐ MODIFICA CATEGORIA (CORRETTO) -->
+                    <a href="<%= request.getContextPath() %>/admin/categorie?action=edit&id=<%= c.getId() %>"
+                       class="btn btn-sm btn-dark">
+                        Modifica
+                    </a>
 
-                        <!-- Elimina -->
-                        <form action="<%= request.getContextPath() %>/admin/categorie" method="post" class="d-inline">
-                            <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="id" value="<%= c.getId() %>">
+                    <!-- ⭐ ELIMINA CATEGORIA -->
+                    <form action="<%= request.getContextPath() %>/admin/categorie"
+                          method="post"
+                          class="d-inline">
 
-                            <button class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Eliminare questa categoria?')">
-                                Elimina
-                            </button>
-                        </form>
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="id" value="<%= c.getId() %>">
 
-                    </td>
-                </tr>
+                        <button class="btn btn-sm btn-danger"
+                                onclick="return confirm('Eliminare questa categoria?')">
+                            Elimina
+                        </button>
+                    </form>
 
-        <%  }
-        } %>
+                </td>
+            </tr>
+
+        <% 
+                }
+            } 
+        %>
         </tbody>
     </table>
 
+    <!-- ⭐ Logout -->
     <div class="logout mt-5">
         <a class="btn-logout" href="<%= request.getContextPath() %>/admin/logout">Logout</a>
     </div>
 
 </div>
 
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="<%= request.getContextPath() %>/assets/validazione.js"></script>
 
 </body>
 </html>

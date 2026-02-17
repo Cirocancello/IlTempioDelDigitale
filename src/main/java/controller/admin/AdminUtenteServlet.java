@@ -12,12 +12,18 @@ import java.util.List;
 @WebServlet("/admin/utenti")
 public class AdminUtenteServlet extends HttpServlet {
 
+    // ============================================================
+    // ⭐ Controllo ruolo admin
+    // ============================================================
     private boolean isAdmin(HttpSession session) {
         if (session == null) return false;
         Utente u = (Utente) session.getAttribute("utente");
         return u != null && u.getRole() == 1;
     }
 
+    // ============================================================
+    // ⭐ GET → Lista utenti + Modifica utente
+    // ============================================================
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -28,13 +34,45 @@ public class AdminUtenteServlet extends HttpServlet {
             return;
         }
 
-        try {
-            UtenteDAO utenteDAO = new UtenteDAO();
-            List<Utente> utenti = utenteDAO.findAll();
+        String action = request.getParameter("action");
+        if (action == null) action = "";
 
-            request.setAttribute("utenti", utenti);
-            request.getRequestDispatcher("/pagine/admin/adminUtente.jsp")
-                   .forward(request, response);
+        UtenteDAO utenteDAO = new UtenteDAO();
+
+        try {
+            switch (action) {
+
+                // ============================================================
+                // ⭐ EDIT → Mostra form di modifica utente
+                // ============================================================
+                case "edit": {
+                    int id = Integer.parseInt(request.getParameter("id"));
+                    Utente u = utenteDAO.findById(id);
+
+                    if (u == null) {
+                        request.setAttribute("error", "Utente non trovato.");
+                        break;
+                    }
+
+                    request.setAttribute("utente", u);
+
+                    // ⭐ VERSIONE CORRETTA → usa adminModificaUtente.jsp
+                    request.getRequestDispatcher("/pagine/admin/adminModificaUtente.jsp")
+                           .forward(request, response);
+                    return;
+                }
+
+                // ============================================================
+                // ⭐ DEFAULT → Mostra lista utenti
+                // ============================================================
+                default: {
+                    List<Utente> utenti = utenteDAO.findAll();
+                    request.setAttribute("utenti", utenti);
+                    request.getRequestDispatcher("/pagine/admin/adminUtente.jsp")
+                           .forward(request, response);
+                    return;
+                }
+            }
 
         } catch (Exception e) {
             request.setAttribute("error", "Errore nel caricamento utenti.");
@@ -43,6 +81,9 @@ public class AdminUtenteServlet extends HttpServlet {
         }
     }
 
+    // ============================================================
+    // ⭐ POST → Create / Update / Delete
+    // ============================================================
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -56,11 +97,14 @@ public class AdminUtenteServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action == null) action = "";
 
-        try {
-            UtenteDAO utenteDAO = new UtenteDAO();
+        UtenteDAO utenteDAO = new UtenteDAO();
 
+        try {
             switch (action) {
 
+                // ============================================================
+                // ⭐ CREATE
+                // ============================================================
                 case "create": {
                     String nome = request.getParameter("nome");
                     String cognome = request.getParameter("cognome");
@@ -73,33 +117,39 @@ public class AdminUtenteServlet extends HttpServlet {
                     break;
                 }
 
+                // ============================================================
+                // ⭐ UPDATE
+                // ============================================================
                 case "update": {
                     int id = Integer.parseInt(request.getParameter("id"));
-                    String nome = request.getParameter("nome");
-                    String cognome = request.getParameter("cognome");
-                    String email = request.getParameter("email");
-                    int role = Integer.parseInt(request.getParameter("role"));
-
                     Utente u = utenteDAO.findById(id);
+
                     if (u != null) {
-                        u.setNome(nome);
-                        u.setCognome(cognome);
-                        u.setEmail(email);
-                        u.setRole(role);
+                        u.setNome(request.getParameter("nome"));
+                        u.setCognome(request.getParameter("cognome"));
+                        u.setEmail(request.getParameter("email"));
+                        u.setRole(Integer.parseInt(request.getParameter("role")));
+
                         utenteDAO.update(u);
                     }
                     break;
                 }
 
+                // ============================================================
+                // ⭐ DELETE
+                // ============================================================
                 case "delete": {
                     int id = Integer.parseInt(request.getParameter("id"));
                     utenteDAO.delete(id);
                     break;
                 }
+
+                default:
+                    break;
             }
 
         } catch (Exception e) {
-            // log se necessario
+            e.printStackTrace();
         }
 
         // ⭐ PRG

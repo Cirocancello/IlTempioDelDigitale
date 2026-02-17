@@ -28,21 +28,18 @@
 
     <h1 class="mb-4">Gestione Utenti</h1>
 
-    <!-- 🔙 Torna alla Dashboard -->
     <a href="<%= request.getContextPath() %>/admin/dashboard"
        class="btn-back-dashboard mb-4">
         ← Torna alla Dashboard
     </a>
 
-    <!-- ⭐ FORM CREAZIONE UTENTE -->
+    <!-- ============================================================
+         ⭐ FORM CREAZIONE NUOVO UTENTE
+         ============================================================ -->
     <div class="admin-form mb-5">
         <h3 class="mb-3">Crea Nuovo Utente</h3>
 
-        <form id="formAdminUtente"
-              action="<%= request.getContextPath() %>/admin/utenti"
-              method="post"
-              novalidate>
-
+        <form action="<%= request.getContextPath() %>/admin/utenti" method="post" novalidate>
             <input type="hidden" name="action" value="create">
 
             <div class="row">
@@ -79,7 +76,9 @@
         </form>
     </div>
 
-    <!-- ⭐ TABELLA UTENTI -->
+    <!-- ============================================================
+         ⭐ LISTA UTENTI
+         ============================================================ -->
     <h3 class="mb-3">Lista Utenti</h3>
 
     <table class="admin-table">
@@ -107,14 +106,17 @@
 
                     <td>
 
-                        <!-- Modifica -->
-                        <a href="<%= request.getContextPath() %>/pagine/admin/adminModificaUtente.jsp?id=<%= u.getId() %>"
+                        <!-- ⭐ MODIFICA UTENTE (GET → action=edit) -->
+                        <a href="<%= request.getContextPath() %>/admin/utenti?action=edit&id=<%= u.getId() %>"
                            class="btn btn-sm btn-dark">
                             Modifica
                         </a>
 
-                        <!-- Elimina -->
-                        <form action="<%= request.getContextPath() %>/admin/utenti" method="post" class="d-inline">
+                        <!-- ⭐ ELIMINA UTENTE (POST → action=delete) -->
+                        <form action="<%= request.getContextPath() %>/admin/utenti"
+                              method="post"
+                              class="d-inline">
+
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="id" value="<%= u.getId() %>">
 
@@ -131,14 +133,15 @@
         } else { %>
 
             <tr>
-                <td colspan="6" class="text-center text-warning">Nessun utente trovato.</td>
+                <td colspan="6" class="text-center text-warning">
+                    Nessun utente trovato.
+                </td>
             </tr>
 
         <% } %>
         </tbody>
     </table>
 
-    <!-- Logout -->
     <div class="logout mt-5">
         <a class="btn-logout" href="<%= request.getContextPath() %>/admin/logout">Logout</a>
     </div>

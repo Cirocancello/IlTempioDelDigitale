@@ -5,12 +5,18 @@
 <%@ page import="model.Prodotto" %>
 
 <%
+    // ============================================================
+    // ⭐ Controllo accesso Admin
+    // ============================================================
     Utente admin = (Utente) session.getAttribute("utente");
     if (admin == null || admin.getRole() != 1) {
         response.sendRedirect(request.getContextPath() + "/admin/login");
         return;
     }
 
+    // ============================================================
+    // ⭐ Recupero dati passati dalla servlet
+    // ============================================================
     List<Ordine> ordini = (List<Ordine>) request.getAttribute("ordini");
     List<Utente> utenti = (List<Utente>) request.getAttribute("utenti");
 
@@ -20,6 +26,11 @@
     int currentPage = (currentPageAttr != null) ? currentPageAttr : 1;
     int totalPagesNum = (totalPagesAttr != null) ? totalPagesAttr : 1;
 
+    // Filtri mantenuti nella UI
+    /*
+    “I filtri vengono mantenuti nella UI perché recupero i parametri dalla request e li reinserisco negli input, 
+    così l’amministratore vede sempre quali filtri ha applicato anche quando cambia pagina.”
+    */
     String fromParam = request.getParameter("from") != null ? request.getParameter("from") : "";
     String toParam = request.getParameter("to") != null ? request.getParameter("to") : "";
     String userIdParam = request.getParameter("userId") != null ? request.getParameter("userId") : "";
@@ -31,6 +42,7 @@
     <meta charset="UTF-8">
     <title>Gestione Ordini</title>
 
+    <!-- Bootstrap + stile admin -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/admin.css">
 </head>
@@ -39,6 +51,7 @@
 
 <div class="admin-container">
 
+    <!-- ⭐ Titolo pagina -->
     <h1 class="mb-4">Gestione Ordini</h1>
 
     <!-- 🔙 Torna alla Dashboard -->
@@ -47,21 +60,26 @@
         ← Torna alla Dashboard
     </a>
 
-    <!-- ⭐ FILTRI -->
+    <!-- ============================================================
+         ⭐ FILTRI DI RICERCA ORDINI
+         ============================================================ -->
     <h3 class="mb-3">Filtra Ordini</h3>
 
     <form method="get" action="<%= request.getContextPath() %>/admin/ordini" class="row g-3 mb-5">
 
+        <!-- Filtro data inizio -->
         <div class="col-md-3">
             <label class="form-label">Data inizio</label>
             <input type="date" name="from" class="form-control" value="<%= fromParam %>">
         </div>
 
+        <!-- Filtro data fine -->
         <div class="col-md-3">
             <label class="form-label">Data fine</label>
             <input type="date" name="to" class="form-control" value="<%= toParam %>">
         </div>
 
+        <!-- Filtro per utente -->
         <div class="col-md-3">
             <label class="form-label">Utente</label>
             <select name="userId" class="form-select">
@@ -82,13 +100,16 @@
             </select>
         </div>
 
+        <!-- Pulsante filtra -->
         <div class="col-md-3 d-flex align-items-end">
             <button type="submit" class="btn-filtra">Filtra</button>
         </div>
 
     </form>
 
-    <!-- ⭐ LISTA ORDINI -->
+    <!-- ============================================================
+         ⭐ LISTA ORDINI
+         ============================================================ -->
     <h3 class="mb-3">Lista Ordini</h3>
 
     <table class="admin-table">
@@ -114,6 +135,7 @@
             <tr>
                 <td><%= o.getId() %></td>
 
+                <!-- Email utente -->
                 <td>
                     <%= (o.getUtente() != null)
                         ? o.getUtente().getEmail()
@@ -124,6 +146,7 @@
                 <td>€ <%= o.getTotale() %></td>
                 <td><%= o.getStato() %></td>
 
+                <!-- Pulsante mostra dettagli -->
                 <td>
                     <button class="btn btn-sm btn-info"
                             data-bs-toggle="collapse"
@@ -132,7 +155,9 @@
                     </button>
                 </td>
 
+                <!-- ⭐ Azioni: modifica stato + elimina -->
                 <td>
+
                     <!-- UPDATE STATO -->
                     <form action="<%= request.getContextPath() %>/admin/ordini" method="post" class="d-inline">
                         <input type="hidden" name="action" value="update">
@@ -161,7 +186,9 @@
                 </td>
             </tr>
 
-            <!-- ⭐ DETTAGLIO COLLASSABILE -->
+            <!-- ============================================================
+                 ⭐ DETTAGLIO ORDINE (collassabile)
+                 ============================================================ -->
             <tr class="collapse" id="dettaglio<%= o.getId() %>">
                 <td colspan="7">
                     <div class="p-3 bg-dark text-white rounded">
@@ -198,6 +225,7 @@
         } else {
         %>
 
+            <!-- Nessun ordine -->
             <tr>
                 <td colspan="7" class="text-center text-warning">Nessun ordine trovato.</td>
             </tr>
@@ -206,8 +234,11 @@
         </tbody>
     </table>
 
-    <!-- ⭐ PAGINAZIONE -->
+    <!-- ============================================================
+         ⭐ PAGINAZIONE
+         ============================================================ -->
     <div class="pagination-admin">
+
         <% if (currentPage > 1) { %>
             <a class="page-admin"
                href="?page=<%= currentPage - 1 %>&from=<%= fromParam %>&to=<%= toParam %>&userId=<%= userIdParam %>">
@@ -230,6 +261,7 @@
         <% } %>
     </div>
 
+    <!-- Logout -->
     <div class="logout mt-5">
         <a class="btn-logout" href="<%= request.getContextPath() %>/admin/logout">Logout</a>
     </div>
