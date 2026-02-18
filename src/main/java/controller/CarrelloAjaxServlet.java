@@ -87,7 +87,8 @@ public class CarrelloAjaxServlet extends HttpServlet {
             List<Prodotto> carrello = getCarrello(session);
 
             /**
-             * ⭐ 3) Recupero parametri AJAX
+             * ⭐ 3) Recupero parametri AJAX 
+             * che sono arrivati dalla chiamata asincrona Ajax quando clicco su aggiungi al carrello
              */
             String action = request.getParameter("action");
             String idParam = request.getParameter("id");
@@ -168,6 +169,10 @@ public class CarrelloAjaxServlet extends HttpServlet {
 
             /**
              * ⭐ 7) Calcolo quantità totale nel carrello
+             * 
+             * “Uso lo Stream API per calcolare il totale degli articoli nel carrello.
+			 * mapToInt(Prodotto::getQuantita) trasforma ogni prodotto nella sua quantità, e sum() somma tutte le quantità.
+			 * È una forma compatta e moderna per sostituire un ciclo for.”
              */
             int totale = carrello.stream()
                     .mapToInt(Prodotto::getQuantita)

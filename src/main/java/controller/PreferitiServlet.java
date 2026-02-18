@@ -60,6 +60,11 @@ public class PreferitiServlet extends HttpServlet {
 
             PreferitiDAO dao = new PreferitiDAO(conn);
 
+            /*
+             * “La riga if ("remove".equalsIgnoreCase(action)) controlla se il parametro action vale ‘remove’.
+	         * Uso questa forma perché è sicura: evita NullPointerException se action è null.
+			 * Se l’azione è ‘remove’, la servlet rimuove il prodotto dai preferiti; altrimenti lo aggiunge.”
+             */
             // ⭐ 5) LOGICA AGGIUNTA / RIMOZIONE
             if ("remove".equalsIgnoreCase(action)) {
                 // 🗑️ RIMOZIONE DAI PREFERITI

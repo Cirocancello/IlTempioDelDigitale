@@ -92,6 +92,13 @@
                             </span>
                         </button>
                     </h2>
+                    
+                    <!--
+                    “L’accordion è un componente Bootstrap che permette di mostrare e nascondere contenuti in modo dinamico.
+                     Nella pagina degli ordini lo uso per mostrare ogni ordine come una sezione espandibile: 
+                     cliccando sul titolo dell’ordine si apre il dettaglio con indirizzo, pagamento e prodotti acquistati.
+					 Questo rende la pagina più ordinata e facilmente navigabile, soprattutto quando l’utente ha molti ordini.” 
+                     -->
 
                     <!-- ⭐ Corpo dell’accordion -->
                     <div id="collapse<%= o.getId() %>" class="accordion-collapse collapse"
