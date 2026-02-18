@@ -16,10 +16,10 @@ Include gestione utenti, catalogo prodotti, carrello dinamico, preferiti, feedba
 
 ### 🛍️ Catalogo Prodotti
 - Visualizzazione prodotti con immagini, prezzo e dettagli  
-- Filtraggio per categoria  
-- **Ricerca dinamica AJAX**  
+- Filtraggio per categoria   
 - Aggiunta al carrello (AJAX)  
 - Aggiunta ai preferiti  
+- Aggiunta feedback
 
 ### ⭐ Feedback
 - Inserimento recensioni con titolo, descrizione e valutazione in stelle  
@@ -51,17 +51,7 @@ webapp/
 ├── assets/
 │     ├── img/       → Immagini
 │     ├── styles/    → CSS
-│     ├── scripts/   → JS (carrello, ricerca AJAX…)
-
----
-
-## 🔍 Ricerca dinamica AJAX
-
-Implementata tramite:
-- `RicercaProdottiServlet`
-- Metodo `search()` in `ProdottoDAO`
-- Script `ricerca.js` con `fetch()`  
-- Aggiornamento in tempo reale del catalogo
+│     ├── scripts/   → JS (carrello, )
 
 ---
 
@@ -99,6 +89,14 @@ Tabelle principali:
 5. Aggiorna le credenziali in `DBConnection.java`  
 6. Avvia il server e apri:  
    "http://localhost:8080/IlTempioDelDigitale"
+   
+   ambiente di distribuzione:
+   tomcat9/bin/startup.bat
+   "http://localhost:8080/IlTempioDelDigitale"
+   user     tomcat
+   password tomcat
+   
+   shutdown.bat per choiudere il server
 
 ---
 

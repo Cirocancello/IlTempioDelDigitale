@@ -12,6 +12,51 @@
 // gli errori prima dell’invio al server, ma NON sostituisce la validazione
 // lato server, che rimane obbligatoria.
 // ======================================================================
+// 1) Regex del nome
+// const nomeRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s']{2,30}$/;
+// Cosa significa?
+// Questa regex accetta:
+// lettere A–Z e a–z
+// lettere accentate (à è ì ò ù, ecc.)
+// spazi
+// apostrofi (per nomi tipo D'Angelo)
+// Spiegazione pezzo per pezzo
+// Parte	             Significato
+// ^	                 inizio stringa
+// [A-Za-zÀ-ÖØ-öø-ÿ\s']	 caratteri ammessi: lettere, lettere accentate, spazi, apostrofo
+// {2,30}	             lunghezza minima 2, massima 30
+// $	                 fine stringa
+//==========================================================================
+// 2) Regex dell’email
+// const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Cosa significa?
+// È una regex semplice che controlla che l’email abbia la forma:
+// qualcosa@qualcosa.qualcosa
+// Spiegazione pezzo per pezzo
+// Parte	Significato
+// ^	    inizio stringa
+// [^\s@]+	uno o più caratteri che NON siano spazi o @
+// @	    deve esserci una chiocciola
+// [^\s@]+	parte dopo la @ (dominio)
+// \.	    un punto letterale
+// [^\s@]+	estensione (com, it, org, ecc.)
+// $	    fine stringa
+//============================================================================
+// 3) Regex della password
+// const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+// Cosa significa?
+// La password deve:
+// contenere almeno una lettera
+// contenere almeno un numero
+// essere lunga almeno 6 caratteri
+// Spiegazione pezzo per pezzo
+// Parte	        Significato
+// ^	            inizio stringa
+// (?=.*[A-Za-z])	deve contenere almeno una lettera
+// (?=.*\d)	        deve contenere almeno una cifra
+// .{6,}	        almeno 6 caratteri di qualsiasi tipo
+// $	            fine stringa
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
