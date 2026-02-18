@@ -17,7 +17,7 @@ Include gestione utenti, catalogo prodotti, carrello dinamico, preferiti, feedba
 ### 🛍️ Catalogo Prodotti
 - Visualizzazione prodotti con immagini, prezzo e dettagli  
 - Filtraggio per categoria   
-- Aggiunta al carrello (AJAX)  
+- Gestione del carrello (AJAX) per aggiunta, incremento e decremento prodotti  
 - Aggiunta ai preferiti  
 - Aggiunta feedback
 
@@ -90,13 +90,13 @@ Tabelle principali:
 6. Avvia il server e apri:  
    "http://localhost:8080/IlTempioDelDigitale"
    
-   ambiente di distribuzione:
-   tomcat9/bin/startup.bat
-   "http://localhost:8080/IlTempioDelDigitale"
-   user     tomcat
-   password tomcat
+7. ambiente di distribuzione:
+8. tomcat9/bin/startup.bat
+9. "http://localhost:8080/IlTempioDelDigitale"
+10. user     tomcat
+11. password tomcat
    
-   shutdown.bat per choiudere il server
+12. shutdown.bat per choiudere il server
 
 ---
 
